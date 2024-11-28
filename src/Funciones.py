@@ -1,5 +1,4 @@
 from .Lattice import *
-from .analyzer import *
 
 # Métodos derivados
 
@@ -257,22 +256,26 @@ def calc_dd(V_i,V_o):
     '''
     V_i: Matrix composed of the original primitive vectors of the Lattice.
     V_0: Matrix composed of the deformed primitive vectors of the Lattice.
-
-    Calculates the Degree of distortion of the lattice (dd) given V_i and V_o.
-        dd = sqrt(lam1^2+lam2^2)/2.
-    Where 'lam1' and 'lam2' are the eigvalues of the finite Lagrangian strain tensor S.
-        S = 0.5(e+e^t+(e^t*e)), e = (V_o*V_i^(-1))-I'''
+    
+    Calculate the "Degree of distortion" corresponding to a cell by transforming its
+    primitive vectors from those expressed in matrix V_i to those expressed in
+    matrix V_o.'''
     try:
-        [[a,b],[c,d]] = sumaM(m2M(V_o,inv2x2(V_i)),[[-1,0],[0,-1]])
-        s1 = (a**2+2*a+c**2)/2
-        s2 = (a*b+b+c+c*d)/2
-        s3 = s2
-        s4 = (b**2+2*d+d**2)/2
-        aux = math.sqrt(abs(s1**2+s4**2+4*(s2*s3)-2*(s1*s4)))
-        lam1 = (s1+s4-aux)/2
-        lam2 = (s1+s4+aux)/2
-        dd = math.sqrt(lam1**2+lam2**2)/2
-        return dd
+        dd = 0.0
+        t = 10
+        a_i, b_i = MtV(V_i)
+        a_o, b_o = MtV(V_o)
+        c = 0
+        for i in range(t):
+            for j in range(t):
+                c += 1
+                r1 = m2V(a_i,b_i,(i/t,j/t))
+                r2 = m2V(a_o,b_o,(i/t,j/t))
+                d = long(r1)
+                div = 10**(-10) if d == 0.0 else d
+                err = dist(r1,r2)/(2*div)
+                dd+=err
+        return dd/c
     except Exception as e:
         print(f"Error:{str(e)}.")
         

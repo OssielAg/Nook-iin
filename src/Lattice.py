@@ -29,6 +29,7 @@ class Lattice:
         enls      : List of links in Primitive cell
         '''
         try:
+            plt.rcParams['figure.figsize'] = (8,8)
             loas = []
             self.enls=[]
             (a1,a2),(b1,b2) = vA,vB
@@ -111,6 +112,8 @@ class Lattice:
             lmsx = [min(lx1[0],lx2[0],lx3[0],lx4[0]),max(lx1[1],lx2[1],lx3[1],lx4[1])]
             lmsy = [min(ly1[0],ly2[0],ly3[0],ly4[0]),max(ly1[1],ly2[1],ly3[1],ly4[1])]
             difMax = max((lmsx[1]-lmsx[0]),(lmsy[1]-lmsy[0]))
+            plt.style.use('default')
+            plt.rcParams['figure.figsize'] = (8,8)
             fig, maxs = plt.subplots()
             
             ats=[]
@@ -296,10 +299,11 @@ class Lattice:
         ang: Degrees of given rotation.
         ''' 
         na, nb = rota(self.a,ang), rota(self.b,ang)
-        natms, nenls = self.atms.copy(), self.enls.copy()
+        natms, nenls = copy.deepcopy(self.atms), copy.deepcopy(self.enls)
         nName = self.name+"({:.2f}°)".format(ang)
         mr = Lattice(na, nb, enls=nenls, name=nName, prof=self.prof)
         mr.atms = natms
+        mr.aff = copy.deepcopy(self.aff)
         mr.detachment = self.detachment
         return mr
     
@@ -554,7 +558,7 @@ class Lattice:
             ax.spines.bottom.set_color('gray')
             if prnt:
                 plt.savefig(('images/DP-'+self.name.replace('.','_')),dpi=900, bbox_inches='tight')
-                print("Dirección de imagen: '{}.png'".format('/images/DP-'+self.name.replace('.','_')))
+                print("\nDirección de imagen: '{}.png'".format('/images/DP-'+self.name.replace('.','_')))
             plt.show()
             plt.style.use('default')
             plt.rcParams['figure.figsize'] = (8,8)
@@ -590,6 +594,25 @@ class Lattice:
         '''.format(self.name,ax,ay,bx,by,round(d_a*100,4),t_a,round(d_b*100,4),t_b)
             print(m)
         return [a_o,b_o,d_a,d_b,t_a,t_b]
+    
+    def cloneLattice(self):
+        clone = Lattice(self.a,self.b)
+        #Position in the stack of lattices if it belongs to a stacked system.
+        clone.prof = self.prof
+        #Rotation angle of the lattice with respect to the x-axis
+        clone.theta = self.theta
+        #List of links in Primitive cell
+        clone.enls = copy.deepcopy(self.enls)
+        #List of layers if the Lattice is a heterostructure
+        clone.layerList = copy.deepcopy(self.layerList)
+        #Reciprocal Vectors
+        clone.reciprocalVectors = copy.deepcopy(self.reciprocalVectors)
+        #List of atoms in the atomic base classified by family
+        clone.atms = copy.deepcopy(self.atms)
+        #Factores de forma atómica
+        clone.aff = copy.deepcopy(self.aff)
+        clone.name = self.name
+        return clone
     
     def deformLattice(self,D):
         '''

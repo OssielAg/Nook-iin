@@ -1,5 +1,7 @@
 from .Funciones import *
 
+bereiten()
+
 class System:
     def __init__(self, lol, name=""):
         '''
@@ -235,7 +237,7 @@ class System:
             #Error final en los vectores primitivos de la capa i
             e_a, e_b = dist(sa,sa_i)/long(sa), dist(sb,sb_i)/long(sb)
             #Grado de distorción en la capa i
-            dd = (abs(t_a)+abs(t_b)+abs((d_a-1)*100)+abs((d_b-1)*100))/2 #calc_dd(V_i,V_i_Op)
+            dd = calc_dd(V_i,V_i_Op)#(abs(t_a)+abs(t_b)+abs((d_a-1)*100)+abs((d_b-1)*100))/2
             #Se guardan todos los valores calculados:
             #[Mat Ti, Mat Si, error a, error b,delta_a,delta_b,theta_a,theta_b,dd,#Atms]
             inf_c.append([T_i,S_i,e_a,e_b,d_a,d_b,t_a,t_b,dd,det(T_i)*self.redes[i].nOAtms()])
@@ -257,6 +259,8 @@ class System:
             mA = long(sa)
             mB = long(sb)
             dd = 0.0
+            ddd = max(len(self.redes)-1,10**(-8))
+            DDm = 0.0
             tabla = f'Size of the primitive vectors: |a|={mA:.5f}Å, |b|={mB:.5f}Å\nAngle between vectors: {inAng:.3f}°\n'
             lin='+'+'-'*25+'+'+'-'*15+'+'+'-'*23+'+'+'-'*23+'+'+'-'*8+'+'
             tabla += header()
@@ -271,8 +275,13 @@ class System:
                 dd += dC[8]
                 tabla += fila
                 tAt += nA
+                DDm = max(DDm,dC[8])
             tabla += lin
-            tabla += f'\n\t\tTotal atoms:{tAt}\tDD:{dd:.4f}'
+            dd=dd/ddd
+            if ddd>2:
+                tabla += f'\n\t\tTotal atoms:{tAt}\tDD prom:{dd:.6f}\tDD max:{DDm:.6f}'
+            else:
+                tabla += f'\n\t\tTotal atoms:{tAt}\tDD:{dd:.6f}'
             if prnt!='':
                 name = "VASP_Files/" + prnt + ".txt"
                 f = open(name,"w",encoding="utf-8")
@@ -296,8 +305,8 @@ class System:
             text+=(head+'\n')
             txt,ddi = self.leeMT(T,shw=False)
             text+=txt
-            if round(ddi,8)<ddM:
-                ddM = round(ddi,8)
+            if round(ddi,10)<ddM:
+                ddM = round(ddi,10)
                 sugerida = i
             i+=1
         text+=f'Matriz sugerida: loMat[{sugerida}]'

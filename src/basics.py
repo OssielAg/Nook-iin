@@ -8,6 +8,7 @@ import math
 import random
 import re
 import os
+plt.style.use('default')
 plt.rcParams['figure.figsize'] = (8,8)
 vector2D = Tuple[float, float]
 vector3D = Tuple[float, float, float]
@@ -812,3 +813,8 @@ def reciprocalBackgroundMesh_original(rv,vl,t,b):
         return xs, ys, linkList
     except Exception as e:
         print(f"Error, {str(e)}. Check the entries")
+
+def bereiten():
+    plt.style.use('default')
+    plt.rcParams['figure.figsize'] = (8,8)
+    print("Nook'iin Ready-to-work")
