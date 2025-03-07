@@ -1,6 +1,6 @@
 # **Nook'iin**  
 
-## 🌐 Español | [English](#english)  
+## Español | [English](#english)  
 
 **Nook'iin** es un software libre desarrollado como parte del trabajo de titulación para la Licenciatura en Ciencias de la Computación en la Facultad de Ciencias de la UNAM. Su objetivo es facilitar el análisis y la construcción teórica de heteroestructuras bidimensionales complejas mediante el uso de herramientas geométricas, con un enfoque particular en sistemas como las heteroestructuras de van der Waals.  
 
@@ -18,11 +18,11 @@ Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
 ### **Documentación**  
-Para detalles técnicos y una guía de uso más completa, consulta el archivo **`Nook_inn_Overview.pdf`**, incluido en este repositorio.  
+Para detalles técnicos y una guía de uso más completa, consulta el archivo [Nook_inn_Overview](Nook_inn_Overview.pdf), incluido en este repositorio.  
 
 ---
 
-## 🌍 English  
+## English  
 
 **Nook'iin** is a free software developed as part of the undergraduate thesis for the **Bachelor's Degree in Computer Science** at the **Faculty of Sciences, UNAM**. Its goal is to facilitate the analysis and theoretical construction of complex two-dimensional heterostructures using **geometrical tools**, with a particular focus on van der Waals heterostructures.  
 
@@ -40,5 +40,5 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
 ### **Documentation**  
-For technical details and a more comprehensive user guide, see the **`Nook_inn_Overview.pdf`** file included in this repository.  
+For technical details and a more comprehensive user guide, see the [Nook_inn_Overview](Nook_inn_Overview.pdf) file included in this repository.  
 
