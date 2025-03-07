@@ -10,7 +10,7 @@
 - **Compatibilidad y flexibilidad:** Diseñado para trabajar con configuraciones geométricas complejas en sistemas multicapa con distintas redes de Bravais, constantes de red, orientación y número de capas. Resultados compatibles con programas de cristalografía capaces de interpretar archivos en formato POSCAR.  
 
 ### **Licencia**  
-Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**, lo que permite su uso, modificación y distribución bajo las mismas condiciones de licencia. Para más información, consulta el archivo `LICENSE` en este repositorio.  
+Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**, lo que permite su uso, modificación y distribución bajo las mismas condiciones de licencia. Para más información, consulta el archivo [`LICENSE`](LICENSE) en este repositorio.  
 
 ### **Autoría**  
 **Nook'iin** fue creado por **Ossiel Aguilar-Spíndola** como parte de su tesis de licenciatura.  
@@ -18,7 +18,7 @@ Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
 ### **Documentación**  
-Para detalles técnicos y una guía de uso más completa, consulta el archivo [Nook_inn_Overview](Nook_inn_Overview.pdf), incluido en este repositorio.  
+Para detalles técnicos y una guía de uso más completa, consulta el archivo [Nook_inn_Overview](Nook_iin_Overview.pdf), incluido en este repositorio.  
 
 ---
 
@@ -40,5 +40,5 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
 ### **Documentation**  
-For technical details and a more comprehensive user guide, see the [Nook_inn_Overview](Nook_inn_Overview.pdf) file included in this repository.  
+For technical details and a more comprehensive user guide, see the [Nook_inn_Overview](Nook_iin_Overview.pdf) file included in this repository.  
 
