@@ -4,18 +4,18 @@ This project was made possible thanks to the support of various research program
 
 ### **Research Support Programs**
 - **PBIF24-2**: Support for the completion of the thesis project.
-- **DGAPA-PAPIIT (UNAM) IA105623**: Multilayer graphene under hydrostatic pressure: A first-principles study.
-- **CONAHCYT CF-2023-I-336**: Ab initio study of unconventional van der Waals crystals under pressure.
-- **CONAHCYT 1564464**: Analogies in the physics of rotated 2D systems: from atomic to nanometric scale.
+- **DGAPA-PAPIIT (UNAM) IA105623**: Grafeno multicapa bajo presión hidrostática: un estudio de primeros principios.
+- **CONAHCYT CF-2023-I-336**: studio ab initio de cristales no convencionales de van der Waals presurizados.
+- **CONAHCYT 1564464**: nalogías en la física de sistemas 2D rotados: de escala atómica a nanométrica.
 - **CONAHCYT**: Research assistant scholarship SNI-III.
 
 ### **Presentations and Dissemination**
 Partial results of this project have been presented at various scientific events:
 
-- **Talk:** *Theoretical construction of commensurate van der Waals multilayer systems*. 2nd Annual Meeting, Analogies in the Physics of Rotated 2D Systems: From Atomic to Nanometric Scale (2024), Pachuca, Hidalgo, Mexico.
-- **Talk:** *Theoretical construction of commensurate van der Waals multilayer systems*. XII Annual Meeting of the Solid State Division (2024), Xicotepec, Puebla, Mexico.  
+- **Talk:** *Construcción teórica de sistemas multicapa de van der Walls conmensurables*. 2nd Annual Meeting, Analogías en la Física de Sistemas 2D Rotados: de Escala Atómica a Nanométrica (2024), Pachuca, Hidalgo, Mexico.
+- **Talk:** *Construcción teórica de sistemas multicapa de van der Walls conmensurables. *. XII Reunión Anual de la División de Estado Sólido (2024), Xicotepec, Puebla, Mexico.  
   [More info](https://www.des-smf.mx/2024)
-- **Poster:** *Theoretical construction of Van der Waals multilayer heterostructures*. Open Doors Day, Institute of Physics - UNAM (2023), Mexico City, Mexico.  
+- **Poster:** *Theoretical construction of Van der Waals multilayer heterostructures*. Día de Puertas Abiertas del Instituto de Física - UNAM (2023), Mexico City, Mexico.  
   [More info](https://www.fisica.unam.mx/puertas_abiertas/pa2023/)
 - **Talk:** *Theoretical construction of van der Waals multilayer systems*. Gathering on Transport at the Nanoscale (2023), Cuernavaca, Morelos, Mexico.  
   [More info](http://www.cicc.unam.mx/activities/2023/TN/index.html)
