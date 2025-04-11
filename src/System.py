@@ -1,4 +1,12 @@
-from .Funciones import *
+import sys
+import os
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
+from Functions import *
 
 bereiten()
 
@@ -449,6 +457,17 @@ class System:
             print("Espacio Reciproco:")
             self.SuperRed.printReciprocalSpace()
             
+    def showReciprocalSpace(self,
+                            t:float=10,
+                            border:float=2.5,
+                            prnt:bool=False,
+                            zoom:bool=False,
+                            colors:list=[]):
+        if self.SuperRed is None:
+            print('*'*84+"\n  Super Red no calculada aún, utilice la función 'createSuperLattice' para hacerlo  \n"+'*'*84)
+        else:
+            self.SuperRed.printReciprocalSpace(t=t,border=border,prnt=prnt,zoom=zoom,colors=colors)
+            
     def showPC(self, iName:str=''):
         '''
         Create an image of the primitive cell by drawing its respective primitive
@@ -481,6 +500,14 @@ class System:
         except Exception as e:
             print(f"Error:{str(e)}.")
             return 0
+
+    def exportPC(self,PCname=''):
+        if self.SuperRed is None:
+            print("There is no primitive cell calculated for this system")
+            return 0
+        if PCname=='':
+            PCname=self.name
+        return self.SuperRed.exportLattice(name=PCname)
 #---------------------------------------------------------------------------------
 '''
     def analyze(self, angle_range=(0.0,180.0), rangeOfSearch=15, precision=2, maxErr=0.05):

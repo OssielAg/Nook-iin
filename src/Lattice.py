@@ -1,4 +1,4 @@
-from .Atom import *
+from Atom import *
 import cmath
 atomList = List[Atom]
 recpVectrs = List[vector2D]
@@ -210,8 +210,11 @@ class Lattice:
                          weight='bold',
                          c='blue')#Dibuja leyenda del vector b
             if iName!='':
-                plt.savefig(('images/'+iName),dpi=900, bbox_inches='tight')
-                print("Dirección de imagen: '/{}.png'".format('images/'+iName))
+                Images_path = os.path.join(os.getcwd(), 'Images')
+                if not os.path.exists(Images_path):
+                    os.makedirs(Images_path)
+                plt.savefig((Images_path+'/'+iName),dpi=900, bbox_inches='tight')
+                print(f"Image address: '{Images_path}/{iName}.png'")
             plt.show()
         except Exception as e:
             print(f"Error:{str(e)}.")
@@ -316,10 +319,14 @@ class Lattice:
         try:
             if name=='':
                 name=self.name
-            name = "VASP_Files/" + name.replace('.','_') + ".vasp"
+            VF_path = os.path.join(os.getcwd(), 'VASP_Files')
+            if not os.path.exists(VF_path):
+                os.makedirs(VF_path)
+            name = VF_path+"/" + name.replace('.','_') + ".vasp"
             f = open(name,"w")
             f.write(self.showData())
             f.close()
+            print(f"Lattice exported in:'{name}'")
             return 1
         except Exception as e:
             print(f"Error:{str(e)}.")

@@ -1,4 +1,4 @@
-from .basics import *
+from Basics import *
 class Atom:
     '''Class that defines an atom in the system'''
     def __init__(self, pos:tuple, posZ:float=0.0, color:str='black', sig:str='C', lvl:int=1):
