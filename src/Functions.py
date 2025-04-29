@@ -545,14 +545,14 @@ def rectLattice(p1,p2,atms='C',name=''):
     ats = [Atom(p1,sig = atms)]
     return Lattice(u,v,atms=ats,name=name,enls=[(p1,p2),(p1,p3)])
     
-def graphen():
+def graphene():
     '''
     Genera una red de Grafeno, con constante de red 2.44 A y con sus átomos dentro de su base,
     generando una red hexagonal con 6 simetrías radiales.
     '''
     return hexa6(2.44, name='Grafeno')
     
-def graphenC3():
+def grapheneC3():
     '''
     Genera una red de Grafeno, con constante de red 2.44 A y con uno de sus átomos dentro de su base y otro en un vértice,
     generando una red hexagonal con 3 simetrías radiales.

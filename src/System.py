@@ -7,11 +7,11 @@ if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 
 from Functions import *
-
+latticeList = List[Lattice]
 bereiten()
 
 class System:
-    def __init__(self, lol, name=""):
+    def __init__(self, lol:latticeList, name:str=""):
         '''
         Initialize the 'System' corresponding to the structure formed by vertically
         stacking all the materials from the list of Lattices described in 'lol'
@@ -20,18 +20,19 @@ class System:
         name -> Name of the system.'''
         self.redes = lol #Lista de Redes del Sistema
         if name=="":
-            self.name = 'Sistema ['+','.join([l.name for l in lol])+']' #Nombre del Sistema
+            self.name = 'System ['+','.join([l.name for l in lol])+']' #Nombre del Sistema
         self.poits = []#Lista de Puntos de red comunes para todas las capas
         self.loMat = []  #Lista de Matrices de transformación sugeridas
         self.MaxNumM = 10 #Número maximo de Matrices sugeridas
         self.SuperRed = None  #Super-Red del Sistema
         self.MT = None
     
-    def calculateTM(self, min_angle = 25):
+    def calculateTM(self, min_angle:float = 25):
         '''
         Generate a list of optimal transformation matrices of smaller size based on
         the Lattice Points belonging to the 'results' list of the System. Therefore,
-        it is required to execute the "searchLP" function first before running this.'''
+        it is required to execute the "searchLP" function first before running this.
+        '''
         #Ángulo interno minimo aceptado para la super red calculada
         try:
             if self.poits == []:
@@ -42,7 +43,6 @@ class System:
                 return -1
             self.loMat = []
             if self.its_hexagonal_system():
-                #print("Sistema Hexagonal")
                 for r in self.poits:
                     [m,n]=r[0]
                     M = VtM((m,n),(-n,m-n))
@@ -65,7 +65,7 @@ class System:
             print(f"Error:{str(e)}.")
             return -1
         
-    def createSuperLattice(self,M):
+    def createSuperLattice(self,M:m2x2):
         '''
         Create the supercell representing a primitive cell of the system from the
         given transformation matrix.
@@ -83,7 +83,7 @@ class System:
             print(f"Error:{str(e)}.")
             return 0
     
-    def searchLP(self, rangeOfSearch=15, epsilon=0.05):
+    def searchLP(self, rangeOfSearch:int=15, epsilon:float=0.05):
         '''
         Search for the Lattice Points of the substrate layer that match with an error
         smaller than the given epsilon with any LP from the other layers of the system.
@@ -107,17 +107,19 @@ class System:
             print(f"Error:{str(e)}.")
             return 0
     
-    def optimize_system(self, T, prnt=True):
+    def optimize_system(self, T:m2x2, prnt:bool=True):
         '''
         Generate a new system based on the original, with the required deformations in
         each layer so that the given transformation matrix generates a commensurate
         supercell for all layers of this system. Calculate the primitive cell for this
         new system corresponding to the given matrix.
+        T    -> TM selected
+        prnt -> If True, print the result to the screen
         '''
         try:
             s = self.clon()
             if len(s.redes)<2:
-                print("El sistema debe tener al menos 2 capas.")
+                print("The system must have at least 2 layers.")
                 return None, []
             V_0 = VtM(s.redes[0].a,s.redes[0].b)
             V_s = m2M(V_0,T)
@@ -140,32 +142,35 @@ class System:
                 self.MT = s.MT
             if prnt:
                 self.show()
-                print("***La supercelda calculada está optimizada\nSe deformó al menos una de las capas del sistema para hacerlo.")
+                print("***The calculated supercell is optimized. At least one of the system layers was deformed to do so.")
             return s, deformaciones
         except Exception as e:
             print(f"Error:{str(e)}.")
             return None, []
        
-    def generateSuperCell(self, RoS=15, eps=0.05, sd=False):
+    def generateSuperCell(self, RoS:int=15, eps:float=0.05, showTable:bool=False):
         '''
         Execute sequentially the 'searchLP' and 'calculateTM' functions. Subsequently,
         with the recommended matrix from the loMat list, execute 'optimize_system' to
         create a new system in which its layers have undergone a deformation that
         allows it to have a commensurate result in all its layers. Finally, display
         the result on the screen with the 'show' function for the newly created system.
-        RoS -> Determines the range of the search area for the Lattice Points of the
+        RoS       -> Determines the range of the search area for the Lattice Points of the
                substrate layer.
-        eps -> Maximum allowed error in the calculation of the Lattice Points used to
-               generate the results.'''
+        eps       -> Maximum allowed error in the calculation of the Lattice Points used to
+               generate the results.
+        showTable -> If True, show the TM table used.
+        '''
         self.searchLP(rangeOfSearch=RoS, epsilon=eps)
         if self.poits == []:
-            print("No se encontraron puntos de red comunes en todas las capas, intente cambiando los valores 'RoS' o 'eps'")
+            print("No common lattice points were found across all layers, try increasing the search range or limit on the deformation.")
             return -1
         self.calculateTM()
-        #print("Posibles Matrices de trasformación calculadas:{}\nOpción recomendada:".format(len(self.loMat)))
         if self.loMat == []:
             return -2
-        T = self.ShowTMs(shw=sd)
+        T = self.ShowTMs(shw=False)
+        if showTable:
+            self.describeTM(T)
         S, d = self.optimize_system(T)
         return S
     
@@ -251,7 +256,7 @@ class System:
             inf_c.append([T_i,S_i,e_a,e_b,d_a,d_b,t_a,t_b,dd,det(T_i)*self.redes[i].nOAtms()])
         return [T,(sa,sb),0,inf_c]
     
-    def leeMT(self, T,prnt='',shw=True):
+    def describeTM(self, T,prnt='',shw=True):
         '''
         T -> TM used to generate a Cell for the system
 
@@ -311,7 +316,7 @@ class System:
         for T in self.loMat:
             head = f'\n***Option {i+1}: T <- Matrix loMat[{i}]'
             text+=(head+'\n')
-            txt,ddi = self.leeMT(T,shw=False)
+            txt,ddi = self.describeTM(T,shw=False)
             text+=txt
             if round(ddi,10)<ddM:
                 ddM = round(ddi,10)
@@ -402,9 +407,9 @@ class System:
     
     def goesHere(self, M, i):
         '''
-        Determina si una Matriz de transformacion M entra o no en la posición i de la lista loMat
-        M -> Matriz a examinar
-        i -> posición que examinamos
+        Determines whether a transformation matrix M fits into position i of the loMat list.
+        M -> Matrix to be examined
+        i -> Index to be evaluated
         '''
         if i>=len(self.loMat):#Si el indice sobrepasa los validos
             if len(self.loMat)<self.MaxNumM:#Verifica si aaun hay espacio en loMat
@@ -430,7 +435,7 @@ class System:
     
     def clon(self):
         '''
-        Clona el sistema regresando una copia identica
+        Clones the system by returning an identical copy
         '''
         redes = [copy.copy(r) for r in self.redes]
         s = System(redes)
@@ -441,20 +446,24 @@ class System:
         s.MT = self.MT
         return s
     
-    def set_maximum_number_of_matrices(self, newMax):
+    def set_maximum_number_of_matrices(self, newMax:int):
+        '''
+        Changes the maximum number of matrices in the list of transformation matrices 'loMat'
+        newMax -> New maximum size
+        '''
         self.MaxNumM = newMax
         self.calculateTM()
         
     
     def show(self):
         if self.SuperRed is None:
-            print('*'*84+"\n  Super Red no calculada aún, utilice la función 'createSuperLattice' para hacerlo  \n"+'*'*84)
+            print('*'*84+"\n  Superlattice not yet computed, use the 'createSuperLattice' function to generate it.  \n"+'*'*84)
         else:
-            print("Matriz de trasformación:")
+            print("TM:")
             pmat(self.MT)
-            print(self.name,"\nCelda unitaria con {} átomos:".format(self.SuperRed.nOAtms()))
+            print(self.name,"\nUnit cell with {} atoms:".format(self.SuperRed.nOAtms()))
             self.SuperRed.showme()
-            print("Espacio Reciproco:")
+            print("Reciprocal Space:")
             self.SuperRed.printReciprocalSpace()
             
     def showReciprocalSpace(self,
@@ -464,7 +473,7 @@ class System:
                             zoom:bool=False,
                             colors:list=[]):
         if self.SuperRed is None:
-            print('*'*84+"\n  Super Red no calculada aún, utilice la función 'createSuperLattice' para hacerlo  \n"+'*'*84)
+            print('*'*84+"\n  Superlattice not yet computed, use the 'createSuperLattice' function to generate it.  \n"+'*'*84)
         else:
             self.SuperRed.printReciprocalSpace(t=t,border=border,prnt=prnt,zoom=zoom,colors=colors)
             
@@ -476,15 +485,24 @@ class System:
         iName: Name of image file
         '''
         if self.SuperRed is None:
-            print("No se ha calculado la CP para este sistema")
+            print("Primitive Cell not yet computed")
         else:
             self.SuperRed.showPC(iName=iName)
     
-    def ejecuta(self,n,e):
+    def ejecuta(self,n:int=15,e:float=0.05):
+        '''
+        Executes a search for the smallest PC for the system in the specified search range(n) and with a bias less than the specified value(e)
+        n: search range
+        e: accepted error bound
+        '''
         a = self.searchLP(rangeOfSearch=n, epsilon=e)
-        if a<1: return None
+        if a<1:
+            print("Error:No primitive vector candidates were found, try larger values for the search range(n) or the accepted error bound(e).")
+            return None
         a = self.calculateTM()
-        if a<0: return None
+        if a<0:
+            print("Error:No TM candidates were found, try larger values for the search range(n) or the accepted error bound(e).")
+            return None
         return self.ShowTMs(shw=False)
     
     def diffractionPattern(self, t=1, border=1.5,prnt=False):
