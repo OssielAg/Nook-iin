@@ -1,5 +1,5 @@
 # 🖥️ Console Interface User Guide - Nook’iin
-[(Versión en español)](/Guia_de_interfaz.md)
+[(Versión en español)](./Guia_de_interfaz.md)
 
 This guide provides step-by-step instructions for using the console interface of the Nook’iin program, designed to create and analyze two-dimensional multilayer systems using geometric methods.
 
@@ -45,7 +45,7 @@ From the repository's main folder, run the following in the terminal:
 
    When launched, the first menu displayed asks the user to select the language in which the interface will be shown: Spanish or English.
 
-   ![Language Menu](images/Menu_idioma.png)
+   ![Language Menu](Images/Menu_idioma.png)
 
    Depending on the selected language, enter 1 for Spanish or 2 for English.
 
@@ -60,7 +60,7 @@ Once the language is selected, the interface’s main menu is displayed. From he
 2. **-Create system** → Opens the menu to create and work with the system built from the loaded lattices.  
 3. **-Exit** → Terminates the program.
 
-![Main Menu](images/Menu_principal_EN.png)
+![Main Menu](Images/Menu_principal_EN.png)
 
 ---
 
@@ -72,17 +72,17 @@ By choosing option **1** from the main menu, the lattice loading menu appears, o
 2. **Import from File** → Prompts the user to enter the name of the VASP file corresponding to the lattice.  
 3. **Done** → Returns to the main menu.
 
-![Lattice Loading Menu](images/Menu_Redes_carga_EN.png)
+![Lattice Loading Menu](Images/Menu_Redes_carga_EN.png)
 
 #### Manual Input
 
 When selecting **Manual Input** to load a new lattice, the user is first asked to provide a name for the lattice (in this example, we will manually create a graphene lattice).
 
-![Manual Load Menu 1](images/Menu_Redes_carga_manual1_EN.png)
+![Manual Load Menu 1](Images/Menu_Redes_carga_manual1_EN.png)
 
 Next, the primitive vectors are defined component by component, starting with PV $a = (a_1, a_2, a_3)$.
 
-![Manual Load Menu 2](images/Menu_Redes_carga_manual2_EN.png)
+![Manual Load Menu 2](Images/Menu_Redes_carga_manual2_EN.png)
 
 The vector entered by the user will be shown, and the process continues with vectors $b = (b_1, b_2, b_3)$ and $c = (c_1, c_2, c_3)$.
 
@@ -90,21 +90,21 @@ Once the 3 primitive vectors are defined, they will be displayed, and the atomic
 
 For each of these atomic species, the user is prompted for a *symbol* to identify it (for carbon, the letter **C**), the *color* to represent it (Python color formats are accepted, both text-based like 'white', 'b', and hexadecimal formats), and the *number* of atoms of that species in the atomic basis.
 
-![Manual Load Menu 3](images/Menu_Redes_carga_manual3_EN.png)
+![Manual Load Menu 3](Images/Menu_Redes_carga_manual3_EN.png)
 
 With this data, the user must then specify the relative position (with respect to the previously defined primitive vectors) of each atom of the species being defined.
 
-![Manual Load Menu 4](images/Menu_Redes_carga_manual4_EN.png)
+![Manual Load Menu 4](Images/Menu_Redes_carga_manual4_EN.png)
 
-![Manual Load Menu 5](images/Menu_Redes_carga_manual5_EN.png)
+![Manual Load Menu 5](Images/Menu_Redes_carga_manual5_EN.png)
 
 Once all the atoms in the atomic basis are defined, the lattice is created.
 
 #### Import from File
 
-When selecting **Import from File** to load a new lattice, the user is prompted for the path to the corresponding VASP file, omitting the *.vasp* extension. Some VASP files of crystal lattices are already available in the *VASP_Files* folder (in this example, we’ll import the file *GeSe_beta.vasp* from the *VASP_files* folder, corresponding to the \( \beta \)-GeSe lattice).
+When selecting **Import from File** to load a new lattice, the user is prompted for the path to the corresponding VASP file, omitting the *.vasp* extension. Some VASP files of crystal lattices are already available in the *VASP_Files* folder (in this example, we’ll import the file *GeSe_beta.vasp* from the *VASP_files* folder, corresponding to the $\beta$-GeSe lattice).
 
-![File Load Menu 1](images/Menu_Redes_carga_archivo1_EN.png)
+![File Load Menu 1](Images/Menu_Redes_carga_archivo1_EN.png)
 
 If the file is imported successfully, the lattice is now correctly loaded.
 
@@ -122,11 +122,11 @@ Once a lattice has been correctly loaded, either manually or imported from a fil
 
 If the user wants to ensure the lattice is correct before adding it to the system’s list, they can check it using options **1** and **2** of the lattice menu, either by verifying the POSCAR file or by viewing the image of the primitive cell.
 
-![Lattice POSCAR](images/Menu_Redes_POSCAR.png)
+![Lattice POSCAR](Images/Menu_Redes_POSCAR.png)
 
 *POSCAR of the imported GeSe lattice.*
 
-![Lattice PC](images/Menu_Redes_PC.png)
+![Lattice PC](Images/Menu_Redes_PC.png)
 
 *Image of the primitive cell of the imported GeSe lattice.*
 
@@ -136,7 +136,7 @@ To rotate a lattice in the system, option **3** of the lattice menu is selected.
 
 In our example, the system to be analyzed is a bilayer of $\beta$-GeSe on graphene with a relative rotation between layers of $13.52^\circ$, so we must rotate the $\beta$-GeSe lattice by $13.52^\circ$.
 
-![Rotated lattice PC](images/Menu_Redes_PC-Rotada.png)
+![Rotated lattice PC](Images/Menu_Redes_PC-Rotada.png)
 
 *Image of the primitive cell of the GeSe lattice after being rotated.*
 
@@ -170,7 +170,7 @@ By selecting option **0**, the process to calculate possible primitive cells for
 
 If at least one possible primitive cell is found, the transformation matrix corresponding to the recommended candidate as the system's primitive cell will be displayed. In the example used, the values $n = 15$ and $epsilon = 0.03$ were used.
 
-![TM selection menu](images/Menu_Analisis1_EN.png)
+![TM selection menu](Images/Menu_Analisis1_EN.png)
 
 The new displayed menu presents the options:
 
@@ -183,7 +183,7 @@ The new displayed menu presents the options:
 
 If option **1** or **2** is selected in the previous menu, a table with the corresponding information for each TM will be displayed. For each layer, the transformation matrices, deformation matrices, PV distortion values, and the number of atoms are shown. This data will help the user understand the effects of each TM and select the one most suitable for their problem.
 
-![Data table for a TM](images/Menu_Analisis2.png)
+![Data table for a TM](Images/Menu_Analisis2.png)
 
 Whether the matrix proposed by the system is accepted or another is chosen, option **0** from the menu must be used to create the corresponding primitive cell for the system. Once this is done, the interface will return to the *System Menu*.
 
@@ -191,17 +191,17 @@ Whether the matrix proposed by the system is accepted or another is chosen, opti
 
 Once a PC is calculated, option **2** from the *System Menu* can be selected. Doing so will display a representation of the system in the real space of the calculated primitive cell, or in reciprocal space, as a superposition of the FBZs of each layer in a mesh formed by the periodic repetition of the calculated PC's FBZ.
 
-![System image in real space](images/Menu_AnalisisR.png)
+![System image in real space](Images/Menu_AnalisisR.png)
 
 *Representation in real space.*
 
-![System image in reciprocal space](images/Menu_AnalisisR'.png)
+![System image in reciprocal space](Images/Menu_AnalisisR'.png)
 
 *Representation in reciprocal space.*
 
 It is also possible to obtain the system's diffraction pattern image by selecting option **3** from the *System Menu*. This will start the diffraction pattern calculation (this process may take several minutes if the primitive cell contains many atoms).
 
-![Diffraction pattern image](images/Menu_AnalisisDP.png)
+![Diffraction pattern image](Images/Menu_AnalisisDP.png)
 
 *Diffraction pattern corresponding to the example system.*
 
