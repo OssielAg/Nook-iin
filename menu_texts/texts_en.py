@@ -35,7 +35,7 @@ What would you like to do next?
 
 m_System_Mat = """
 What do you want to do?
-\t0-Use the selected TM to calculate the system's CP.
+\t0-Use the selected TM to calculate the system's PC.
 \t1-Display a table for the selected TM.
 \t2-Select a new TM.
 \t3-Perform a new search with different 'n' and 'epsilon'.

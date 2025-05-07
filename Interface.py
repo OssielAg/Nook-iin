@@ -103,13 +103,13 @@ def newAtomicBase(texts):
             clear()
             print(texts.m_newAtomicBase_9_1+f"'{idAtom}-{j+1}'"+texts.m_newAtomicBase_9_2)
             pa = leeNum(texts.m_newAtomicBase_10,
-                        textsm_newAtomicBase_13,
+                        texts.m_newAtomicBase_13,
                         isInt=False)
             pb = leeNum(texts.m_newAtomicBase_11,
-                        textsm_newAtomicBase_13,
+                        texts.m_newAtomicBase_13,
                         isInt=False)
             pc = leeNum(texts.m_newAtomicBase_12,
-                        textsm_newAtomicBase_13,
+                        texts.m_newAtomicBase_13,
                         isInt=False)
             atms.append(Atom((pa,pb),posZ=pc,color=color,sig=idAtom))
     return atms

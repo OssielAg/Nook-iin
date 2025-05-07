@@ -12,7 +12,7 @@ m_Lattices = """
 Cargar red:
 \t1 - Entrada manual.
 \t2 - Importar desde archivo.
-\t3 - Listo.
+\t3 - Terminado.
 """
 
 m_System = """
@@ -25,7 +25,7 @@ m_System = """
 
 m_System_Create = """
 ¿Qué desea hacer ahora?
-\t0 - Calcular celda primitiva (CP).
+\t0 - Calcular celda primitiva (PC).
 \t1 - Renombrar el sistema.
 \t2 - Mostrar sistema.
 \t3 - Mostrar patrón de difracción.
@@ -35,13 +35,13 @@ m_System_Create = """
 
 m_System_Mat = """
 ¿Que desea hacer?
-\t0-Usar la MT seleccionada para calcular la CP del sistema.
-\t1-Mostrar tabla referente a la MT seleccionada.
-\t2-Seleccionar una nueva MT.
+\t0-Usar la TM seleccionada para calcular la PC del sistema.
+\t1-Mostrar tabla referente a la TM seleccionada.
+\t2-Seleccionar una nueva TM.
 \t3-Hacer una nueva busqueda con 'n' y 'epsilon' distintos.
 """
 
-m_Instructions = """\
+m_Instructions = """
 x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+
    Introduzca las redes que forman el sistema, en el orden en que están apiladas
 (de abajo hacia arriba).
@@ -54,11 +54,12 @@ componente por componente.
 sus símbolos, colores para visualización y número de átomos por especie.
 Cada átomo se posiciona con coordenadas relativas a los VPs.
 
-   Una vez definidas las redes, se puede construir el sistema. Posteriormente,
-es posible buscar una celda primitiva utilizando dos parámetros: 'n' (rango de búsqueda)
-y 'epsilon' (máxima deformación aceptada).
+   Una vez definidas las redes, se puede construir el sistema y posteriormente
+buscar una celda primitiva para este utilizando los parámetros:
+   - 'n': Para delimitar el rango de búsqueda
+   - 'epsilon': Para definir un límite a la deformación aceptada
 
-   Tras encontrar una CP válida, se puede visualizar el sistema en espacio real
+   Tras encontrar una PC válida, se puede visualizar el sistema en espacio real
 y recíproco, generar un patrón de difracción o exportar como archivo POSCAR.
 x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+
 """
@@ -121,7 +122,7 @@ m_calcPC_5="Entrada invalida. Proporcione un número positivo."
 m_calcPC_6="No se encontró solución al sistema con los valores 'n' y 'epsilon' dados. Procure dar un valor mayor en 'n' o 'epsilon'."
 m_calcPC_7="Se sugiere utilizar la siguiente TM:"
 m_calcPC_8="Entrada invalida"
-m_calcPC_9="MTs en loMat:"
+m_calcPC_9="TMs en loMat:"
 m_calcPC_10="¿Cuál TM en loMat elige? "
 
 m_newSystem_0="Entrada invalida."

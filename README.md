@@ -17,8 +17,12 @@ Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**
 - **Correo de contacto:** OssielAE@ciencias.unam.mx  
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
-### **Documentación**  
-Para detalles técnicos y una guía de uso más completa, consulta el archivo [Nook_inn_Overview](Nook_iin_Overview.pdf), incluido en este repositorio.  
+### **Documentación**
+
+Para obtener información técnica detallada y una guía completa de uso, consulta el archivo [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf).  
+Si deseas una explicación paso a paso de la interfaz guiada por consola, revisa el archivo [Guia_de_interfaz.md](/Interface_Guide/Guia_de_interfaz.md).  
+Ambos documentos están incluidos en este repositorio.
+
 
 ---
 
@@ -39,6 +43,8 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 - **Contact email:** OssielAE@ciencias.unam.mx  
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
-### **Documentation**  
-For technical details and a more comprehensive user guide, see the [Nook_inn_Overview](Nook_iin_Overview.pdf) file included in this repository.  
+### **Documentation**
 
+For detailed technical information and a complete usage guide, refer to the [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) file.  
+For a step-by-step explanation of the command-line guided interface, see the [Interface_Guide.md](/Interface_Guide/Interface_Guide.md) file.  
+Both documents are included in this repository.
