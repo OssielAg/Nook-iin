@@ -1,5 +1,5 @@
 # 🖥️ Guía de Uso de la Interfaz en Consola - Nook'iin
-[(English version)](/Interface_Guide.md)
+[(English version)](/Interface_Guide/Interface_Guide.md)
   
 Esta guía proporciona instrucciones paso a paso para utilizar la interfaz en consola del programa **Nook’iin**, diseñado para crear y analizar sistemas bidimensionales multicapa mediante métodos geométricos.
  
