@@ -46,7 +46,7 @@ Esta guía proporciona instrucciones paso a paso para utilizar la interfaz en co
    Al iniciar, el primer menú que se despliega solicita al usuario seleccionar el idioma en el que se mostrará la interfaz: Español o Inglés.
 
 
-   ![Menú de idioma](/Interface_Guide/images/Menu_idioma.png)
+   ![Menú de idioma](Nook-iin/Interface_Guide/images/Menu_idioma.png)
 
    Dependiendo del idioma elegido, se debe ingresar 1 para Español o 2 para Inglés.
 
@@ -61,7 +61,7 @@ Una vez que se ha seleccionado el idioma, se muestra el menú principal de la in
 2. **-Crear sistema** → Ingresa al menú para crear y trabajar con el sistema formado por las redes cargadas previamente.
 3. **-Salir** → Termina la ejecución.
 
-![Menú principal](/images/Menu_principal.png)
+![Menú principal](Nook-iin/Interface_Guide/images/Menu_principal.png)
 
 ---
 
