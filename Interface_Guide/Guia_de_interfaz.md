@@ -1,5 +1,5 @@
 # 🖥️ Guía de Uso de la Interfaz en Consola - Nook'iin
-[(English version)](/Interface_Guide/Interface_Guide.md)
+[(English version)](./Interface_Guide.md)
   
 Esta guía proporciona instrucciones paso a paso para utilizar la interfaz en consola del programa **Nook’iin**, diseñado para crear y analizar sistemas bidimensionales multicapa mediante métodos geométricos.
  
@@ -46,7 +46,7 @@ Esta guía proporciona instrucciones paso a paso para utilizar la interfaz en co
    Al iniciar, el primer menú que se despliega solicita al usuario seleccionar el idioma en el que se mostrará la interfaz: Español o Inglés.
 
 
-   ![Menú de idioma](Nook-iin/Interface_Guide/images/Menu_idioma.png)
+   ![Menú de idioma](./Images/Menu_idioma.png)
 
    Dependiendo del idioma elegido, se debe ingresar 1 para Español o 2 para Inglés.
 
@@ -61,7 +61,7 @@ Una vez que se ha seleccionado el idioma, se muestra el menú principal de la in
 2. **-Crear sistema** → Ingresa al menú para crear y trabajar con el sistema formado por las redes cargadas previamente.
 3. **-Salir** → Termina la ejecución.
 
-![Menú principal](Nook-iin/Interface_Guide/images/Menu_principal.png)
+![Menú principal](Images/Menu_principal.png)
 
 ---
 
@@ -73,39 +73,39 @@ Al elegir la opción **1** del menú principal, se despliega el menú de carga d
 2. **Importar desde archivo** → Solicita al usuario el nombre del archivo VASP correspondiente a la red.
 3. **Terminado** → Regresa al menú principal.
 
-![Menú carga de redes](images/Menu_Redes_carga.png)
+![Menú carga de redes](Images/Menu_Redes_carga.png)
 
 #### Entrada manual
 
 Al seleccionar **Entrada manual** para cargar una nueva red, lo primero que se le pide al usuario es el nombre que tendrá la red (en este ejemplo, crearemos manualmente una red de grafeno).
 
-![Menú carga manual 1](images/Menu_Redes_carga_manual1.png)
+![Menú carga manual 1](Images/Menu_Redes_carga_manual1.png)
 
-Lo siguiente es definir los vectores primitivos componente a componente, comenzando por el PV $ a = (a_1, a_2, a_3) $.
+Lo siguiente es definir los vectores primitivos componente a componente, comenzando por el PV $a = (a_1, a_2, a_3)$.
 
-![Menú carga manual 2](images/Menu_Redes_carga_manual2.png)
+![Menú carga manual 2](Images/Menu_Redes_carga_manual2.png)
 
-Se mostrará en pantalla el vector dado por el usuario y se continuará con los vectores $ b = (b_1, b_2, b_3) $ y $ c = (c_1, c_2, c_3) $.
+Se mostrará en pantalla el vector dado por el usuario y se continuará con los vectores $b = (b_1, b_2, b_3)$ y $c = (c_1, c_2, c_3)$.
 
 Una vez definidos los 3 vectores primitivos, estos se mostrarán en pantalla y se comenzará a definir la base atómica de la red. La primera pregunta para el usuario será el número de especies atómicas distintas en la base atómica de la red (en el caso del grafeno, sólo se tiene una especie atómica: el carbono).
 
 Para cada una de estas especies atómicas, se pedirá un *símbolo* que la identifique (en el caso del carbono será la letra **C**), el *color* con el que queremos que sea representado (acepta los formatos de color de Python, tanto los definidos con texto 'white', 'b', como en formato hexadecimal) y la *cantidad* de átomos de esa especie en la base atómica.
 
-![Menú carga manual 3](images/Menu_Redes_carga_manual3.png)
+![Menú carga manual 3](Images/Menu_Redes_carga_manual3.png)
 
 Dados estos datos, se pedirá al usuario que indique la posición relativa (con respecto a los vectores primitivos previamente definidos) de cada uno de los átomos de la especie que se está definiendo.
 
-![Menú carga manual 4](images/Menu_Redes_carga_manual4.png)
+![Menú carga manual 4](Images/Menu_Redes_carga_manual4.png)
 
-![Menú carga manual 5](images/Menu_Redes_carga_manual5.png)
+![Menú carga manual 5](Images/Menu_Redes_carga_manual5.png)
 
 Una vez definidos todos los átomos de la base atómica, la red está creada.
 
 #### Importar desde archivo
 
-Al seleccionar **Importar desde archivo** para cargar una nueva red, se pedirá al usuario la dirección del archivo VASP correspondiente a la red sin escribir la extensión *.vasp* en el nombre. En la carpeta *VASP_Files* ya se tienen algunos archivos VASP de redes cristalinas que pueden ser usados (para el ejemplo, se importará desde la carpeta *VASP_files* el archivo *GeSe_beta.vasp*, correspondiente a la red del $ \beta $-GeSe).
+Al seleccionar **Importar desde archivo** para cargar una nueva red, se pedirá al usuario la dirección del archivo VASP correspondiente a la red sin escribir la extensión *.vasp* en el nombre. En la carpeta *VASP_Files* ya se tienen algunos archivos VASP de redes cristalinas que pueden ser usados (para el ejemplo, se importará desde la carpeta *VASP_files* el archivo *GeSe_beta.vasp*, correspondiente a la red del $\beta$-GeSe).
 
-![Menú carga archivo 1](images/Menu_Redes_carga_archivo1.png)
+![Menú carga archivo 1](Images/Menu_Redes_carga_archivo1.png)
 
 Si no hay problema en la importación del archivo, la red ya está correctamente cargada.
 ### Menú de red
@@ -122,11 +122,11 @@ Una vez cargada una red correctamente, ya sea de forma manual o importada desde 
 
 Si el usuario quiere asegurarse de que la red sea correcta antes de agregarla a la lista del sistema, puede comprobarla con las opciones **1** y **2** del menú de red, ya sea verificando el archivo POSCAR o con la imagen de la celda primitiva.
 
-![POSCAR de red](images/Menu_Redes_POSCAR.png)
+![POSCAR de red](Images/Menu_Redes_POSCAR.png)
 
 *POSCAR de la red de GeSe importada.*
 
-![PC de red](images/Menu_Redes_PC.png)
+![PC de red](Images/Menu_Redes_PC.png)
 
 *Imagen de la celda primitiva de la red de GeSe importada.*
 
@@ -136,7 +136,7 @@ Para generar la rotación en una red del sistema, se escoge la opción **3** del
 
 En nuestro ejemplo, el sistema que analizaremos será una bicapa de $ \beta $-GeSe sobre grafeno con una rotación relativa entre capas de $ 13.52^\circ $, por lo que debemos rotar la red de $ \beta $-GeSe en $ 13.52^\circ $.
 
-![PC de red rotada](images/Menu_Redes_PC-Rotada.png)
+![PC de red rotada](Images/Menu_Redes_PC-Rotada.png)
 
 *Imagen de la celda primitiva de la red de GeSe después de ser rotada.*
 
@@ -169,7 +169,7 @@ Al elegir la opción **0**, comenzará el proceso para calcular posibles celdas 
 
 Si se encuentra al menos una posible celda primitiva, se mostrará en pantalla la matriz de transformación correspondiente a la candidata recomendada como celda primitiva del sistema. En el ejemplo manejado, se utilizaron los valores $n = 15$ y $epsilon = 0.03$.
 
-![Menú de elección de TM](images/Menu_Analisis1.png)
+![Menú de elección de TM](Images/Menu_Analisis1.png)
 
 El nuevo menú desplegado presenta las opciones:
 
@@ -182,7 +182,7 @@ El nuevo menú desplegado presenta las opciones:
 
 Si se elige la opción **1** o **2** en el menú anterior, se desplegará una tabla con la información correspondiente a cada TM. En esta se presentan, para cada capa, las matrices de transformación, las matrices de deformación, los valores de distorsión de sus PVs y el número de átomos. Estos datos ayudarán al usuario a entender los efectos de cada TM y a seleccionar la más conveniente para su problema.
 
-![Tabla de datos de una TM](images/Menu_Analisis2.png)
+![Tabla de datos de una TM](Images/Menu_Analisis2.png)
 
 Ya sea que se acepte la matriz propuesta por el sistema o se elija otra, se debe utilizar la opción **0** del menú para crear la celda primitiva correspondiente al sistema. Al hacerlo, la interfaz regresará al *Menú de sistema*.
 
@@ -190,17 +190,17 @@ Ya sea que se acepte la matriz propuesta por el sistema o se elija otra, se debe
 
 Una vez calculada una PC, se puede elegir la opción **2** del *Menú de sistema*. Al hacerlo, se podrá visualizar una representación del sistema en el espacio real de la celda primitiva calculada, o en el espacio recíproco, como una superposición de las FBZ de cada capa en una malla formada por la repetición periódica de la FBZ de la PC calculada.
 
-![Imagen del sistema en el espacio real](images/Menu_AnalisisR.png)
+![Imagen del sistema en el espacio real](Images/Menu_AnalisisR.png)
 
 *Representación en el espacio real.*
 
-![Imagen del sistema en el espacio recíproco](images/Menu_AnalisisR'.png)
+![Imagen del sistema en el espacio recíproco](Images/Menu_AnalisisR'.png)
 
 *Representación en el espacio recíproco.*
 
 También es posible obtener la imagen del patrón de difracción del sistema eligiendo la opción **3** del *Menú de sistema*. Al hacerlo, comenzará el cálculo del patrón de difracción (este proceso puede tardar algunos minutos si la celda primitiva contiene muchos átomos).
 
-![Imagen del patrón de difracción](images/Menu_AnalisisDP.png)
+![Imagen del patrón de difracción](Images/Menu_AnalisisDP.png)
 
 *Patrón de difracción correspondiente al sistema de ejemplo.*
 
