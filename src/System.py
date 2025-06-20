@@ -7,17 +7,20 @@ if current_dir not in sys.path:
     sys.path.insert(0, current_dir)
 
 from Functions import *
+print('Load System')
 latticeList = List[Lattice]
 bereiten()
 
 class System:
     def __init__(self, lol:latticeList, name:str=""):
         '''
-        Initialize the 'System' corresponding to the structure formed by vertically
-        stacking all the materials from the list of Lattices described in 'lol'
-        giving it the name 'name.'
-        lol -> List of networks forming the system
-        name -> Name of the system.'''
+        Initializes a 'System' object representing a vertically stacked multilayer structure
+        composed of the lattices in the list 'lol'. The system is assigned the given name.
+        
+        Parameters:
+            lol (list): List of Lattice objects forming the system.
+            name (str): Optional name of the system.
+        '''
         self.redes = lol #Lista de Redes del Sistema
         if name=="":
             self.name = 'System ['+','.join([l.name for l in lol])+']' #Nombre del Sistema
@@ -29,9 +32,12 @@ class System:
     
     def calculateTM(self, min_angle:float = 25):
         '''
-        Generate a list of optimal transformation matrices of smaller size based on
-        the Lattice Points belonging to the 'results' list of the System. Therefore,
-        it is required to execute the "searchLP" function first before running this.
+        Computes a list of optimal transformation matrices (TMs) for generating
+        commensurate supercells, based on the Lattice Points obtained from the
+        'searchLP' method. This method must be executed beforehand.
+        
+        Parameters:
+            min_angle (float): Minimum angular separation (in degrees) to consider between layers.
         '''
         #Ángulo interno minimo aceptado para la super red calculada
         try:
@@ -67,12 +73,12 @@ class System:
         
     def createSuperLattice(self,M:m2x2):
         '''
-        Create the supercell representing a primitive cell of the system from the
-        given transformation matrix.
-        The primitive vectors of this lattice are obtained by transforming the
-        primitive vectors of the lattice in the first layer (substrate layer) with
-        the given transformation matrix M.
-        M -> Transformation matrix for primitive vectors'''
+        Constructs the supercell corresponding to the given transformation matrix M,
+        using the primitive vectors of the substrate layer as the base for transformation.
+
+        Parameters:
+            M (m2x2): 2x2 transformation matrix for generating the supercell.
+        '''
         try:
             a, b = self.redes[0].get_pv()
             sa, sb = transfVs(a, b, M)
@@ -85,12 +91,12 @@ class System:
     
     def searchLP(self, rangeOfSearch:int=15, epsilon:float=0.05):
         '''
-        Search for the Lattice Points of the substrate layer that match with an error
-        smaller than the given epsilon with any LP from the other layers of the system.
-        rangeOfSearch -> Determines the range of the search area for the Lattice
-                         Points of the substrate layer.
-        epsilon -> Maximum allowed error between the positions of the Lattice Points of
-                   the substrate layer and those of the other layers.
+        Searches for Lattice Points in the substrate layer that match (within a given error)
+        with Lattice Points in other layers.
+
+        Parameters:
+            rangeOfSearch (int): Extent of the area (in unit cells) to search around the origin.
+            epsilon (float): Maximum allowed positional error for matching points.
         '''
         try:
             lor = commonVs(self.redes, max_val=rangeOfSearch, eps=epsilon)
@@ -109,12 +115,12 @@ class System:
     
     def optimize_system(self, T:m2x2, prnt:bool=True):
         '''
-        Generate a new system based on the original, with the required deformations in
-        each layer so that the given transformation matrix generates a commensurate
-        supercell for all layers of this system. Calculate the primitive cell for this
-        new system corresponding to the given matrix.
-        T    -> TM selected
-        prnt -> If True, print the result to the screen
+        Constructs a new deformed system where each layer adapts to the transformation matrix T
+        to produce a common commensurate supercell.
+
+        Parameters:
+            T (m2x2): Transformation matrix.
+            prnt (bool): If True, displays summary information on the screen.
         '''
         try:
             s = self.clon()
@@ -148,35 +154,37 @@ class System:
             print(f"Error:{str(e)}.")
             return None, []
        
-    def generateSuperCell(self, RoS:int=15, eps:float=0.05, showTable:bool=False):
+    def generateSuperCell(self, RoS:int=15, eps:float=0.05, prntRes:bool=True, showTable:bool=False):
         '''
-        Execute sequentially the 'searchLP' and 'calculateTM' functions. Subsequently,
-        with the recommended matrix from the loMat list, execute 'optimize_system' to
-        create a new system in which its layers have undergone a deformation that
-        allows it to have a commensurate result in all its layers. Finally, display
-        the result on the screen with the 'show' function for the newly created system.
-        RoS       -> Determines the range of the search area for the Lattice Points of the
-               substrate layer.
-        eps       -> Maximum allowed error in the calculation of the Lattice Points used to
-               generate the results.
-        showTable -> If True, show the TM table used.
+        Performs a complete pipeline to build a commensurate supercell:
+        1. Runs 'searchLP' and 'calculateTM',
+        2. Selects the best TM,
+        3. Applies 'optimize_system',
+        4. Displays or saves the final result.
+
+        Parameters:
+            RoS (int): Search range for Lattice Points.
+            eps (float): Maximum allowed positional error.
+            prntRes (bool): If True, prints result summary.
+            showTable (bool): If True, displays a comparison table of TMs.
         '''
         self.searchLP(rangeOfSearch=RoS, epsilon=eps)
         if self.poits == []:
             print("No common lattice points were found across all layers, try increasing the search range or limit on the deformation.")
-            return -1
+            return None
         self.calculateTM()
         if self.loMat == []:
-            return -2
+            return None
         T = self.ShowTMs(shw=False)
         if showTable:
             self.describeTM(T)
-        S, d = self.optimize_system(T)
+        S, d = self.optimize_system(T,prnt=prntRes)
         return S
     
     def analiza_Mat(self):
         '''
-        Analyze the possible transformation matrices of smaller size for the system, saving their characteristics in a list and proposing the best option.
+        Analyzes all transformation matrices in the list of candidates,
+        saving their geometric and distortion data, and identifies the most suitable one.
         '''
         if self.poits==[]:
             self.searchLP()
@@ -225,8 +233,14 @@ class System:
     
     def analiza_T(self,T):
         '''
-        t -> TM to be examined
-        Calculate the data of the cell generated from the TM 'T', returning them in a list.
+        Analyzes a specific transformation matrix T by computing its geometric
+        and distortion properties.
+
+        Parameters:
+            T (m2x2): Matrix to be analyzed.
+
+        Returns:
+            list: Metrics associated with the supercell generated by T.
         '''
         m0 = [[1.0,0.0],[0.0,1.0]]
         dif = 100.0
@@ -258,11 +272,13 @@ class System:
     
     def describeTM(self, T,prnt='',shw=True):
         '''
-        T -> TM used to generate a Cell for the system
+        Displays a detailed table of the geometric and distortion data
+        for the supercell associated with transformation matrix T.
 
-        Print on screen a Table with the data of the Cell generated from the TM 'T'.
-        If you want to save the result in a txt file, a value must be given to the
-        entry 'prnt', this will be the name of the created file.
+        Parameters:
+            T (m2x2): Transformation matrix.
+            prnt (str): Optional filename to save the table output.
+            shw (bool): If True, displays the table on the screen.
         '''
         try:
             dT = self.analiza_T(T)
@@ -300,7 +316,7 @@ class System:
                 f = open(name,"w",encoding="utf-8")
                 f.write(tabla)
                 f.close()
-                print(f"Se guardó la tabla en: {name}")
+                print(f"The table was saved in: {name}")
             if shw:
                 print(tabla)
             return tabla+'\n', dd
@@ -309,6 +325,17 @@ class System:
                 return "",0
     
     def ShowTMs(self,shw=True,save=''):
+        '''
+        Evaluates and compares all candidate TMs stored in loMat.
+        If enabled, shows tables for each candidate and recommends the best.
+
+        Parameters:
+            shw (bool): If True, displays tables on screen.
+            save (str): If provided, saves the tables to a .txt file in the 'Tablas' folder.
+
+        Returns:
+            m2x2: Recommended transformation matrix.
+        '''
         text=''
         i=0
         ddM = 100
@@ -322,7 +349,7 @@ class System:
                 ddM = round(ddi,10)
                 sugerida = i
             i+=1
-        text+=f'Matriz sugerida: loMat[{sugerida}]'
+        text+=f'Recommended transformation matrix: loMat[{sugerida}]'
         if shw:
             print(text)
         if save!='':
@@ -333,22 +360,22 @@ class System:
                 f = open(name,"w",encoding="utf-8")
                 f.write(text)
                 f.close()
-                print(f"Se guardó la tabla en: {name}")
+                print(f"The table was saved in: {name}")
             except Exception as e:
                 print(f"Error:{str(e)}.")
         return self.loMat[sugerida]
-    
-    #def muestra(self,shw=True):
-    #    return self.ShowTMs(shw=shw)    
         
     def manualAdjustment(self,ListOfTM):
         '''
-        Adjust the PVs of each layer so that they match in a common Super lattice given the provided TMs.
-        ListOfTM -> List with the desired TMs.
+        Manually adjusts the primitive vectors of each layer according to
+        a given list of transformation matrices to ensure supercell compatibility.
+
+        Parameters:
+            ListOfTM (list of m2x2): Transformation matrices for each layer.
         '''
         LoD = []
         if len(self.redes)!=len(ListOfTM):
-            print("Entrada invalida, proporcione una lista con las MT deseadas para cada capa del sistema incluyendo la capa sustrato")
+            print("Invalid input, provide a list of desired MTs for each layer of the system including the substrate layer")
             return LoD
         a_s, b_s = self.redes[0].get_pv()
         S = m2M(VtM(a_s,b_s),ListOfTM[0])
@@ -364,8 +391,8 @@ class System:
                 self.redes[i].name+="'"
             d_a, d_b = ((long(a_o)/long(a_i))-1)*100, ((long(b_o)/long(b_i))-1)*100
             t_a, t_b = cAng(a_i,a_o), cAng(b_i,b_o)
-            m = '''Efectos de la deformación en capa {}:
-        Nuevos PVs: a=({:.4f},{:.4f}), b=({:.4f},{:.4f})
+            m = '''Effects of layer deformation {}:
+        News PVs: a=({:.4f},{:.4f}), b=({:.4f},{:.4f})
         DeltaA:{:+}%\tThetaA:{:.3f}°
         DeltaB:{:+}%\tThetaB:{:.3f}°
         '''.format(i,ax,ay,bx,by,round(d_a,4),t_a,round(d_b,4),t_b)
@@ -376,7 +403,7 @@ class System:
     
     def its_hexagonal_system(self):
         '''
-        Señala si el sistema está conformado sólo por redes hexagonales.
+        Returns True if the system is composed exclusively of hexagonal lattices.
         '''
         err = 10**-6
         for r in self.redes:
@@ -386,11 +413,12 @@ class System:
     
     def adjust(self, M):
         '''
-        Verifica si una matriz de trasformación M entra a la lista loMat y la coloca manteniendo el orden
-            M -> Matriz a examinar
+        Verifies whether matrix M belongs in the loMat list and inserts it in order.
+        
+        Parameters:
+            M (m2x2): Transformation matrix to be inserted.
         '''
         if det(M)==0:
-            #print("---Matriz invalida--")
             return 0
         b, i = self.goesHere(M,0)
         if b:
@@ -405,11 +433,13 @@ class System:
         #print("---Matriz rechazada--")
         return 1
     
-    def goesHere(self, M, i):
+    def goesHere(self, M: m2x2, i: int):
         '''
-        Determines whether a transformation matrix M fits into position i of the loMat list.
-        M -> Matrix to be examined
-        i -> Index to be evaluated
+        Checks whether matrix M should be placed at position i in loMat.
+
+        Parameters:
+            M (m2x2): Transformation matrix.
+            i (int): Position index in loMat.
         '''
         if i>=len(self.loMat):#Si el indice sobrepasa los validos
             if len(self.loMat)<self.MaxNumM:#Verifica si aaun hay espacio en loMat
@@ -435,7 +465,7 @@ class System:
     
     def clon(self):
         '''
-        Clones the system by returning an identical copy
+        Creates and returns an identical copy of the system.
         '''
         redes = [copy.copy(r) for r in self.redes]
         s = System(redes)
@@ -448,14 +478,19 @@ class System:
     
     def set_maximum_number_of_matrices(self, newMax:int):
         '''
-        Changes the maximum number of matrices in the list of transformation matrices 'loMat'
-        newMax -> New maximum size
+        Sets a new maximum size for the list of candidate transformation matrices (loMat).
+
+        Parameters:
+            newMax (int): New upper limit for loMat length.
         '''
         self.MaxNumM = newMax
         self.calculateTM()
         
     
     def show(self):
+        '''
+        Displays basic structural data for the system, including both real space and reciprocal space representations.
+        '''
         if self.SuperRed is None:
             print('*'*84+"\n  Superlattice not yet computed, use the 'createSuperLattice' function to generate it.  \n"+'*'*84)
         else:
@@ -472,6 +507,17 @@ class System:
                             prnt:bool=False,
                             zoom:bool=False,
                             colors:list=[]):
+        '''
+        Generates a visualization of the system in reciprocal space. Each layer's FBZ is shown,
+        overlaid with the FBZ of the system’s calculated primitive cell.
+
+        Parameters:
+            t (float): Thickness of lines in the figure.
+            border (float): Margin around the drawing area.
+            prnt (bool): If True, saves the generated figure to file.
+            zoom (bool): If True, zooms in around the center.
+            colors (list): Optional list of colors for each layer.
+        '''
         if self.SuperRed is None:
             print('*'*84+"\n  Superlattice not yet computed, use the 'createSuperLattice' function to generate it.  \n"+'*'*84)
         else:
@@ -479,10 +525,11 @@ class System:
             
     def showPC(self, iName:str=''):
         '''
-        Create an image of the primitive cell by drawing its respective primitive
-        vectors. If iName is different from '', an image file with this name will be
-        created in the 'Images' folder.
-        iName: Name of image file
+        Visualizes the primitive cell of the system, including its primitive vectors.
+        If a filename is provided, the image will be saved in the 'Images' folder.
+
+        Parameters:
+            iName (str): Optional name for the output image file.
         '''
         if self.SuperRed is None:
             print("Primitive Cell not yet computed")
@@ -491,9 +538,12 @@ class System:
     
     def ejecuta(self,n:int=15,e:float=0.05):
         '''
-        Executes a search for the smallest PC for the system in the specified search range(n) and with a bias less than the specified value(e)
-        n: search range
-        e: accepted error bound
+        Executes the full search for the smallest primitive cell of the system,
+        based on the given search range and acceptable error.
+
+        Parameters:
+            n (int): Search range in unit cells.
+            e (float): Maximum allowed error.
         '''
         a = self.searchLP(rangeOfSearch=n, epsilon=e)
         if a<1:
@@ -506,10 +556,24 @@ class System:
         return self.ShowTMs(shw=False)
     
     def diffractionPattern(self, t=1, border=1.5,prnt=False):
+        '''
+        Displays the diffraction pattern for the system in reciprocal space.
+
+        Parameters:
+            t (float): Thickness of lines.
+            border (float): Drawing area border margin.
+            prnt (bool): If True, saves the figure to file.
+        '''
         if not self.SuperRed is None:
             self.SuperRed.printLightPoints(t,border,prnt)
             
     def rename(self,newName):
+        '''
+        Renames the system.
+
+        Parameters:
+            newName (str): New name for the system.
+        '''
         try:
             self.name=newName
             if self.SuperRed!=None:
@@ -520,6 +584,12 @@ class System:
             return 0
 
     def exportPC(self,PCname=''):
+        '''
+        Exports the system's primitive cell to a POSCAR-formatted .vasp file.
+
+        Parameters:
+            PCname (str): Optional name for the exported file.
+        '''
         if self.SuperRed is None:
             print("There is no primitive cell calculated for this system")
             return 0

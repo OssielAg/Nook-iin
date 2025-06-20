@@ -1,17 +1,22 @@
 from Lattice import *
+#print('Load Functions')
 
 # Métodos derivados
 
-def isitin(r,cent, sr, slvl):
+def isitin(r:Lattice, cent:vector2D, sr:Lattice, slvl:float):
     '''
-    r   : Lattice evaluated
-    sr  : Heterostructure lattice
-    cent: Position of the origin of the evaluated cell
-    slvl: Level of the layer where the evaluated lattice is
+    Determines which atoms from the cell of lattice 'r' positioned at 'cent'
+    fall within the primitive cell (PC) of the lattice 'sr'.
 
-    Verify which atoms belonging to the cell of the 'r' lattice positioned at 'cent'
-    fall within the area corresponding to the primitive cell (PC) of the 'sr' lattice.
-    The atoms that meet this condition are added to the atomic basis of 'sr'.'''
+    Parameters:
+    r     : Lattice being evaluated
+    cent  : Position of the origin of the evaluated cell
+    sr    : Heterostructure lattice
+    slvl  : Layer level of the evaluated lattice
+
+    Atoms from 'r' that fall inside the PC of 'sr' are added to the atomic basis
+    of 'sr', assigning them to the specified layer level.
+    '''
     try:
         er = 1/(10**3) #Error de calculo aceptable en la frontera de la CP de sr
         (u1,u2) = r.a
@@ -47,14 +52,18 @@ def isitin(r,cent, sr, slvl):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def megeCut(r, sr, lvl=0):
+def megeCut(r:Lattice, sr:Lattice, lvl:int=0):
     '''
-    r  : Lattice evaluated
-    sr : Heterostructure lattice
-    lvl: Level of the layer where the evaluated lattice is
-    
-    Auxiliary method for superMesh. Calculate the cells of the lattice that coincide
-    with the primitive cell calculated for the system to determine its atomic basis.'''
+    Auxiliary method used in the construction of supercells.
+
+    Parameters:
+    r   : Lattice being evaluated
+    sr  : Heterostructure lattice
+    lvl : Layer level of the evaluated lattice
+
+    Determines the unit cells of lattice 'r' that contribute atoms
+    to the primitive cell of the composite system and integrates them.
+    '''
     try:
         (u1,u2), (v1,v2) = r.getVectors()
         (p1,p2), (q1,q2) = sr.getVectors()
@@ -75,12 +84,17 @@ def megeCut(r, sr, lvl=0):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def cleanA(r, err=0.001):
+def cleanA(r:Lattice, err:float=0.001):
     '''
-    r: Lattice
-    err: Minimum maximum error
+    Removes duplicate atoms from the atomic basis of a lattice.
 
-    Cleans the list of atoms in a Lattice by eliminating repeated ones.'''
+    Parameters:
+    r   : Lattice whose atomic basis will be cleaned
+    err : Threshold distance to consider atoms as duplicates
+
+    Returns:
+    List of atoms that were removed due to redundancy.
+    '''
     try:
         atms=r.atms
         newAtms=[]
@@ -104,13 +118,18 @@ def cleanA(r, err=0.001):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def superMesh(sa,sb,layerList):
+def superMesh(sa:vector2D, sb:vector2D, layerList:list):
     '''
-    sa       : Primitive vector 'a' calculated for the system
-    sb       : Primitive vector 'b' calculated for the system
-    layerList: List of Lattices that make up the system.
+    Constructs the superlattice resulting from stacking multiple layers.
 
-    Creates the Lattice that will represent the System formed by stacking the Lattices in "layerList", using the given primitive vectors.'''
+    Parameters:
+    sa        : Superlattice primitive vector a
+    sb        : Superlattice primitive vector b
+    layerList : List of Lattice objects forming the heterostructure
+
+    Returns:
+    A Lattice object representing the full heterostructure using vectors sa and sb.
+    '''
     try:
         sR = Lattice(sa,sb)
         sR.enls = []
@@ -134,12 +153,17 @@ def superMesh(sa,sb,layerList):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def pts(layer, max_it=15):
+def pts(layer:Lattice, max_it:int=15):
     '''
-    layer : Lattice corresponding to the layer being evaluated
-    max_it: Maximum number of repetitions of the cell in any of the directions of its primitive vectors
+    Generates a list of lattice points within a defined region.
 
-    Generates a list of all 'Lattice Points' within the designated search area.'''
+    Parameters:
+    layer  : Lattice whose points will be generated
+    max_it : Maximum number of unit cell repetitions in each direction
+
+    Returns:
+    List of points corresponding to repeated cells within the given bounds.
+    '''
     try:
         res = []
         a,b = layer.getVectors()
@@ -154,15 +178,18 @@ def pts(layer, max_it=15):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def calcCD(substrate, layer, ab):
+def calcCD(substrate:Lattice, layer:Lattice, ab:list):
     '''
-    substrate: Lattice substrate.
-    layer    : Lattice to approximate
-    ab       : Pair of integers that define the vector we want to approximate
-    
-    Given 2 lattices, 'substrate' and 'layer', calculate the integers 'c' and 'd' such
-    that the projection of the Lattice point (c, d) of the 'layer' is the closest to
-    the projection from the Lattice Point (a, b) of 'substrate'.'''
+    Approximates a lattice point from one lattice in another lattice's coordinate system.
+
+    Parameters:
+    substrate : Reference lattice
+    layer     : Lattice to be approximated
+    ab        : Tuple (a, b) representing a lattice point in 'substrate'
+
+    Returns:
+    Tuple (c, d) such that the point (c, d) in 'layer' is closest to (a, b) in 'substrate'.
+    '''
     try:
         (a,b) = ab
         (u_1,u_2), (v_1,v_2) = substrate.getVectors()
@@ -178,16 +205,19 @@ def calcCD(substrate, layer, ab):
     except Exception as e:
         print(f"Error:{str(e)}.")
     
-def calcPR(pts, substrate, layer, eps=0.05):
+def calcPR(pts:list, substrate:Lattice, layer:Lattice, eps:float=0.05):
     '''
-    pts      : List of Lattice Points in which we will search for matches.
-    substrate: Lattice substrate
-    layer    : Lattice to approximate
-    eps      : Maximum distance allowed between point projection
+    Filters a list of lattice points, keeping only those that match between two lattices.
 
-    Checks a list of Lattice Points for 'Substrate' leaving only those corresponding
-    with Lattice Points for 'layer' with a maximum difference in their projections on
-    the plane given by 'eps'.'''
+    Parameters:
+    pts       : List of candidate lattice points
+    substrate : Reference lattice
+    layer     : Lattice to compare
+    eps       : Tolerance for matching in projected coordinates
+
+    Returns:
+    Filtered list of points that exist in both lattices within the allowed error.
+    '''
     try:
         (u,v), (p,q) = substrate.getVectors(), layer.getVectors()
         (u_1,u_2), (v_1,v_2) = u, v
@@ -215,17 +245,18 @@ def calcPR(pts, substrate, layer, eps=0.05):
     except Exception as e:
         print(f"Error:{str(e)}.")
     
-def commonVs(redes, max_val=15, eps=0.05):
+def commonVs(redes:list, max_val:int=15, eps:float=0.05):
     '''
-    redes    :List of Lattices that make up the multilayer system
-    max_value: Limit of the search area
-    eps      : Maximum accepted error.
+    Finds common lattice points across all lattices in a multilayer system.
 
-    Using the lattice in position 0 of the 'lattices' list as the 'substrate', it
-    sequentially executes the 'calcPR' method with each of the other lattices in the
-    list, using the result of the 'pts(substrate, max_val)' method as the initial pts
-    list. The final result is a list containing only the Lattice Points (PR) that have
-    a corresponding PR in each layer of the system with an error smaller than 'eps'.'''
+    Parameters:
+    redes    : List of Lattices forming the heterostructure
+    max_val  : Search area bound in lattice units
+    eps      : Error tolerance for matching projections
+
+    Returns:
+    List of common lattice points shared across all lattices.
+    '''
     try:
         if len(redes)>1:
             sustrato = redes[0]
@@ -241,25 +272,33 @@ def commonVs(redes, max_val=15, eps=0.05):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def corresponding_points(l1, l2, M1):
+def corresponding_points(l1:Lattice, l2:Lattice, M1:m2x2):
     '''
-    l1: Lattice 1
-    l2: Lattice 2
-    M1: Translation Matrix
-    Indicate the 2x2 matrix that refers to the lattice point for l2 corresponding to
-    the lattice point of l1 referenced by m1.'''
+    Computes the matrix that maps lattice points from 'l1' to corresponding points in 'l2'.
+
+    Parameters:
+    l1 : First lattice
+    l2 : Second lattice
+    M1 : Matrix defining a cell in lattice 'l1'
+
+    Returns:
+    Matrix representing the corresponding cell in 'l2'.
+    '''
     a1, b1 = MtV(M1)
     a2, b2 = (calcCD(l1,l2,a1),calcCD(l1,l2,b1))
     return VtM(a2,b2)
     
-def calc_dd(V_i,V_o):
+def calc_dd(V_i:m2x2, V_o:m2x2):
     '''
-    V_i: Matrix composed of the original primitive vectors of the Lattice.
-    V_0: Matrix composed of the deformed primitive vectors of the Lattice.
-    
-    Calculate the "Degree of distortion" corresponding to a cell by transforming its
-    primitive vectors from those expressed in matrix V_i to those expressed in
-    matrix V_o.'''
+    Computes the degree of distortion between two lattice cells.
+
+    Parameters:
+    V_i : Initial 2x2 matrix of primitive vectors
+    V_o : Final 2x2 matrix of primitive vectors (after deformation)
+
+    Returns:
+    Degree of distortion (as scalar or matrix, depending on implementation).
+    '''
     try:
         dd = 0.0
         t = 10
@@ -280,13 +319,22 @@ def calc_dd(V_i,V_o):
         print(f"Error:{str(e)}.")
         
 #--------------Funciones Auxilares para quitar átomos repetidos de una red---------------
-def esClon(Atms,atm,eps):
+def esClon(Atms: list, atm: Atom, eps: float):
     '''
-    Atms -> List with atoms to compare
-    atm -> Atom to be compared
-    eps -> Threshold for accepted error    
-    Determine if the atom 'atm' is equivalent to any in the list 'Atms' with an error
-    bounded by eps.'''
+    Determine whether the atom `atm` is a duplicate (clone) of any atom in `Atms`.
+
+    Parameters:
+    Atms : list
+        List of existing Atom instances to compare against.
+    atm : Atom
+        Atom to be evaluated as a potential duplicate.
+    eps : float
+        Maximum allowed difference in distance and z-position to consider atoms as equivalent.
+
+    Returns:
+    bool
+        True if the atom is considered a clone; False otherwise.
+    '''
     for a in Atms:
         if abs(a.posZ-atm.posZ)<eps:
             d = abs(1-dist(atm.pos,a.pos))
@@ -296,11 +344,18 @@ def esClon(Atms,atm,eps):
                 return True
     return False
 
-def borders(Atms):
+def borders(Atms: list):
     '''
-    Atms -> List of atoms in a lattice
-    Calculates the atoms from the Atms list that belong to the boundary of the primitive
-    cell and returns them in a list.'''
+    Identify atoms positioned on the boundary of the unit cell.
+
+    Parameters:
+    Atms : list
+        List of Atom instances positioned relative to a unit cell.
+
+    Returns:
+    list
+        List of Atom instances located at the boundaries (x ≈ 0 or y ≈ 0).
+    '''
     orilla=[]
     for a in Atms:
         x, y = a.pos
@@ -308,12 +363,20 @@ def borders(Atms):
             orilla.append(a)
     return orilla
 
-def cleanA(Atms,eps):
+def cleanA(Atms: list, eps: float):
     '''
-    Atoms -> List of atoms
-    eps -> Accepted error threshold
-    Remove repeated atoms from a list of atoms placed at positions relative to a
-    primitive cell.'''
+    Remove atoms considered redundant due to overlap at the boundaries of a unit cell.
+
+    Parameters:
+    Atms : list
+        List of Atom instances located in a primitive cell.
+    eps : float
+        Tolerance value for determining redundancy based on position and height (z-axis).
+
+    Returns:
+    list
+        List of Atom instances that were removed as duplicates.
+    '''
     repetidos=[]
     orilla = borders(Atms)
     #print(f'{len(orilla)} átomos en frontera')
@@ -328,18 +391,23 @@ def cleanA(Atms,eps):
         Atms.remove(a)
     return repetidos
 
-
-    
-def cleanPCell(L,acc=6):
+def cleanPCell(L: Lattice, acc: int = 6):
     '''
-    acc -> Maximum accepted error precision
+    Clean a lattice by removing duplicate atoms from its atomic basis.
 
-    Remove all repeated atoms from the atomic basis of the lattice.
+    Parameters:
+    L : Lattice
+        The Lattice instance whose atomic basis will be filtered.
+    acc : int, optional
+        Precision parameter used to determine the tolerance for duplication (default is 6).
+
+    Returns:
+    list
+        List of Atom instances that were removed.
     '''
     removidos=[]
     a,b = L.get_pv()
     t = max(long(a),long(b))
-    #print('Presición:{}'.format(1/(t*10**acc)))
     for esp in L.atms:
         rep=cleanA(esp,1/(t*10**acc))
         removidos+=rep
@@ -348,15 +416,20 @@ def cleanPCell(L,acc=6):
 #-------------------Funciones auxiliares para mostrar datos de una MT-------------------
 def textLonN(t:str,n:int,al:str='c'):
     '''
-    t -> Original text
-    n -> Exact length
-    al -> Alignment of the resulting text
-    Return a String of size 'n' by cutting or adding spaces to the given text 't'.
-    If 'n' is greater than the size of 't', the result will have an alignment according
-    to the value of 'al':
-        c -> Centered
-        l -> Left
-        r -> Right'''
+    Format a string to a fixed width using alignment and padding.
+
+    Parameters:
+    t : str
+        Input string to format.
+    n : int
+        Desired fixed length of the resulting string.
+    al : str, optional
+        Text alignment: 'c' for center, 'l' for left, 'r' for right (default is 'c').
+
+    Returns:
+    str
+        Formatted string of exact length `n`.
+    '''
     m = len(t)
     nt = ""
     resto = n-m
@@ -378,7 +451,13 @@ def textLonN(t:str,n:int,al:str='c'):
     return t
 
 def header():
-    '''Defines a text used as a header for the table to be created'''
+    '''
+    Generate a formatted header for a deformation/distortion summary table.
+
+    Returns:
+    str
+        String representation of the table header including column names and borders.
+    '''
     delta=u'\u03B4'
     theta=u'\u03B8'
     encabezados=["Lattice","T","Deformation","Distortion:"+delta+"//"+theta,"#Atoms"]
@@ -392,12 +471,21 @@ def header():
     head += linea
     return head
 
-def infLayer(L,data):
+def infLayer(L: Lattice, data: list):
     '''
-    L -> Lattice belonging to a System
-    data -> List with information about network 'L'
+    Format and display a line of lattice data in tabular form.
 
-    Print in a specific format to display in a table the data indicated by data.'''
+    Parameters:
+    L : Lattice
+        Lattice layer for which the data is being displayed.
+    data : list
+        List containing the transformation matrix, deformation matrix,
+        deformation ratios, and angles.
+
+    Returns:
+    tuple
+        Formatted string (row in the table) and number of atoms in the transformed cell.
+    '''
     lin='|'+' '*25+'|'+' '*15+'|'+' '*23+'|'+' '*23+'|'+' '*8+'|'+'\n'
     T,dM,da,db,ta,tb = data
     name = L.name
@@ -417,10 +505,17 @@ def infLayer(L,data):
     return fila, nA
 
 #--------------Funciones Auxiliares para la función "importLattice(File)"--------------
-def readFile(name):
+def readFile(name: str):
     '''
-    name: Imported file name
-    Reads the designated File and transforms it into an array of Strings
+    Read the contents of a file and return its lines as a list of strings.
+
+    Parameters:
+    name : str
+        Name of the file to read (without extension).
+
+    Returns:
+    list
+        Lines of the file as string elements.
     '''
     try:
         file = open(name, 'r')
@@ -437,20 +532,40 @@ def readFile(name):
     except Exception as e:
         print(f"Error:{str(e)}.")
         return None
-
-def leeNumeros(line):
+        
+def leeNumeros(line: str):
     '''
-    line: String to read
-    Auxiliary function. It reads a string and returns a list with the numbers in it.
+    Extract all numerical values from a given string.
+
+    Parameters:
+    line : str
+        Input string containing numeric values.
+
+    Returns:
+    list
+        List of float numbers found in the string.
     '''
     s = []
     s = [float(l) for l in re.findall(r'-?\d+\.?\d*', line)]
     return s
 #----------------------------------------------------------------------------    
-def importLattice(name,prnt=True):
+def importLattice(name: str, prnt: bool = True):
     '''
-    name: Imported file name
-    Generates a Lattice from a VASP file with the name indicated in 'name'.
+    Import lattice data from a VASP POSCAR file and create a Lattice object.
+
+    Parameters:
+    name : str
+        Base name of the POSCAR file (without '.vasp' extension).
+    prnt : bool, optional
+        If True, display status messages during import (default is True).
+
+    Returns:
+    Lattice
+        Lattice object containing the structure described in the file.
+
+    Raises:
+    ValueError
+        If the file is not found or the format is unsupported.
     '''
     errormsg = '''The file does not exist or is not in the format supported by the program.
     - You must provide the name of a VASP file (not including the '.vasp').
@@ -499,28 +614,29 @@ def importLattice(name,prnt=True):
 #----------------------Redes prediseñadas------------------------------
 def ejemplos():
     texto ='''
-    Se cuenta con redes predefinidas, estas son:
-hexa6(p,atms,name) -> Genera una Red hexagonal con constante de red 'p' y con los átomos de la lista atms.
-    Si atms no se dá, entonces tendrá 2 átomos dentro de su base, generando una red hexagonal con 6 simetrías radiales.
+    Predefined lattices are available, as follows:
 
-hexa3(p,atms,name) -> Genera una Red hexagonal con constante de red 'p' y con los átomos de la lista atms.
-    Si esta no se da entonces tendrá 2 átomos, uno dentro de su base y otro en un vértice, generando una red hexagonal con 3 simetrías radiales.
+hexa6(p, atms, name) -> Generates a hexagonal lattice with lattice constant 'p' and atoms specified in the 'atms' list.
+    If 'atms' is not provided, it will contain two atoms in its basis, resulting in a hexagonal lattice with 6-fold radial symmetry.
 
-rectMesh(p1,p2,atms,name) -> Genera una Red rectangular con las constantes de red p1, p2 y los átomos señalados en la lista atms.
-    Si esta no se dá, se generará con un solo átomo en el centro de su base.
+hexa3(p, atms, name) -> Generates a hexagonal lattice with lattice constant 'p' and atoms specified in the 'atms' list.
+    If this is not provided, it will contain two atoms, one inside its basis and another on a vertex, resulting in a hexagonal lattice with 3-fold radial symmetry.
 
-grafeno() -> Genera una red de Grafeno, con constante de red 2.44 A y con sus átomos acomodados en el formato de hexa6
+rectMesh(p1, p2, atms, name) -> Generates a rectangular lattice with lattice constants p1 and p2 and atoms specified in the 'atms' list.
+    If not provided, it will generate a lattice with a single atom at the center of the basis.
 
-grafeno3() -> Genera una red de Grafeno, con constante de red 2.44 A y con sus átomos acomodados en el formato de hexa3
+grafeno() -> Generates a Graphene lattice with a lattice constant of 2.44 Å and atoms arranged in the hexa6 format.
 
-blackPhospho() -> Genera una Red de Fosforeno Negro con las constantes de red 3.3061099052 y 4.552418232.
+grafeno3() -> Generates a Graphene lattice with a lattice constant of 2.44 Å and atoms arranged in the hexa3 format.
+
+blackPhospho() -> Generates a Black Phosphorene lattice with lattice constants 3.3061099052 and 4.552418232.
 '''
     print(texto)
     
 def hexa6(p,atms=[['C','C'],['sienna','sienna']],name=''):
     '''
-    Genera una Red hexagonal con constante de red 'p' y con los átomos de la lista atms.
-    Si esta no es dada entonces tendrá 2 átomos dentro de su base, generando una red hexagonal con 6 simetrías radiales.
+    Generates a hexagonal lattice with a lattice constant p, using the atomic configuration provided in the atms list.
+    If atms is not specified, a default configuration with two atoms in the basis is used, producing a lattice with 6-fold rotational symmetry.
     '''
     u,v=(p,0.0),(-p/2,math.sqrt(3)*(p/2))
     p1,p2,p3,p4 = (1/3,2/3),(2/3,1/3),(1/3,-1/3),(4/3,2/3)
@@ -529,8 +645,9 @@ def hexa6(p,atms=[['C','C'],['sienna','sienna']],name=''):
 
 def hexa3(p,atms=[['C','C'],['sienna','sienna']],name=''):
     '''
-    Genera una Red hexagonal con constante de red 'p' y con los átomos de la lista atms.
-    Si esta no se da entonces tendrá 2 átomos, uno dentro de su base y otro en un vértice, generando una red hexagonal con 3 simetrías radiales.'''
+    Creates a hexagonal lattice with lattice constant p, using the atoms defined in the atms list.
+    If not provided, the function uses a default basis with two atoms: one at the center and one at a vertex, resulting in a structure with 3-fold rotational symmetry.
+    '''
     u,v=(p,0.0),(-p/2,math.sqrt(3)*(p/2))
     p1,p2,p3,p4 = (0.0,0.0),(1/3,2/3),(0,1),(1,1)
     ats = [Atom(p1, sig = atms[0][0], color=atms[1][0]),Atom(p2, sig = atms[0][1], color=atms[1][1])]
@@ -538,8 +655,9 @@ def hexa3(p,atms=[['C','C'],['sienna','sienna']],name=''):
 
 def rectLattice(p1,p2,atms='C',name=''):
     '''
-    Genera una Red rectangular con las constantes de red p1, p2 y los átomos señalados en la lista atms.
-    Si esta no se da, se generará con un solo átomo en el centro de su base.'''
+    Generates a rectangular lattice with lattice constants p1 and p2, and the atoms specified in the atms list.
+    If no atom list is provided, a single atom is placed at the center of the primitive cell.
+    '''
     u,v = (p1,0.0),(0.0,p2)
     p1,p2,p3 = (1/2,1/2),(3/2,1/2),(1/2,3/2)
     ats = [Atom(p1,sig = atms)]
@@ -547,21 +665,20 @@ def rectLattice(p1,p2,atms='C',name=''):
     
 def graphene():
     '''
-    Genera una red de Grafeno, con constante de red 2.44 A y con sus átomos dentro de su base,
-    generando una red hexagonal con 6 simetrías radiales.
+    Returns a standard hexagonal graphene lattice with a lattice constant of 2.44 Å, using a 6-fold symmetric atomic arrangement as defined in hexa6.
     '''
     return hexa6(2.44, name='Grafeno')
     
 def grapheneC3():
     '''
-    Genera una red de Grafeno, con constante de red 2.44 A y con uno de sus átomos dentro de su base y otro en un vértice,
-    generando una red hexagonal con 3 simetrías radiales.
+    Returns a variant of the graphene lattice with a lattice constant of 2.44 Å, configured with a 3-fold symmetric basis as described in hexa3.
     '''
     return hexa3(2.44, name='Grafeno(s3)')
 
 def blackPhosphorene():
     '''
-    Genera una Red de Fosforeno Negro con las constantes de red 3.2601301670 y 4.3470306396.
+    Generates a lattice model of black phosphorene using its experimentally derived lattice parameters: 3.2601301670 Å and 4.3470306396 Å.
+    The atomic positions and out-of-plane displacements are configured to match the layered anisotropic structure of black phosphorus.
     '''
     a,b=(3.2601301670,0.0), (0.0,4.3470306396)
     p1,p2=(0.000000000,0.913483083),(0.500000000,0.579813302)
@@ -575,7 +692,8 @@ def blackPhosphorene():
 
 def h_BN():
     '''
-    Genera una Red que describe la face hexagonal del Nitruro de Boro laminar. 
+    Creates a lattice representing the hexagonal face of layered boron nitride (h-BN).
+    The atoms and bonds are positioned to reflect the characteristic honeycomb geometry and layer separation of this material.
     '''
     a = (2.512,0.0)
     b = rota(a,120)

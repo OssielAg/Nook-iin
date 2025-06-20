@@ -1,14 +1,22 @@
 from Basics import *
+
+#print('Load Atom')
 class Atom:
-    '''Class that defines an atom in the system'''
+    """
+    Class that defines an atom in the system, including its position, element type,
+    drawing color, and layer level in a possible heterostructure.
+    """
     def __init__(self, pos:tuple, posZ:float=0.0, color:str='black', sig:str='C', lvl:int=1):
-        '''
-        Initializes the Atom object giving its characteristics.
-        pos   : Relative position of the atom projected on the plane
-        posZ  : Position of the atom on the c axis of the lattice.
-        color : Color with which the atom will be drawn
-        sig   : Atom element identifier
-        lvl   : Heterostructure layer level'''
+        """
+        Initializes an Atom object with spatial, visual, and descriptive properties.
+    
+        Parameters:
+            pos (tuple): Relative 2D position of the atom in the lattice plane (x, y).
+            posZ (float): Position along the c-axis (vertical stacking) of the lattice.
+            color (str): Color used to draw the atom in visualizations.
+            sig (str): Chemical symbol or element identifier for the atom.
+            lvl (int): Layer level if the atom belongs to a multilayer system.
+        """
         self.pos = pos
         self.posZ = posZ
         self.color = color
@@ -16,29 +24,46 @@ class Atom:
         self.lvl = lvl
     
     def __str__(self):
-        '''
-        Returns a string that points to the atom using its variables 'sig' and 'pos'
-        '''
+        """
+        Returns a string representation of the atom using its element symbol and position.
+    
+        Returns:
+            str: A formatted string like 'C(x, y, z)'.
+        """
         (x,y) = self.pos
         return self.sig + f'({x},{y},{self.posZ})'
 
     def setData(self, color:str='Silver', sig:str='C'):
-        '''
-        Change the color and/or sign data of the Atom.
-        color: New color
-        sig  : New sig'''
+        """
+        Updates the atom's drawing color and/or element symbol.
+    
+        Parameters:
+            color (str): New color for drawing the atom.
+            sig (str): New chemical symbol for the atom.
+        """
         self.color = color
         self.sig = sig
     
     def getPos(self):
-        '''
-        Return the position of the atom.'''
+        """
+        Returns the 2D relative position of the atom in the lattice plane.
+    
+        Returns:
+            tuple: Atom position as (x, y).
+        """
         return self.pos
         
     def clasifica(self, loa:list):
-        '''
-        Classify the Atom in a list of atoms distinguished by their sign "sig"
-        loa: Ordered list of atoms.'''
+        """
+        Classifies the atom into a grouped list based on its chemical symbol.
+    
+        Parameters:
+            loa (list): List of lists, where each sublist groups atoms of the same type.
+    
+        Returns:
+            int: 1 if the atom was added to an existing group,
+                 0 if a new group was created for it.
+        """
         if len(loa)==0:
             loa.append([self])
             return 0

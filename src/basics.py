@@ -13,14 +13,20 @@ plt.rcParams['figure.figsize'] = (8,8)
 vector2D = Tuple[float, float]
 vector3D = Tuple[float, float, float]
 m2x2 = List
-
+#print('Load Basics')
 #Funciones Básicas
 #---------------------------Funciones para Vectores---------------------------#
 def sumaV(x:vector2D, y:vector2D)->vector2D:
-    '''
-    Add the given 'x','y' vectors.
-    x:2DVector
-    y:2DVector'''
+    """
+    Computes the vector sum of two 2D vectors.
+
+    Parameters:
+        x (vector2D): First 2D vector.
+        y (vector2D): Second 2D vector.
+
+    Returns:
+        vector2D: The resulting 2D vector from the sum x + y.
+    """
     try:
         a,b = x
         c,d = y
@@ -30,10 +36,16 @@ def sumaV(x:vector2D, y:vector2D)->vector2D:
     
 
 def multV(n:float,a:vector2D)->vector2D:
-    '''
-    Multiply a vector 'a' by a constant 'n'.
-    n:constant
-    a:2DVector'''
+    """
+    Multiplies a 2D vector by a scalar.
+
+    Parameters:
+        n (float): Scalar multiplier.
+        a (vector2D): 2D vector to be scaled.
+
+    Returns:
+        vector2D: The scaled 2D vector.
+    """
     try:
         a1,a2 = a
         return (a1*n,a2*n)
@@ -41,11 +53,17 @@ def multV(n:float,a:vector2D)->vector2D:
         print(f"Error {str(e)}. Check the entries")
 
 def m2V(a:vector2D,b:vector2D,s:tuple)->vector2D:
-    '''
-    Calculate the vector resulting from adding m*a with n*b.
-    a:2DVector
-    b:2DVector
-    s:Tuple of constants (m,n)'''
+    """
+    Computes the linear combination m*a + n*b for two 2D vectors.
+
+    Parameters:
+        a (vector2D): First vector.
+        b (vector2D): Second vector.
+        s (tuple): Tuple of scalars (m, n).
+
+    Returns:
+        vector2D: Resulting vector from the linear combination.
+    """
     try:
         m,n = s
         return sumaV(multV(m,a),multV(n,b))
@@ -53,10 +71,16 @@ def m2V(a:vector2D,b:vector2D,s:tuple)->vector2D:
         print(f"Error {str(e)}. Check the entries")
 
 def rota(vect:vector2D, theta:float)->vector2D:
-    '''
-    Returns the result of rotating a vector by a given angle.
-    vect:2DVector
-    thetha:Rotation angle in degrees'''
+    """
+    Rotates a 2D vector counterclockwise by a given angle.
+
+    Parameters:
+        vect (vector2D): The vector to rotate.
+        theta (float): Angle in degrees.
+
+    Returns:
+        vector2D: The rotated vector.
+    """
     try:
         ang = math.radians(theta)
         (x,y) = vect
@@ -67,10 +91,16 @@ def rota(vect:vector2D, theta:float)->vector2D:
         print(f"Error {str(e)}. Check the entries")
 
 def dist(a:vector2D, b:vector2D)->float:
-    '''
-    Calculate the distance between 2 points projected on the plane.
-    a:Starting point
-    b:Final point'''
+    """
+    Calculates the Euclidean distance between two points in 2D.
+
+    Parameters:
+        a (vector2D): First point.
+        b (vector2D): Second point.
+
+    Returns:
+        float: Distance between points a and b.
+    """
     try:
         a1, a2 = a
         b1, b2 = b
@@ -79,19 +109,31 @@ def dist(a:vector2D, b:vector2D)->float:
         print(f"Error {str(e)}. Check the entries")
 
 def long(v:vector2D)->float:
-    '''
-    Calculate the length of a 2D vector
-    v:2DVector'''
+    """
+    Computes the magnitude (length) of a 2D vector.
+
+    Parameters:
+        v (vector2D): The vector whose magnitude is calculated.
+
+    Returns:
+        float: Magnitude of the vector.
+    """
     try:
         return dist((0,0),v)
     except Exception as e:
         print(f"Error {str(e)}. Check the entries")
 
 def cAng(u:vector2D, v:vector2D)->float:
-    '''
-    Calculate the angle formed between the vectors.
-    u:2DVector(Origin)
-    v:2DVector(Destination)'''
+    """
+    Calculates the angle in degrees between two 2D vectors.
+
+    Parameters:
+        u (vector2D): First vector.
+        v (vector2D): Second vector.
+
+    Returns:
+        float: Signed angle in degrees from u to v.
+    """
     try:
         (u1,u2),(v1,v2) = u, v
         x = ((u1*v1)+(u2*v2))/(long(u)*long(v))
@@ -102,19 +144,31 @@ def cAng(u:vector2D, v:vector2D)->float:
         print(f"Error {str(e)}. Check the entries")
 
 def cRot(v:vector2D)->float:
-    '''
-    Calculates the angle formed between a vector and the abscissa axis.
-    v:2DVector'''
+    """
+    Calculates the angle between a 2D vector and the positive x-axis.
+
+    Parameters:
+        v (vector2D): The vector.
+
+    Returns:
+        float: Signed angle in degrees from the x-axis to the vector.
+    """
     try:
         return cAng((1,0),v)
     except Exception as e:
         print(f"Error {str(e)}. Check the entries")
 
 def pC(a:vector3D, b:vector3D)->vector3D:
-    '''
-    Calculate the cross product of two vectors3D
-    a:3DVector
-    b:3DVector'''
+    """
+    Computes the cross product of two 3D vectors.
+
+    Parameters:
+        a (vector3D): First vector.
+        b (vector3D): Second vector.
+
+    Returns:
+        vector3D: The resulting vector from the cross product a × b.
+    """
     try:
         a1,a2,a3 = a
         b1,b2,b3 = b
@@ -123,11 +177,16 @@ def pC(a:vector3D, b:vector3D)->vector3D:
         print(f"Error {str(e)}. Check the entries")
 
 def pP(a:vector3D, b:vector3D)->float:
-    '''
-    a:3DVector
-    b:3DVector
-    Calculate the dot product of two 3D vectors
-    '''
+    """
+    Computes the dot product of two 3D vectors.
+
+    Parameters:
+        a (vector3D): First vector.
+        b (vector3D): Second vector.
+
+    Returns:
+        float: The scalar dot product of the vectors.
+    """
     try:
         a1,a2,a3 = a
         b1,b2,b3 = b
@@ -136,26 +195,42 @@ def pP(a:vector3D, b:vector3D)->float:
         print(f"Error {str(e)}. Check the entries")
 
 def to2D(v:vector3D)->vector2D:
-    '''
-    Returns the 2D vector resulting from projecting a 3D vector onto the plane
-    v:3DVector.
-    '''
+    """
+    Projects a 3D vector onto the 2D plane (xy-plane).
+
+    Parameters:
+        v (vector3D): The 3D vector.
+
+    Returns:
+        vector2D: The 2D projection (x, y).
+    """
     x,y,z=v
     return (x,y)
     
 def to3D(v:vector2D)->vector3D:
-    '''
-    Returns the 3D vector resulting from projecting a 2D vector onto the space
-    v:2DVector.
-    '''
+    """
+    Converts a 2D vector into a 3D vector with z = 0.
+
+    Parameters:
+        v (vector2D): The 2D vector.
+
+    Returns:
+        vector3D: The corresponding 3D vector.
+    """
     (a,b)=v
     return (a,b,0.0)
 #---------------------------Funciones para matrices---------------------------#
 def sumaM(A:m2x2,B:m2x2)->m2x2:
-    '''
-    Add the matrices A and B.
-    A:Matrix
-    B:Matrix'''
+    """
+    Computes the element-wise sum of two 2x2 matrices.
+
+    Parameters:
+        A (m2x2): First matrix.
+        B (m2x2): Second matrix.
+
+    Returns:
+        m2x2: Resulting matrix from A + B.
+    """
     try:
         C = np.array(A)+np.array(B)
         return C.tolist()
@@ -163,10 +238,16 @@ def sumaM(A:m2x2,B:m2x2)->m2x2:
         print(f"Error {str(e)}. Check the entries")
 
 def multM(c:float,M:m2x2)->m2x2:
-    '''
-    Calculates the matrix resulting from multiplying the matrix M by a constant c.
-    c:Constant
-    M:Matrix'''
+    """
+    Multiplies a 2x2 matrix by a scalar.
+
+    Parameters:
+        c (float): Scalar multiplier.
+        M (m2x2): Matrix to scale.
+
+    Returns:
+        m2x2: Scaled matrix.
+    """
     try:
         cM=c*np.array(M)
         return cM.tolist()
@@ -175,10 +256,16 @@ def multM(c:float,M:m2x2)->m2x2:
 
     
 def VtM(v1:vector2D, v2:vector2D)->m2x2:
-    '''
-    Generate a 2x2 matrix from 2 2D vectors
-    v1:2DVector
-    v2:2DVector'''
+    """
+    Constructs a 2x2 matrix from two 2D column vectors.
+
+    Parameters:
+        v1 (vector2D): First column vector.
+        v2 (vector2D): Second column vector.
+
+    Returns:
+        m2x2: 2x2 matrix with v1 and v2 as columns.
+    """
     try:
         (a1,a2), (b1,b2) = v1, v2
         return [[a1,b1],[a2,b2]]
@@ -186,9 +273,15 @@ def VtM(v1:vector2D, v2:vector2D)->m2x2:
         print(f"Error {str(e)}. Check the entries")
 
 def MtV(m:m2x2)->(vector2D, vector2D):
-    '''
-    Generate 2 2D vectors from a 2x2 Matrix
-    m:2x2Matrix'''
+    """
+    Extracts the column vectors from a 2x2 matrix.
+
+    Parameters:
+        m (m2x2): 2x2 matrix.
+
+    Returns:
+        tuple: Two 2D vectors corresponding to the matrix columns.
+    """
     try:
         [[a1,b1],[a2,b2]] = m
         return (a1,a2), (b1,b2)
@@ -196,18 +289,30 @@ def MtV(m:m2x2)->(vector2D, vector2D):
         print(f"Error {str(e)}. Check the entries")
     
 def det(m:m2x2)->float:
-    '''
-    Calculates the determinant of a 2x2 matrix t
-    m:2x2Matrix'''
+    """
+    Computes the determinant of a 2x2 matrix.
+
+    Parameters:
+        m (m2x2): 2x2 matrix.
+
+    Returns:
+        float: Determinant of the matrix.
+    """
     try:
         return (m[0][0]*m[1][1])-(m[0][1]*m[1][0])
     except Exception as e:
         print(f"Error {str(e)}. Check the entries")
 
 def inv2x2(m:m2x2)->m2x2:
-    '''
-    Calculates the inverse matrix of a 2x2 matrix m
-    m:2x2Matrix'''
+    """
+    Calculates the inverse of a 2x2 matrix.
+
+    Parameters:
+        m (m2x2): 2x2 matrix to invert.
+
+    Returns:
+        m2x2: Inverse of the matrix.
+    """
     try:
         [[a,b],[c,d]] = m
         dm = det(m)
@@ -216,10 +321,16 @@ def inv2x2(m:m2x2)->m2x2:
         print(f"Error {str(e)}. Check the entries")
 
 def m2M(m1:m2x2, m2:m2x2)->m2x2:
-    '''
-    Calculates the matrix resulting from multiplying two 2x2 matrices.
-    m1:2x2Matrix
-    m2:2x2Matrix'''
+    """
+    Computes the matrix product of two 2x2 matrices.
+
+    Parameters:
+        m1 (m2x2): First matrix.
+        m2 (m2x2): Second matrix.
+
+    Returns:
+        m2x2: Resulting matrix from m1 × m2.
+    """
     try:
         [[a,b],[c,d]] = m1
         [[x,y],[z,w]] = m2
@@ -228,11 +339,17 @@ def m2M(m1:m2x2, m2:m2x2)->m2x2:
         print(f"Error {str(e)}. Check the entries")
 
 def transfVs(u:vector2D,v:vector2D,t:m2x2)->(vector2D,vector2D):
-    '''
-    Calculates the vectors resulting from making a T transformation on the given vectors
-    u:2DVector
-    v:2DVector
-    t:2x2Matrix'''
+    """
+    Applies a linear transformation represented by a matrix to two 2D vectors.
+
+    Parameters:
+        u (vector2D): First vector.
+        v (vector2D): Second vector.
+        t (m2x2): Transformation matrix.
+
+    Returns:
+        tuple: Transformed vectors (T(u), T(v)).
+    """
     try:
         [[m,p],[n,q]] = t
         return m2V(u,v,(m,n)), m2V(u,v,(p,q))
@@ -242,13 +359,18 @@ def transfVs(u:vector2D,v:vector2D,t:m2x2)->(vector2D,vector2D):
 
 #---------------------------Funciones misceláneas-----------------------------#
 def getLim(u:vector2D, v:vector2D, m:float, n:float)->(list,list):
-    '''
-    Calculates the minimum and maximum values in "x" and "y" of the rhombus formed by m*u and n*v
-    Function used to calculate the limits of drawing space in figures.
-    u:2DVector
-    v:2DVector
-    m:Constant
-    n:Constant'''
+    """
+    Calculates the x and y limits of the rhombus defined by m*u and n*v.
+
+    Parameters:
+        u (vector2D): First 2D vector.
+        v (vector2D): Second 2D vector.
+        m (float): Scalar for vector u.
+        n (float): Scalar for vector v.
+
+    Returns:
+        tuple: Lists with x and y range limits, respectively.
+    """
     try:
         (a1,a2) = multV(m,u)
         (b1,b2) = multV(n,v)
@@ -262,13 +384,19 @@ def getLim(u:vector2D, v:vector2D, m:float, n:float)->(list,list):
         print(f"Error {str(e)}. Check the entries")
 
 def esRotacion(a:vector2D, b:vector2D, c:vector2D, d:vector2D, eps:float=0.001):
-    '''
-    Determine if the pair of vectors a,b is a rotation of the pair of vectors c,d
-    a:2DVector
-    b:2DVector
-    c:2DVector
-    d:2DVector
-    eps:Maximum acceptable error in angle'''
+    """
+    Checks if the pair (a, b) is a rotation of the pair (c, d) within a given tolerance.
+
+    Parameters:
+        a (vector2D): First vector of the first pair.
+        b (vector2D): Second vector of the first pair.
+        c (vector2D): First vector of the second pair.
+        d (vector2D): Second vector of the second pair.
+        eps (float): Maximum allowed angle difference in degrees.
+
+    Returns:
+        bool: True if rotation match is found, False otherwise.
+    """
     try:
         if abs(cAng(a,c)-cAng(b,d))<eps:
             return True
@@ -279,12 +407,18 @@ def esRotacion(a:vector2D, b:vector2D, c:vector2D, d:vector2D, eps:float=0.001):
         print(f"Error {str(e)}. Check the entries")
 
 def acomoda(x, valor, lis, tamMax):
-    '''
-    Arranges an object 'x' in the ordered list 'lis' according to its 'value' maintaining the order.
-    x     : Element that we want to enter into the list
-    valor : Value given to element 'x'
-    lis   : List we work on
-    tamMax: Maximum acceptable size for 'lis'.'''
+    """
+    Inserts element 'x' into ordered list 'lis' by its value, maintaining order and respecting max size.
+
+    Parameters:
+        x: Element to insert.
+        valor: Associated value used for ordering.
+        lis (list): Target ordered list.
+        tamMax (int): Maximum allowed length of list.
+
+    Returns:
+        list: Updated ordered list.
+    """
     try:
         if len(lis)<tamMax:
             lis.append([x,valor])
@@ -301,10 +435,15 @@ def acomoda(x, valor, lis, tamMax):
 
 #---------------Funciones auxiliares para el espacio reciproco-----------------#
 def aN(a:str)->float:
-    '''
-    Returns the atomic number of the atom corresponding to element 'a', if the given name is invalid it returns 0.5
-    a: element
-    '''
+    """
+    Returns the atomic number of a given chemical element symbol.
+
+    Parameters:
+        a (str): Element symbol (e.g., "C", "O", "Fe").
+
+    Returns:
+        float: Atomic number, or 0.5 if not found.
+    """
     elements=['H','He','Li','Be','B','C','N','O','F','Ne',
               'Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca',
               'Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn',
@@ -322,11 +461,17 @@ def aN(a:str)->float:
     return 0.5
 
 def cRecip(a:vector3D, b:vector3D, c:vector3D):
-    '''
-    Calculates the reciprocal vectors of the Network in the reciprocal space of the network formed by the vectors a,b,c in real space.
-    a:Primitive vector of lattice (3D Vector)
-    b:Primitive vector of lattice (3D Vector)
-    c:Primitive vector of lattice (3D Vector)'''
+    """
+    Calculates the reciprocal lattice vectors for a 3D lattice.
+
+    Parameters:
+        a (vector3D): First primitive vector.
+        b (vector3D): Second primitive vector.
+        c (vector3D): Third primitive vector.
+
+    Returns:
+        list: List of reciprocal lattice vectors (u, v, w).
+    """
     try:
         (a1,a2,a3) = a
         (b1,b2,b3) = b
@@ -344,14 +489,19 @@ def cRecip(a:vector3D, b:vector3D, c:vector3D):
     except Exception as e:
         print(f"Error {str(e)}. Check the entries")
 
-def buscaEsquina(m, j, e1, e2):
-    '''
-    **Auxiliary function for calVerticesFBZ.
-    Indicates the index of the 'row' of the matrix on which the operation is to be exchanged.
-    m : Matrix in which we operate
-    j : Column we are iterating
-    e1: First dimension of the current base
-    e2: Second dimension of the current base'''
+def buscaEsquina(m:list, j:int, e1:int, e2:int):
+    """
+    Finds the row index for pivot selection in matrix operations.
+
+    Parameters:
+        m (list): Matrix to analyze.
+        j (int): Current column index.
+        e1 (int): First fixed row.
+        e2 (int): Second fixed row.
+
+    Returns:
+        int: Row index with the optimal pivot value.
+    """
     try:
         ind = -1
         val = (10.0)**300
@@ -366,13 +516,18 @@ def buscaEsquina(m, j, e1, e2):
     except Exception as e:
         print(f"Error {str(e)}. Check the entries")
 
-def opera(m,e,s):
-    '''
-    ***Helper function for calcVerticesFBZ
-    Operate on the matrix to leave column 'e' with zeros except in m[s][e] where we have 1.
-    m: Matrix that we operate
-    e: Pivot cell column
-    s: Pivot cell row'''
+def opera(m:list, e:int, s:int):
+    """
+    Performs Gauss-Jordan-like elimination to pivot a matrix column.
+
+    Parameters:
+        m (list): Matrix to operate on.
+        e (int): Pivot column index.
+        s (int): Pivot row index.
+
+    Returns:
+        None
+    """
     try:
         m[s] = m[s]/(m[s][e])
         for i in range(8):
@@ -384,9 +539,15 @@ def opera(m,e,s):
 
 
 def pmat(m):
-    '''
-    Print the matrix m on the screen.
-    m:Matrix'''
+    """
+    Prints a matrix to the console with rounded formatting.
+
+    Parameters:
+        m (list): Matrix to print.
+
+    Returns:
+        None
+    """
     for i in range(len(m)):
         lin = ""
         for j in range(len(m[0])):
@@ -395,20 +556,32 @@ def pmat(m):
     print("")
     
 def checkP(x,y,err=0.001):
-    '''
-    Checks if a difference between 2 values is an integer value, with a tolerated error less than 'err'
-    x  : First value
-    y  : Second value
-    err: Error tolerated'''
+    """
+    Checks whether two numbers are approximately congruent modulo 1.
+
+    Parameters:
+        x (float): First value.
+        y (float): Second value.
+        err (float): Tolerance for difference.
+
+    Returns:
+        bool: True if difference mod 1 is less than error.
+    """
     d = abs((x%1)-(y%1))
     if d<err:
         return True
     return False
     
 def dameVecinos(rv):
-    '''
-    Returns the 8 lattice points of the reciprocal 'Lattice' space closest to the origin.
-    rv : List of vectors to work with.'''
+    """
+    Returns the 8 nearest non-origin lattice vectors in reciprocal space.
+
+    Parameters:
+        rv (list): List of reciprocal lattice vectors (3D).
+
+    Returns:
+        list: List of 2D vectors nearest to the origin.
+    """
     try:
         b1, b2 = to2D(rv[0]), to2D(rv[1])
         d1 = long(m2V(b1,b2,(1,1)))
@@ -437,10 +610,16 @@ def dameVecinos(rv):
         print(f"Error, {str(e)}. Check the entries")
 
 def califica(pos, lista):
-    '''
-    Booleanly qualifies whether a given 'pos' position is viewed from the source without being obscured by positions saved in the given list.
-    pos   : Position
-    lista : List'''
+    """
+    Evaluates whether a given position is visible from origin without being occluded by others.
+
+    Parameters:
+        pos (tuple): Current position to evaluate.
+        lista (list): List of previously selected positions.
+
+    Returns:
+        bool: True if position is not blocked, False otherwise.
+    """
     try:
         for i in range(len(lista)):
             (px,py) = pos
@@ -462,10 +641,16 @@ def califica(pos, lista):
         print(f"Error, {str(e)}. Check the entries")
     
 def calcVerticesFBZ(rv,pnt=False):
-    '''
-    Calculates the position of the border vertices of the FBZ from the lattice projected in the XY plane.
-    rv : Pair of vectors to work with.
-    pnt: Indicates whether the steps will be printed on the screen'''
+    """
+    Calculates the vertices of the First Brillouin Zone (FBZ) from a 2D projection of reciprocal lattice.
+
+    Parameters:
+        rv (list): List of 3D reciprocal lattice vectors.
+        pnt (bool): Whether to print matrix operations step-by-step.
+
+    Returns:
+        tuple: List of FBZ vertex coordinates and the working matrix.
+    """
     
     try:
         pts = []
@@ -524,13 +709,17 @@ def calcVerticesFBZ(rv,pnt=False):
         print(f"Error, {str(e)}. Check the entries")
         return pts, eq
     
-def F_G(e:str, G:vector2D):
-    '''
-    Calcula el factor de forma atómica correspondiente al átomo 'e' con el vector de dispersión G.
-    Parámetros:
-    e (Str):Identificador del átomo a evaluar (Atom.sig)
-    G (2D vector): vector de dispersión correspondiente.
-    '''
+def F_G(e:str, G):
+    """
+    Computes the atomic form factor f(G) for a given element and scattering vector G.
+    
+    Parameters:
+        e (str): Atomic symbol (e.g., "C", "Fe", "O").
+        G (array): Scattering vector.
+    
+    Returns:
+        float: Atomic form factor f(G).
+    """
     elemList=['H','H1-','He','Li','Li1+','Be','Be2+','B','C','Cval','N',
               'O','O1-','F','F1-','Ne','Na','Na1+','Mg','Mg2+','Al','Al3+',
               'Siv','Sival','Si4+','P','S','Cl','Cl1-','Ar','K','K1+','Ca',
@@ -767,7 +956,7 @@ def F_G(e:str, G:vector2D):
         ev = elemVals[elemList.index(e)]
     else:
         ev = elemVals[0]
-    nG = ((long(G)/(math.pi*2))/4*math.pi)**2
+    nG = ((np.linalg.norm(G)/(math.pi*2))/4*math.pi)**2
     if nG==0:
         return 0.01
     a = [ev[0],ev[2],ev[4],ev[6]]
@@ -779,13 +968,18 @@ def F_G(e:str, G:vector2D):
     return f+c
 
 def reciprocalBackgroundMesh_original(rv,vl,t,b):
-    '''
-    Calculate the Network points of the reciprocal network and the network formed by their FBZs.
-    Returns 2 lists with the X and Y positions of the points and a 'collection' of lines used by 'Polygon' to load a polygon on the screen using the 'add_patch' function.
-    rv : Network for which the operation is carried out
-    vl : Vertices of the FBZ associated with this network
-    t  : Size with which the lines will be painted.
-    b  : '''
+    """
+    Constructs a mesh of reciprocal lattice points and their FBZ boundaries for plotting.
+
+    Parameters:
+        rv (list): Reciprocal lattice basis vectors.
+        vl (list): FBZ vertex list.
+        t (float): Line width scaling factor.
+        b: Parameter defining plotting range or density.
+
+    Returns:
+        tuple: Arrays of x, y coordinates and a LineCollection object.
+    """
     try:
         xs = []
         ys = []
@@ -815,6 +1009,12 @@ def reciprocalBackgroundMesh_original(rv,vl,t,b):
         print(f"Error, {str(e)}. Check the entries")
 
 def bereiten():
+    """
+    Prepares Matplotlib with default style and figure settings for Nook'iin.
+    
+    Returns:
+    None
+    """
     plt.style.use('default')
     plt.rcParams['figure.figsize'] = (8,8)
     print("Nook'iin Ready-to-work")

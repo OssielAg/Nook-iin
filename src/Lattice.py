@@ -6,6 +6,7 @@ affList = List[Tuple[str, float, float, float,vector2D]]
 bgmData = Tuple[np.ndarray, np.ndarray, np.ndarray, mc.LineCollection]
 plt.style.use('default')
 plt.rcParams['figure.figsize'] = (8,8)
+#print('Load Lattice')
 
 class Lattice:
     '''Class that models a crystal lattice in the system.'''
@@ -17,17 +18,18 @@ class Lattice:
                  name:str='',
                  detachment:float=10.0,
                  prof:int=1):
-        '''
-        Initializes a Network with the vectors, its rotation, list of Atoms, list
-        of its Links, Name and level it occupies in the stacking.
-        detachment: Width of the sheet
-        name      : Network Name
-        vA        : Vector A (with rotation set)
-        vB        : Vector B (with rotation set)
-        prof      : Position in the stack of lattices if it belongs to a stacked system.
-        atms      : List of atoms in the atomic basis
-        enls      : List of links in Primitive cell
-        '''
+        """
+        Initializes a Lattice object with its generating vectors, atoms, links and other metadata.
+    
+        Parameters:
+            vA (vector2D): First primitive vector.
+            vB (vector2D): Second primitive vector.
+            atms (atomList): List of atoms in the unit cell.
+            enls (List[vector2D]): List of links in the primitive cell.
+            name (str): Name of the lattice.
+            detachment (float): Width of the lattice sheet (for spacing or visual separation).
+            prof (int): Depth or stacking level in multilayer structures.
+        """
         try:
             plt.rcParams['figure.figsize'] = (8,8)
             loas = []
@@ -59,7 +61,9 @@ class Lattice:
             #List of atoms in the atomic base classified by family
             self.atms = loas
             #Factores de forma atómica
-            self.aff = self.loAtms()
+            self.aff = None
+            #Datos del Patrón de difracción
+            self.diffractionData = None
             #Name of Lattice
             if name=='':
                 self.name = "Lattice({:.3f}°)".format(self.inAngle)
@@ -69,12 +73,18 @@ class Lattice:
             print(f"Error:{str(e)}.")
     
     def __str__(self):
+        """
+        Returns a string representation of the Lattice using the POSCAR format.
+        """
         return self.showData()
     
     def get_pv(self)->(vector2D,vector2D):
-        '''
-        Return the primitive vectors of the network
-        '''
+        """
+        Returns the primitive vectors of the lattice.
+    
+        Returns:
+            tuple: Vectors a and b as defined for the lattice.
+        """
         return self.a, self.b
     
     def showme(self,
@@ -86,23 +96,19 @@ class Lattice:
                iName:str = '',
                sampling:bool = False,
                scalePosL:bool = True):
-        '''
-        Displays on the screen the image resulting from repeating the unit cell of the
-        Network from 'x0' to 'x' times in its vector 'a' and from 'y0' to 'y' times in
-        its vector 'b'. If a iName is given a PNG image with that name will be generated.
-        
-        x        : Maximum repetition rate with respect to the vector a
-        y        : Maximum repetition rate with respect to vector b
-        x0       : Initial index for repetitions with respect to the vector a
-        y0       : Initial index for repetitions with respect to vector b
-        t        : Stroke thickness
-        iName    : If it is different from '', an image file with this name will be
-                   created inthe 'Images' folder.
-        sampling : If it is True, a 3x3 representation of the primitive cell will be
-                   drawn on the screen, showing the primitive vectors.
-        scalePosL: If True, the scale bar will be displayed on the left; otherwise, it
-                   will be on the right.
-        '''
+        """
+        Displays a visual representation of the lattice over a specified region.
+    
+        Parameters:
+            x (int): Maximum repetitions along vector a.
+            y (int): Maximum repetitions along vector b.
+            x0 (int): Initial index along vector a.
+            y0 (int): Initial index along vector b.
+            t (int): Stroke thickness.
+            iName (str): If provided, image is saved under this name.
+            sampling (bool): If True, includes a sample of the unit cell and primitive vectors.
+            scalePosL (bool): If True, shows scale bar on the left; otherwise on the right.
+        """
         try:
             red=[]
             lx1,ly1 = getLim(self.a,self.b,x,y)
@@ -220,12 +226,12 @@ class Lattice:
             print(f"Error:{str(e)}.")
             
     def showPC(self, iName:str=''):
-        '''
-        Create an image of the primitive cell by drawing its respective primitive
-        vectors. If iName is different from '', an image file with this name will be
-        created in the 'Images' folder.
-        iName: Name of image file
-        '''
+        """
+        Displays or saves an image of the primitive cell of the lattice.
+    
+        Parameters:
+            iName (str): Name of the output image file (saved if non-empty).
+        """
         self.showme(sampling=True, iName=iName)
     
     def addAtms(self, loa:atomList):
@@ -267,27 +273,32 @@ class Lattice:
         return data
     
     def aligned(self):
-        '''
-        Align the Lattice with the X axis.
-        '''
+        """
+        Aligns the lattice with respect to the X axis by rotating it accordingly.
+        """
         self.a = self.OriginalA
         self.b = self.OriginalB
         self.theta = 0.0
         
     def rotate(self, th:float):
-        '''
-        Rotate the Network as it is th degrees.
-        th: Rotation angle
-        '''
+        """
+        Rotates the lattice by a specified angle.
+    
+        Parameters:
+            th (float): Rotation angle in degrees.
+        """
         newTheta = self.theta + th
         self.a = rota(self.OriginalA,newTheta)
         self.b = rota(self.OriginalB,newTheta)
         self.theta = newTheta
     
     def alignedLattice(self):
-        '''
-        Returns a copy of the Lattice aligned to the X axis.
-        ''' 
+        """
+        Returns a copy of the lattice aligned to the X axis.
+    
+        Returns:
+            Lattice: A new aligned lattice object.
+        """
         na, nb = self.OriginalA, self.OriginalB
         natms, nenls = self.atms.copy(), self.enls.copy()
         nName = self.name+"(aligned)"
@@ -297,10 +308,15 @@ class Lattice:
         return mr
     
     def mRot(self, ang:float):
-        '''
-        Returns a copy of the Network rotated in "ang" degrees.
-        ang: Degrees of given rotation.
-        ''' 
+        """
+        Returns a rotated copy of the lattice.
+    
+        Parameters:
+            ang (float): Angle in degrees to rotate the lattice.
+    
+        Returns:
+            Lattice: A new lattice object with the applied rotation.
+        """
         na, nb = rota(self.a,ang), rota(self.b,ang)
         natms, nenls = copy.deepcopy(self.atms), copy.deepcopy(self.enls)
         nName = self.name+"({:.2f}°)".format(ang)
@@ -311,11 +327,12 @@ class Lattice:
         return mr
     
     def exportLattice(self, name:str=''):
-        '''
-        Export the network to a POSRCAR file.
-        If a name is not given, use the network name.
-        name: Name for the file to export the lattice to.
-        '''
+        """
+        Exports the lattice configuration to a POSCAR-format file.
+    
+        Parameters:
+            name (str): Optional filename; uses lattice name if not provided.
+        """
         try:
             if name=='':
                 name=self.name
@@ -333,11 +350,13 @@ class Lattice:
             return 0
     
     def setNewVectors(self, newA:vector2D, newB:vector2D):
-        '''
-        Establishes new generating Vectors for the Network.
-        newA: New vector a
-        newB: New vector b
-        '''
+        """
+        Replaces the generating vectors of the lattice.
+    
+        Parameters:
+            newA (vector2D): New vector a.
+            newB (vector2D): New vector b.
+        """
         try:
             th = cAng((1,0),newA)
             self.theta = th
@@ -354,56 +373,79 @@ class Lattice:
             print(f"Error:{str(e)}.")
         
     def getVectors(self)->(vector2D,vector2D):
-        '''
-        Return the Generating Vectors a,b of the Network (With rotated lattice)
-        '''
+        """
+        Returns the current (possibly rotated) lattice vectors.
+    
+        Returns:
+            tuple: Rotated lattice vectors a and b.
+        """
         return self.a, self.b
     
     def getOV(self)->(vector2D,vector2D):
-        '''
-        Return the Generating Vectors a,b of the Network (With lattice aligned with
-        the abscissa axis).
-        '''
+        """
+        Returns the original unrotated generating vectors of the lattice.
+    
+        Returns:
+            tuple: Original vectors a and b.
+        """
         return self.OriginalA, self.OriginalB
     
     def nOAtms(self)->int:
-        '''
-        Returns the number of atoms in the minimum cell of the lattice
-        '''
+        """
+        Returns the number of atoms in the unit cell.
+    
+        Returns:
+            int: Number of atoms in the atomic basis.
+        """
         noa = 0
         for loa in self.atms:
             noa = noa + len(loa)
         return noa
     
     def loAtms(self)->affList:
-        '''
-        Generate a list with the data required to calculate the atomic form factor for
-        each atom in the atomic basis of the lattice. Each element of the list contains
-        the following data for each atom:
-          -sig(element identifier)
-          -relative position x
-          -relative position y
-          -relative position z
-          -position of the atom in the real plane.
-        '''
+        """
+        Returns atomic form factor data for each atom in the basis.
+    
+        Each entry includes:
+            - Atomic symbol
+            - Fractional position x
+            - Fractional position y
+            - Fractional position z
+            - Position in real 2D space
+            - Position in real 3D space
+    
+        Returns:
+            affList: List of atomic scattering data.
+        """
         nl = []
+        #print(f'Primitive Vectors: a={self.a}, b={self.b},|c|={self.detachment}---')
         for esp in self.atms:
             s = esp[0].sig
+            #print(f'\tEspecie atómica: {s}')
             for a in esp:
                 (x,y) = a.pos
-                v = m2V(self.a,self.b,(x,y))
-                nl.append([s,x,y,a.posZ,v])
+                z = a.posZ
+                (px,py) = v2D = m2V(self.a,self.b,(x,y))
+                v3D = [px,py,z*self.detachment]
+                nl.append([s,x,y,a.posZ,v2D,v3D])
+                #print(f'Átomo en ({x},{y},{a.posZ})->{v3D}')
+        self.aff = nl
         return nl
 
     def F_hkl(self,h:float, k:float, FG:bool=True):
-        '''
-        Calculate the structure factor of the point [h,k,l].
-        h: h position of the calculated point
-        k: k position of the calculated point
-        l: l position of the calculated point
-        FG: If true, the scattering vector is considered; if false, it is not considered.
-        '''
+        """
+        Calculates the structure factor F(h, k) for the specified reciprocal point.
+    
+        Parameters:
+            h (float): Index along reciprocal vector a*.
+            k (float): Index along reciprocal vector b*.
+            FG (bool): Whether to apply atomic form factor.
+    
+        Returns:
+            float: Structure factor at (h, k)**2.
+        """
         if h==0 and k==0: return 10**(-20)#Da un valor cercano a 0 al punto en el origen
+        if self.aff is None: self.aff = self.loAtms()
         AB = self.aff
         u,v = self.get_pv()
         rvs = self.reciprocalVectors
@@ -414,7 +456,7 @@ class Lattice:
         if FG:
             for atm in AB:
                 pa = atm[4]
-                s = F_G(atm[0],hk)*cmath.exp(-1j * (pP(to3D(hk),to3D(pa))))
+                s = F_G(atm[0],hk)*np.exp(-1j * (pP(to3D(hk),to3D(pa))))
                 F+=s
         else:
             for atm in AB:
@@ -422,6 +464,7 @@ class Lattice:
                 s = aN(atm[0])*cmath.exp(-1j * (pP(to3D(hk),to3D(pa))))
                 F+=s
         return abs(F)**2
+
 
     def reciprocalBackgroundMesh(self,
                                  vl:recpVectrs,
@@ -431,19 +474,22 @@ class Lattice:
                                  rnd:int=25,
                                  FG=True)->bgmData:
         '''
-        Calculate the Network points of the reciprocal network and the network formed
-        by their FBZs. Returns 2 lists with the X and Y positions of the points and a
-        'collection' of lines used by 'Polygon' to load a polygon on the screen using
-        the 'add_patch' function.
-        vl    : Vertices of the FBZ associated with the lattice
-        t     : Size with which the lines will be painted.
-        border: Indicates the size of the area to be drawn  
-        calcS : If True, the structure factor of each point is calculated and stored
-                in the list S  
-        rng   : Determines the number of digits to which the structure factor value of
-                each point will be rounded  
-        FG    : If True, the scattering vector is considered when calculating the
-                structure factor'''
+        Compute reciprocal lattice points and their structure factors, considering Z position (l index).
+    
+        Parameters:
+        - vl: Vertices of the FBZ associated with the lattice
+        - t: Thickness of the lines drawn (for visualization)
+        - border: Size of the area to be drawn
+        - calcS: If True, calculates the structure factor for each point
+        - rnd: Number of decimal digits for rounding normalized structure factor
+        - FG: If True, includes scattering vector in calculation
+    
+        Returns:
+        - xs: X positions of reciprocal points
+        - ys: Y positions of reciprocal points
+        - Sn: Normalized structure factor values
+        - linkList: LineCollection of FBZ edges
+        '''
         try:
             b = border
             xs = []
@@ -488,24 +534,22 @@ class Lattice:
         except Exception as e:
             print(f"Error, {str(e)}. Check the entries")
 
-
     def printReciprocalSpace(self,
                              t:float=10,
                              border:float=2.5,
                              prnt:bool=False,
                              zoom:bool=False,
                              colors:list=[]):
-        '''
-        Prints on the screen the FBZ of the lattice in reciprocal space. If this
-        network belongs to a multilayer system, it also prints the FBZ of each layer.
-        t     : Value with which the sizes with which points and lines will be drawn
-                will be determined.
-        border: Limits of the drawn graph.
-        prnt  : If True, save the image in a file with the name of the lattice.
-        zoom  : If True, only generate the image in the first quadrant of the space
-                with the given border.
-        colors: List of colors for the FBZ images of each layer of the system.
-        '''
+        """
+        Plots the FBZ of the lattice and optionally of other layers in a multilayer system.
+    
+        Parameters:
+            t (float): Line and point thickness.
+            border (float): Plotting boundary limit.
+            prnt (bool): If True, saves image with the lattice name.
+            zoom (bool): If True, plots only the first quadrant.
+            colors (list): Colors to use for each layer's FBZ.
+        """
         try:
             lol = self.layerList
             alph = 0.7
@@ -542,9 +586,16 @@ class Lattice:
         except Exception as e:
             print(f"Error:{str(e)}.")
     
-    def printLightPoints(self, t=20, border=1,prnt=False,rnd=25):
-        '''
-        '''
+    def printLightPoints(self, t=5, border=1.5,prnt=False,rnd=25):
+        """
+        Plots the diffraction pattern (light points) of the lattice.
+    
+        Parameters:
+            t (int): Thickness of points.
+            border (float): Plotting boundary size.
+            prnt (bool): If True, saves the plot.
+            rnd (int): Rounding for normalized intensity.
+        """
         try:
             plt.style.use('dark_background')
             plt.rcParams['figure.figsize'] = (8,8)
@@ -554,6 +605,7 @@ class Lattice:
             xs, ys, S, linkList = self.reciprocalBackgroundMesh(vl,t,border*(2*math.pi),calcS=True,rnd=rnd)
             xs=xs/(2*math.pi)
             ys=ys/(2*math.pi)
+            self.diffractionData = np.stack((xs, ys, S), axis=-1)
             S =S*(t*100)
             ax.scatter(xs,ys, color='white',s=S)#"Pintamos" los Puntos de la red reciproca calculados previamente 
             ax.set(xlim=(-border,border), ylim=(-border,border))
@@ -574,28 +626,25 @@ class Lattice:
             print(f"Error:{str(e)}.")
             
     def dInfo(self,D,p=False):
-        '''
-        Calculate the changes that occur to the lattice vectors when the
-        deformation given by the deformation matrix 'D' is applied to it.
-        If the flag 'p'=True, then display the result on the screen.
-        The result is provided in a list where you have:
-            -New vector a
-            -New vector b
-            -Change in the norm of a
-            -Change in the norm of b
-            -Change in the direction of a
-            -Change in the direction of b
-        D : Deformation matrix
-        p : Flag to print results
-        '''
+        """
+        Computes the effect of a deformation matrix on the lattice vectors.
+    
+        Parameters:
+            D: 2x2 deformation matrix.
+            p (bool): If True, prints deformation information.
+    
+        Returns:
+            list: Transformed vectors and their geometric changes:
+                  [a', b', |a'|/|a|, |b'|/|b|, angle_change_a, angle_change_b]
+        """
         a,b = self.get_pv()
         Vo = m2M(VtM(a,b),D)
         (ax,ay),(bx,by) = a_o, b_o = MtV(Vo)
         d_a, d_b = 1-(long(a_o)/long(a)), 1-(long(b_o)/long(b))
         t_a, t_b = cAng(a,a_o), cAng(b,b_o)
         if p:
-            m = '''Efectos de la deformación sobre '{}':
-        Nuevos PVs: a=({:.4f},{:.4f}), b=({:.4f},{:.4f})
+            m = '''Effects of deformation on '{}':
+        News PVs: a=({:.4f},{:.4f}), b=({:.4f},{:.4f})
         DeltaA:{:+}%\tThetaA:{:.3f}°
         DeltaB:{:+}%\tThetaB:{:.3f}°
         '''.format(self.name,ax,ay,bx,by,round(d_a*100,4),t_a,round(d_b*100,4),t_b)
@@ -603,6 +652,12 @@ class Lattice:
         return [a_o,b_o,d_a,d_b,t_a,t_b]
     
     def cloneLattice(self):
+        """
+        Creates a deep copy of the lattice object, including atoms, links, layers, and metadata.
+    
+        Returns:
+            Lattice: A cloned instance of the lattice.
+        """
         clone = Lattice(self.a,self.b)
         #Position in the stack of lattices if it belongs to a stacked system.
         clone.prof = self.prof
@@ -622,10 +677,12 @@ class Lattice:
         return clone
     
     def deformLattice(self,D):
-        '''
-        Deform the lattice according to the given deformation matrix.
-        D : Deformation matrix to execute
-        '''
+        """
+        Applies a deformation matrix to the lattice vectors.
+    
+        Parameters:
+            D: 2x2 matrix representing the deformation transformation.
+        """
         inf = self.dInfo(D,p=True)
         a_o, b_o = inf[0], inf[1]
         self.name+="'"
