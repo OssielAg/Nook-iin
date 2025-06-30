@@ -1,6 +1,6 @@
 # **Nook'iin**  
 
-## English | [Español](#spanish)
+## English | [Español](#español)
 **Primitive cell & commensurate supercell generation for multilayer 2D heterostructures**
 
 ---
@@ -59,8 +59,28 @@ Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nook
 - Required: `numpy`, `matplotlib`
 
 ---
+### 5. Citing Nook’iin
 
-### 5. Contributing  
+If you use **Nook’iin** in your research, please cite it appropriately to support ongoing development and ensure reproducibility.  
+
+### 📌 Recommended citation:
+```bibtex
+@software{Nookiin2025,
+  author       = {Ossiel Aguilar-Spindola and Francisco Sánchez-Ochoa},
+  title        = {{Nook’iin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
+  version      = {v1.7.0},
+  date         = {2025-06-20},
+  url          = {https://github.com/OssielAg/Nook-iin},
+}
+```
+Suggested sentence for citation in publications:
+“The commensurate primitive cell was generated using the Nook’iin code.”
+
+For further citation metadata, see the [CITATION file](/CITATION.cff).
+
+---
+
+### 6. Contributing  
 We welcome your contributions!  
 1. Open an issue or discussion.  
 2. Fork the repository and create a feature branch.  
@@ -68,12 +88,12 @@ We welcome your contributions!
 
 ---
 
-### 6. License  
+### 7. License  
 This software is distributed under the **GNU General Public License (GNU GPL)**, allowing use, modification, and distribution under the same licensing terms. For more information, see the `LICENSE` file in this repository.  
 
 ---
 
-### 7. Contact  
+### 8. Contact  
 **Nook'iin** was created by **Ossiel Aguilar-Spíndola**.  
 - **Contact email:** OssielAE@ciencias.unam.mx  
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
@@ -86,7 +106,7 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 ---
 ---
 
-## Spanish
+## Español
 ---
 
 ### 1. Descripción  
@@ -135,8 +155,28 @@ Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran
 - Requiere: `numpy`, `matplotlib`
 
 ---
+### 5. Citando a Nook'iin
 
-### 5. Contribución  
+Si utilizas **Nook'iin** en tu trabajo de investigación, por favor cítalo adecuadamente para apoyar su desarrollo continuo y garantizar la reproducibilidad.  
+
+### 📌 Citación recomendada:
+```bibtex
+@software{Nookiin2025,
+  author       = {Ossiel Agustín y Francisco Sánchez},
+  title        = {{Nook’iin}:Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
+  version      = {v1.7.0},
+  date         = {2025-06-20},
+  url          = {https://github.com/OssielAg/Nook-iin},
+}
+```
+Frase sugerida para incluir en publicaciones:
+“La celda primitiva conmensurable fue generada utilizando el código Nook’iin.”
+
+Para más información sobre la citación, consulta el archivo [CITATION](/CITATION.cff).
+
+---
+
+### 6. Contribución  
 Tu participación es bienvenida:  
 1. Abre un _issue_ o discusión.  
 2. Crea una rama en tu fork.  
@@ -144,12 +184,12 @@ Tu participación es bienvenida:
 
 ---
 
-### 6. Licencia  
+### 7. Licencia  
 Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**, lo que permite su uso, modificación y distribución bajo las mismas condiciones de licencia. Para más información, consulta el archivo [`LICENSE`](LICENSE) en este repositorio.
 
 ---
 
-### 7. Contacto  
+### 8. Contacto  
 **Nook'iin** fue creado por **Ossiel Aguilar-Spíndola**.  
 - **Correo de contacto:** OssielAE@ciencias.unam.mx  
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
