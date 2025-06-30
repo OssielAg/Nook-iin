@@ -1,25 +1,20 @@
+# **Nook'iin**  
 
-# 🧩 Nook’iin  
+## English | [Español](#spanish)
 **Primitive cell & commensurate supercell generation for multilayer 2D heterostructures**
 
 ---
 
-## 📘 Contents  
-1. [Description](#description)  
-2. [Installation](#installation)  
-3. [Usage](#usage)  
-4. [Examples](#examples)  
-5. [Requirements](#requirements)  
-6. [Contributing](#contributing)  
-7. [License](#license)  
-8. [Contact](#contact)
-
----
-
-## 1. Description  
+### 1. Description  
 **Nook’iin** is a Python-based software designed to construct primitive and commensurate cells for multilayer 2D heterostructures, with support for arbitrary relative orientations and Bravais lattices.
 
-### Key Features  
+#### **Main Features**  
+- **Primitive Cell Calculation:** Identifies the smallest primitive cells for multilayer two-dimensional structures.  
+- **Reciprocal Space:** Generates reciprocal space representations and theoretical diffraction patterns for the analyzed systems.  
+- **Compatibility and Flexibility:** Designed to work with complex geometrical configurations in multilayer systems with different Bravais lattices, lattice constants, orientations, and number of layers. Results are compatible with crystallography software that supports POSCAR format files.  
+
+
+#### Key Features  
 - ✔️ Supports *n*-layer twisted or non-twisted structures  
 - ✔️ Geometrical and symmetry-based algorithms with strain control  
 - ✔️ Reciprocal space representation and primitive cell reduction  
@@ -27,57 +22,45 @@
 
 ---
 
-## 2. Installation  
-Clone the repository and install the required packages:
-```bash
-git clone https://github.com/OssielAg/Nook-iin.git
-cd Nook-iin
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+### 2. Installation  
+To get started with **Nook'inn**, follow these instructions:
 
-Or install directly from PyPI (if available):
-```bash
-pip install nookiin
-```
+#### Importing the software in Python
 
----
+To use **Nook'inn** in a Python script, import all components from the `Nook-iin/src/System.py` file.
 
-## 3. Usage  
-### CLI mode (interactive interface)
-```bash
-python Interface.py
-```
+If you are creating your Python script in the root directory of the *Nook'inn* project, you should use the following line:
 
-### Programmatic usage (example)
 ```python
-from src.System import System
-
-sys = System(layers=[...])
-sys.find_commensurate_cell(max_n=20, tol=1e-2)
-sys.export_poscar('Supercell.vasp')
+from src.System import *
 ```
+This will load all essential modules needed to construct and analyze 2D multilayer systems.
+
+#### Detailed Usage Guides
+For a complete technical overview and usage instructions, refer to the following files included in this repository:
+- [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Provides detailed technical documentation and methodology.
+- [Interface_Guide.md](/Interface_Guide/Interface_Guide.md) → Offers a step-by-step explanation of the console-guided interface.
+
+These documents provide in-depth guidance on software functionalities and best practices.
 
 ---
 
-## 4. Examples  
-Some use cases:  
-- Twisted bilayer graphene (~3.15°) with reduced supercell size  
-- Quasicrystalline tBLG approximation at 30°  
-- Moiré pattern modulation by strain  
-Explore the `examples/` folder for ready-to-run demos and Jupyter notebooks.
+### 3. Examples  
+Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nook’iin’s capabilities:
+- [Full Workflow Example](/Examples/English/01_Complete_Example.ipynb): Step-by-step guide through a typical Nook’iin workflow — from system definition to reciprocal space visualization and diffraction pattern generation. Ideal as an introduction.
+- [Twisted Bilayer Graphene](/Examples/English/02_Example_tBLG.ipynb):Generation of primitive cells for bilayer graphene with incommensurate twist angles: 2.54°, 5.63°, 14.21°, 16.18°, and 23.85°.
+- [Multilayer Heterostructures](/Examples/English/03_Example_Heterostructure.ipynb): Construction of primitive cells for theoretical multilayer systems (e.g., β-GeSe, CdS, hBN, WS₂, WSe₂, black phosphorene), with strain constraints and diffraction pattern analysis.
+- [Angular Interval Search](/Examples/English/04_Example_Results_AngleInterval.ipynb): Search for commensurate primitive cells across a range of twist angles in a bilayer system, with controlled strain. Useful for studying moiré physics, band modulation, and angle-dependent properties.
 
 ---
 
-## 5. Requirements  
+### 4. Requirements  
 - Python ≥3.6  
-- Required: `numpy`, `scipy`, `matplotlib`  
-- Optional (recommended): `spglib`, `ase`, `pymatgen`
+- Required: `numpy`, `matplotlib`
 
 ---
 
-## 6. Contributing  
+### 5. Contributing  
 We welcome your contributions!  
 1. Open an issue or discussion.  
 2. Fork the repository and create a feature branch.  
@@ -85,44 +68,31 @@ We welcome your contributions!
 
 ---
 
-## 7. License  
-This project is licensed under the MIT License. See `LICENSE.md` for details.
+### 6. License  
+This software is distributed under the **GNU General Public License (GNU GPL)**, allowing use, modification, and distribution under the same licensing terms. For more information, see the `LICENSE` file in this repository.  
 
 ---
 
-## 8. Contact  
-**Main developer**: Ossiel Aguilar  
-📧 Email: [your_email@example.com](mailto:your_email@example.com)
-
+### 7. Contact  
+**Nook'iin** was created by **Ossiel Aguilar-Spíndola**.  
+- **Contact email:** OssielAE@ciencias.unam.mx  
+- **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 ---
 
-## 📚 Acknowledgments  
+### 📚 Acknowledgments  
 - Developed under supervision of Francisco Sánchez  
 - Inspired by tools like BandUP, CellMatch, and SuperCell  
 
 ---
-
-# 🧩 Nook’iin  
-**Generación de celdas primitivas y superceldas conmensurables para heteroestructuras 2D multicapa**
-
 ---
 
-## 📘 Contenido  
-1. [Descripción](#descripción)  
-2. [Instalación](#instalación)  
-3. [Uso](#uso)  
-4. [Ejemplos](#ejemplos)  
-5. [Requisitos](#requisitos)  
-6. [Contribución](#contribución)  
-7. [Licencia](#licencia)  
-8. [Contacto](#contacto)
-
+## Spanish
 ---
 
-## 1. Descripción  
+### 1. Descripción  
 **Nook’iin** es un software en Python para la construcción de celdas primitivas y superceldas conmensurables en heteroestructuras 2D multicapa, permitiendo orientaciones relativas y tipos de red de Bravais arbitrarios.
 
-### Características principales  
+#### Características principales  
 - ✔️ Compatible con sistemas multicapa con o sin torsión  
 - ✔️ Algoritmos geométricos con control de deformación  
 - ✔️ Representación en espacio recíproco y reducción estructural  
@@ -130,57 +100,43 @@ This project is licensed under the MIT License. See `LICENSE.md` for details.
 
 ---
 
-## 2. Instalación  
-Clona el repositorio e instala los paquetes requeridos:
-```bash
-git clone https://github.com/OssielAg/Nook-iin.git
-cd Nook-iin
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+### 2. Instalación  
+Para comenzar a utilizar **Nook'inn**, sigue estas instrucciones:
 
-También puedes instalarlo desde PyPI (si se publica):
-```bash
-pip install nookiin
-```
+#### Importar el software en Python
+Para utilizar **Nook'inn** en un script de Python, importa todos los componentes desde el archivo `Nook-iin/src/System.py`.
+Si estás creando el script de Python en la raíz del proyecto *Nook'inn*, debes escribir la siguiente línea:
 
----
-
-## 3. Uso  
-### Modo interactivo
-```bash
-python Interface.py
-```
-
-### Uso programático
 ```python
-from src.System import System
-
-sys = System(layers=[...])
-sys.find_commensurate_cell(max_n=20, tol=1e-2)
-sys.export_poscar('Supercelda.vasp')
+from src.System import *
 ```
+Esto cargará todos los módulos esenciales para la construcción y análisis de sistemas multicapa 2D.
+
+#### Guías de uso detalladas.
+Para obtener una explicación más completa sobre la metodología y el funcionamiento del software, consulta los siguientes documentos incluidos en este repositorio:
+- [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Contiene documentación técnica detallada y metodología.
+- [Guia_de_interfaz.md](/Interface_Guide/Guia_de_interfaz.md) → Explica paso a paso el uso de la interfaz guiada por consola.
+
+Estos documentos proporcionan orientación detallada sobre las funcionalidades del software y mejores prácticas de uso.
 
 ---
 
-## 4. Ejemplos  
-Algunos casos de uso:  
-- Bicapa de grafeno rotado (~3.15°) con reducción de tamaño  
-- Aproximación cuasicristalina para tBLG a 30°  
-- Modulación de moiré mediante tensión  
-Consulta la carpeta `examples/` para scripts y notebooks.
+### 3. Ejemplos 
+Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran las capacidades de Nook’iin:
+- [Ejemplo Completo de Uso](/Examples/Español/01_Ejemplo_Completo.ipynb): Guía paso a paso que cubre el flujo completo de trabajo: desde la definición del sistema hasta la visualización del espacio recíproco y el patrón de difracción. Ideal como introducción.
+- [Grafeno Bicapas Retorcidas](/Examples/Español/02_Ejemplo_tBLG.ipynb): Cálculo de celdas primitivas para grafeno bicapa con ángulos de rotación incomensurables: 2.54°, 5.63°, 14.21°, 16.18° y 23.85°.
+- [Heteroestructuras Multicapa](/Examples/Español/03_Ejemplo_Heteroestructura.ipynb): Construcción de celdas primitivas para sistemas teóricos multicapa (ej. β-GeSe, CdS, hBN, WS₂, WSe₂, fosforeno), respetando límites de deformación y mostrando el patrón de difracción.
+- [Búsqueda en Intervalo Angular](/Examples/Español/04_Ejemplo_Resultados_IntervaloAngular.ipynb): Exploración de celdas primitivas compatibles para un sistema bicapa dentro de un intervalo de ángulos, manteniendo la deformación bajo un umbral. Útil en el estudio de moiré, diseño de bandas y propiedades angulares.
 
 ---
 
-## 5. Requisitos  
+### 4. Requisitos  
 - Python ≥3.6  
-- Requiere: `numpy`, `scipy`, `matplotlib`  
-- Opcionales (recomendados): `spglib`, `ase`, `pymatgen`
+- Requiere: `numpy`, `matplotlib`
 
 ---
 
-## 6. Contribución  
+### 5. Contribución  
 Tu participación es bienvenida:  
 1. Abre un _issue_ o discusión.  
 2. Crea una rama en tu fork.  
@@ -188,17 +144,18 @@ Tu participación es bienvenida:
 
 ---
 
-## 7. Licencia  
-Este proyecto está bajo la licencia MIT. Consulta `LICENSE.md`.
+### 6. Licencia  
+Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**, lo que permite su uso, modificación y distribución bajo las mismas condiciones de licencia. Para más información, consulta el archivo [`LICENSE`](LICENSE) en este repositorio.
 
 ---
 
-## 8. Contacto  
-**Desarrollador principal**: Ossiel Aguilar  
-📧 Email: [your_email@example.com](mailto:your_email@example.com)
+### 7. Contacto  
+**Nook'iin** fue creado por **Ossiel Aguilar-Spíndola**.  
+- **Correo de contacto:** OssielAE@ciencias.unam.mx  
+- **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
 ---
 
-## 📚 Créditos  
+### 📚 Créditos  
 - Desarrollado bajo la supervisión de Francisco Sánchez  
 - Inspirado por herramientas como BandUP, CellMatch y SuperCell  
