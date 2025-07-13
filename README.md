@@ -97,14 +97,14 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 
 This section lists the scientific articles and conference papers directly related to the development, implementation, and capabilities of **Nook’iin**.
 
-- [1](https://doi.org/10.1039/D5CP00337G) Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
-- [2] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nook’iin: Software para la construcción de heteroestructuras 3D multicapa*, *(in preparation)*.
+- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nook’iin: Software para la construcción de heteroestructuras 3D multicapa*, *(in preparation)*.
+- [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 
 ## 9. Publications Utilizing Nook’iin
 
 Below are peer-reviewed works, theses, or preprints from independent research groups that use **Nook’iin** as part of their methodology. If you used Nook’iin in your work, feel free to submit a pull request or contact the authors to have your work listed here.
 
-- (To be added upon publication)
+- [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 ---
 
 ### Contact  
@@ -207,14 +207,14 @@ Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**
 
 Esta sección enumera los artículos científicos y contribuciones que presentan el desarrollo, las funcionalidades y las aplicaciones principales de **Nook’iin**.
 
-- [1](https://doi.org/10.1039/D5CP00337G) Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
-- [2] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nook’iin: Software para la construcción de heteroestructuras 3D multicapa*, *(en preparación)*.
+- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nook’iin: Software para la construcción de heteroestructuras 3D multicapa*, *(en preparación)*.
+- [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 
 ### 9. Publicaciones que utilizan Nook’iin
 
 A continuación se enlistan trabajos de investigación, tesis o preprints revisados por pares que han empleado **Nook’iin** como parte de su metodología. Si usaste Nook’iin en tu trabajo, puedes enviar un pull request o contactar a los autores para agregar tu publicación a esta sección.
 
-- (Será actualizada conforme se publiquen trabajos)
+- [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 ---
 
 ### Contacto  
