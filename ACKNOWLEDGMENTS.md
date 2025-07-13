@@ -5,9 +5,9 @@ This project was made possible thanks to the support of various research program
 ### **Research Support Programs**
 - **PBIF24-2**: Support for the completion of the thesis project.
 - **DGAPA-PAPIIT (UNAM) IA105623**: Grafeno multicapa bajo presión hidrostática: un estudio de primeros principios.
-- **CONAHCYT CF-2023-I-336**: studio ab initio de cristales no convencionales de van der Waals presurizados.
-- **CONAHCYT 1564464**: nalogías en la física de sistemas 2D rotados: de escala atómica a nanométrica.
-- **CONAHCYT**: Research assistant scholarship SNI-III.
+- **SECIHTI (before CONAHCYT) CF-2023-I-336**: Estudio ab initio de cristales no convencionales de van der Waals presurizados.
+- **SECIHTI (before CONAHCYT) 1564464**: Analogías en la física de sistemas 2D rotados: de escala atómica a nanométrica.
+- **SECIHTI (before CONAHCYT)**: Research assistant scholarship SNI-III.
 
 ### **Presentations and Dissemination**
 Partial results of this project have been presented at various scientific events:
