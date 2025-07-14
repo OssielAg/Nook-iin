@@ -5,6 +5,23 @@ All notable changes to **Nook’iin** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
+## [1.9.0] - 2025-07-14
+### Highlights
+- New feature: `plot_diffraction_map` — Generates smooth diffraction intensity maps using either Lorentzian or Gaussian peak distributions.
+- Supports customizable resolution, width, and output formats.
+- Scientific improvement: Better control of reciprocal space resolution and peak broadening. Helps highlight structural features such as Moiré periodicity and stacking contrast.
+
+### Added
+- `examples/05_Ejemplo_Mapa_de_difracción.ipynb` (Spanish)
+- `examples/05_Example_Diffraction_Map.ipynb` (English)
+
+These demonstrate how to generate and interpret diffraction maps for multilayer systems.
+
+### Internal Changes
+- Updated System.py with plot_diffraction_map method.
+- Improved internal documentation and consistency of naming in plotting utilities.
+- Minor fixes in reciprocal space vector normalization.
+---
 
 ## [1.7.0] – 2025-06-30
 ### Added
