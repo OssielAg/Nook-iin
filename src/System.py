@@ -1,5 +1,6 @@
 import sys
 import os
+from matplotlib.colors import LogNorm
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -398,6 +399,87 @@ class System:
         '''.format(i,ax,ay,bx,by,round(d_a,4),t_a,round(d_b,4),t_b)
             print(m)
         return LoD
+
+    def plot_diffraction_map(self,
+                             width=None,
+                             typ='Lorentzian',
+                             border=1.5,
+                             resolution=500,
+                             minimum_intensity=1e-4,
+                             max_intensity=1,
+                             prnt=False):
+        """
+        Draws the diffraction pattern with smooth curves (Gaussian or Lorentzian) of a multilayer system.    
+        Parameters:
+        - width: Width parameter (sigma or gamma); if None, the user is prompted
+        - typ: 'Gaussian' or 'Lorentzian'
+        - border: range in reciprocal space for k_x and k_y (-border to border)
+        - resolution: number of points on each axis for the mesh
+        - minimum_intensity:
+        - prnt: 
+        """
+        if self.SuperRed is None:
+            print("First calculate the primitive cell of the system")
+            return None
+        SR=self.SuperRed
+        if SR.diffractionData is None:
+            print("Evaluating Structure Factor at each network point.")
+            vl, eq = calcVerticesFBZ(SR.reciprocalVectors)
+            xs, ys, S, _ = SR.reciprocalBackgroundMesh(vl,1,border*(2*math.pi),calcS=True,rnd=25)
+            SR.diffractionData = np.stack((xs/(2*math.pi), ys/(2*math.pi), S), axis=-1)
+        puntos = SR.diffractionData
+        
+        if width is None:
+            width = float(input(f"Enter the value of width ({'σ' if typ=='Gaussian' else 'γ'}): "))
+    
+        # Crear malla de puntos
+        kx = np.linspace(-border, border, resolution)
+        ky = np.linspace(-border, border, resolution)
+        KX, KY = np.meshgrid(kx, ky)
+        
+        # Inicializar intensidad total
+        I_total = np.zeros_like(KX)
+        
+        # Sumar contribuciones
+        i=1
+        for kxi, kyi, Ci in puntos:
+            print(f'Calculating diffraction pattern....{(i/len(puntos))*100:.2f}%',end="\r")
+            i+=1
+            dx2 = (KX - kxi)**2
+            dy2 = (KY - kyi)**2
+            r2 = dx2 + dy2
+    
+            if typ == 'Gaussian':
+                I = (Ci*max_intensity) * np.exp(-r2 / (2 * width**2))
+            elif typ == 'Lorentzian':
+                I = (Ci*max_intensity) / (1 + r2 / width**2)
+            else:
+                raise ValueError("The type must be 'Gaussian' or 'Lorentzian'")
+            
+            I_total += I
+        threshold = minimum_intensity*(1e-1)
+        I_total[I_total < threshold] = threshold
+        # Graficar
+        plt.figure(figsize=(6, 5))
+        plt.imshow(I_total, extent=(-border, border, -border, border),
+                   origin='lower', cmap='inferno', norm=LogNorm(vmax=I_total.max()+1e-1, vmin=minimum_intensity * (I_total.max())))
+        plt.colorbar(label='Intensity')
+        plt.xlabel(r'$k_x$')
+        plt.ylabel(r'$k_y$')
+        plt.title(f"Diffraction pattern ({typ}, width = {width})")
+        plt.tight_layout()
+        if prnt:
+            #iName=input("Indica el nombre con el que se guardará")
+            iName=SR.name.replace('.','_')
+            iName+=f"({typ})"
+            Images_path = os.path.join(os.getcwd(), 'Images')
+            if not os.path.exists(Images_path):
+                os.makedirs(Images_path)
+            plt.savefig((Images_path+'/'+iName),dpi=900, bbox_inches='tight')
+            print(f"Image address: '{Images_path}/{iName}.png'")
+        plt.show()
+        return I_total
+
     
 #----------------------------------------------------------------------------------------
     

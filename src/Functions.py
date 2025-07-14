@@ -667,13 +667,13 @@ def graphene():
     '''
     Returns a standard hexagonal graphene lattice with a lattice constant of 2.44 Å, using a 6-fold symmetric atomic arrangement as defined in hexa6.
     '''
-    return hexa6(2.44, name='Grafeno')
+    return hexa6(2.44, name='Graphene')
     
 def grapheneC3():
     '''
     Returns a variant of the graphene lattice with a lattice constant of 2.44 Å, configured with a 3-fold symmetric basis as described in hexa3.
     '''
-    return hexa3(2.44, name='Grafeno(s3)')
+    return hexa3(2.44, name='Graphene(s3)')
 
 def blackPhosphorene():
     '''

@@ -512,7 +512,7 @@ class Lattice:
                         #Calcula el valor F_hkl para este PR
                         if calcS:
                             F = self.F_hkl(i,j,FG=FG)
-                            print(f'Calculando Factor de estructura....{nPts} PRs calculados',end="\r")
+                            print(f'Calculating Structure Factor....{nPts} LPs calculated',end="\r")
                             if F>maxF:maxF=F
                             S.append(F)
                             nPts+=1
