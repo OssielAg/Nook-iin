@@ -1,4 +1,5 @@
-# **Nook'iin**  
+# **Nook'iin**
+[![DOI](https://zenodo.org/badge/883646265.svg)](https://doi.org/10.5281/zenodo.14257396)
 
 ## English | [Español](#español)
 **Primitive cell & commensurate supercell generation for multilayer 2D heterostructures**
@@ -51,6 +52,7 @@ Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nook
 - [Twisted Bilayer Graphene](/Examples/English/02_Example_tBLG.ipynb):Generation of primitive cells for bilayer graphene with incommensurate twist angles: 2.54°, 5.63°, 14.21°, 16.18°, and 23.85°.
 - [Multilayer Heterostructures](/Examples/English/03_Example_Heterostructure.ipynb): Construction of primitive cells for theoretical multilayer systems (e.g., β-GeSe, CdS, hBN, WS₂, WSe₂, black phosphorene), with strain constraints and diffraction pattern analysis.
 - [Angular Interval Search](/Examples/English/04_Example_Results_AngleInterval.ipynb): Search for commensurate primitive cells across a range of twist angles in a bilayer system, with controlled strain. Useful for studying moiré physics, band modulation, and angle-dependent properties.
+- [Difraction Map](/Examples/English/05_Example_Diffraction_Map.ipynb): This example demonstrates the capability of **Nook’iin** to generate diffraction maps for multilayer systems. Unlike traditional diffraction patterns that only indicate the location of Bragg peaks, diffraction maps represent the continuous intensity distribution across reciprocal space.
 
 ---
 
@@ -66,10 +68,11 @@ If you use **Nook’iin** in your research, please cite it appropriately to supp
 #### 📌 Recommended citation:
 ```bibtex
 @software{Nookiin2025,
-  author       = {Ossiel Aguilar-Spindola and Francisco Sánchez-Ochoa},
+  author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
   title        = {{Nook’iin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
-  version      = {v1.7.0},
-  date         = {2025-06-20},
+  version      = {v1.9.0},
+  date         = {2025-07-14},
+  doi          = {10.5281/zenodo.14257396},
   url          = {https://github.com/OssielAg/Nook-iin},
 }
 ```
@@ -161,6 +164,7 @@ Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran
 - [Grafeno Bicapas Retorcidas](/Examples/Español/02_Ejemplo_tBLG.ipynb): Cálculo de celdas primitivas para grafeno bicapa con ángulos de rotación incomensurables: 2.54°, 5.63°, 14.21°, 16.18° y 23.85°.
 - [Heteroestructuras Multicapa](/Examples/Español/03_Ejemplo_Heteroestructura.ipynb): Construcción de celdas primitivas para sistemas teóricos multicapa (ej. β-GeSe, CdS, hBN, WS₂, WSe₂, fosforeno), respetando límites de deformación y mostrando el patrón de difracción.
 - [Búsqueda en Intervalo Angular](/Examples/Español/04_Ejemplo_Resultados_IntervaloAngular.ipynb): Exploración de celdas primitivas compatibles para un sistema bicapa dentro de un intervalo de ángulos, manteniendo la deformación bajo un umbral. Útil en el estudio de moiré, diseño de bandas y propiedades angulares.
+- [Mapas de difracción](/Examples/Español/05_Ejemplo_Mapa_de_difracción.ipynb): Este ejemplo muestra la capacidad de **Nook’iin** para generar mapas de difracción para sistemas multicapa. A diferencia de los patrones de difracción tradicionales que solo marcan la posición de los picos de Bragg, los mapas de difracción representan la distribución continua de intensidad en el espacio recíproco.
 
 ---
 
@@ -176,10 +180,11 @@ Si utilizas **Nook'iin** en tu trabajo de investigación, por favor cítalo adec
 #### 📌 Citación recomendada:
 ```bibtex
 @software{Nookiin2025,
-  author       = {Ossiel Agustín y Francisco Sánchez},
-  title        = {{Nook’iin}:Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
-  version      = {v1.7.0},
-  date         = {2025-06-20},
+  author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
+  title        = {{Nook’iin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
+  version      = {v1.9.0},
+  date         = {2025-07-14},
+  doi          = {10.5281/zenodo.14257396},
   url          = {https://github.com/OssielAg/Nook-iin},
 }
 ```
