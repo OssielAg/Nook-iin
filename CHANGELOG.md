@@ -5,6 +5,26 @@ All notable changes to **Nook’iin** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
+## [1.9.1] - 2025-07-28
+This release marks the formal update of the program's name in all documentation, from **Nook-iin** to **Nookiin**.
+
+### Changes included:
+- All references to `Nook-iin` were replaced in:
+  - `README.md`
+  - Online documentation
+  - Examples and notebooks
+  - Auxiliary scripts and module headers
+- The project title and internal descriptions have been updated to reflect the new name.
+- Links, paths, and textual mentions with hyphens were revised for better compatibility with international tooling and publishing.
+
+### Notes:
+- This update **does not affect program functionality**.
+- Version 1.9.1 remains fully compatible with previous releases.
+- If you're using a local clone of the repository, you can update your remote URL with:
+  ```bash
+  git remote set-url origin https://github.com/your_username/Nookiin.git
+
+---
 ## [1.9.0] - 2025-07-14
 ### Highlights
 - New feature: `plot_diffraction_map` — Generates smooth diffraction intensity maps using either Lorentzian or Gaussian peak distributions.
