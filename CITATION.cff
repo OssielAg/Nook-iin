@@ -4,7 +4,7 @@ authors:
   - name: "Ossiel Aguilar-Spindola"
     email: "OssielAE@ciencias.unam.mx"
     orcid: "0009-0002-8229-8543"
-title: "Nook'inn: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems"
+title: "Nookinn: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems"
 version: 1.9
 doi: "10.5281/zenodo.14257397"
 date-released: 2025-07-14
@@ -16,4 +16,4 @@ keywords:
   - "Diffraction_Pattern"
   - "Heterostructures"
   - "Reciprocal_Space"
-abstract: "Nook'inn is a software designed to identify primitive cells in 2D multilayer systems, focusing on Van der Waals heterostructures and homostructures with bounded deformation. It facilitates the construction and analysis of crystallographic systems with well-defined periodicity."
+abstract: "Nookinn is a software designed to identify primitive cells in 2D multilayer systems, focusing on Van der Waals heterostructures and homostructures with bounded deformation. It facilitates the construction and analysis of crystallographic systems with well-defined periodicity."
