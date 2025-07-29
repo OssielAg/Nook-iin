@@ -1,4 +1,4 @@
-# **Nook'iin**
+# **Nookiin**
 [![DOI](https://zenodo.org/badge/883646265.svg)](https://doi.org/10.5281/zenodo.14257396)
 
 ## English | [Español](#español)
@@ -7,7 +7,7 @@
 ---
 
 ### 1. Description  
-**Nook’iin** is a Python-based software designed to construct primitive and commensurate cells for multilayer 2D heterostructures, with support for arbitrary relative orientations and Bravais lattices.
+**Nookiin** is a Python-based software designed to construct primitive and commensurate cells for multilayer 2D heterostructures, with support for arbitrary relative orientations and Bravais lattices.
 
 #### **Main Features**  
 - **Primitive Cell Calculation:** Identifies the smallest primitive cells for multilayer two-dimensional structures.  
@@ -24,13 +24,13 @@
 ---
 
 ### 2. Installation  
-To get started with **Nook'inn**, follow these instructions:
+To get started with **Nookiin**, follow these instructions:
 
 #### Importing the software in Python
 
-To use **Nook'inn** in a Python script, import all components from the `Nook-iin/src/System.py` file.
+To use **Nookiin** in a Python script, import all components from the `Nook-iin/src/System.py` file.
 
-If you are creating your Python script in the root directory of the *Nook'inn* project, you should use the following line:
+If you are creating your Python script in the root directory of the *Nookiin* project, you should use the following line:
 
 ```python
 from src.System import *
@@ -47,12 +47,12 @@ These documents provide in-depth guidance on software functionalities and best p
 ---
 
 ### 3. Examples  
-Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nook’iin’s capabilities:
-- [Full Workflow Example](/Examples/English/01_Complete_Example.ipynb): Step-by-step guide through a typical Nook’iin workflow — from system definition to reciprocal space visualization and diffraction pattern generation. Ideal as an introduction.
+Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nookiin’s capabilities:
+- [Full Workflow Example](/Examples/English/01_Complete_Example.ipynb): Step-by-step guide through a typical Nookiin workflow — from system definition to reciprocal space visualization and diffraction pattern generation. Ideal as an introduction.
 - [Twisted Bilayer Graphene](/Examples/English/02_Example_tBLG.ipynb):Generation of primitive cells for bilayer graphene with incommensurate twist angles: 2.54°, 5.63°, 14.21°, 16.18°, and 23.85°.
 - [Multilayer Heterostructures](/Examples/English/03_Example_Heterostructure.ipynb): Construction of primitive cells for theoretical multilayer systems (e.g., β-GeSe, CdS, hBN, WS₂, WSe₂, black phosphorene), with strain constraints and diffraction pattern analysis.
 - [Angular Interval Search](/Examples/English/04_Example_Results_AngleInterval.ipynb): Search for commensurate primitive cells across a range of twist angles in a bilayer system, with controlled strain. Useful for studying moiré physics, band modulation, and angle-dependent properties.
-- [Difraction Map](/Examples/English/05_Example_Diffraction_Map.ipynb): This example demonstrates the capability of **Nook’iin** to generate diffraction maps for multilayer systems. Unlike traditional diffraction patterns that only indicate the location of Bragg peaks, diffraction maps represent the continuous intensity distribution across reciprocal space.
+- [Difraction Map](/Examples/English/05_Example_Diffraction_Map.ipynb): This example demonstrates the capability of **Nookiin** to generate diffraction maps for multilayer systems. Unlike traditional diffraction patterns that only indicate the location of Bragg peaks, diffraction maps represent the continuous intensity distribution across reciprocal space.
 
 ---
 
@@ -61,15 +61,15 @@ Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nook
 - Required: `numpy`, `matplotlib`
 
 ---
-### 5. Citing Nook’iin
+### 5. Citing Nookiin
 
-If you use **Nook’iin** in your research, please cite it appropriately to support ongoing development and ensure reproducibility.  
+If you use **Nookiin** in your research, please cite it appropriately to support ongoing development and ensure reproducibility.  
 
 #### 📌 Recommended citation:
 ```bibtex
 @software{Nookiin2025,
   author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
-  title        = {{Nook’iin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
+  title        = {{Nookiin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
   version      = {v1.9.0},
   date         = {2025-07-14},
   doi          = {10.5281/zenodo.14257396},
@@ -77,7 +77,7 @@ If you use **Nook’iin** in your research, please cite it appropriately to supp
 }
 ```
 Suggested sentence for citation in publications:
-“The commensurate primitive cell was generated using the Nook’iin code.”
+“The commensurate primitive cell was generated using the Nookiin code.”
 
 For further citation metadata, see the [CITATION file](/CITATION.cff).
 
@@ -98,20 +98,20 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 
 ### 8. Publications
 
-This section lists the scientific articles and conference papers directly related to the development, implementation, and capabilities of **Nook’iin**.
+This section lists the scientific articles and conference papers directly related to the development, implementation, and capabilities of **Nookiin**.
 
-- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nook’iin: Software para la construcción de heteroestructuras 3D multicapa*, *(in preparation)*.
+- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nookiin: Software para la construcción de heteroestructuras 3D multicapa*, *(in preparation)*.
 - [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 
-## 9. Publications Utilizing Nook’iin
+## 9. Publications Utilizing Nookiin
 
-Below are peer-reviewed works, theses, or preprints from independent research groups that use **Nook’iin** as part of their methodology. If you used Nook’iin in your work, feel free to submit a pull request or contact the authors to have your work listed here.
+Below are peer-reviewed works, theses, or preprints from independent research groups that use **Nookiin** as part of their methodology. If you used Nookiin in your work, feel free to submit a pull request or contact the authors to have your work listed here.
 
 - [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 ---
 
 ### Contact  
-**Nook'iin** was created by **Ossiel Aguilar-Spíndola**.  
+**Nookiin** was created by **Ossiel Aguilar-Spíndola**.  
 - **Contact email:** OssielAE@ciencias.unam.mx  
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 ---
@@ -127,7 +127,7 @@ Below are peer-reviewed works, theses, or preprints from independent research gr
 ---
 
 ### 1. Descripción  
-**Nook’iin** es un software en Python para la construcción de celdas primitivas y superceldas conmensurables en heteroestructuras 2D multicapa, permitiendo orientaciones relativas y tipos de red de Bravais arbitrarios.
+**Nookiin** es un software en Python para la construcción de celdas primitivas y superceldas conmensurables en heteroestructuras 2D multicapa, permitiendo orientaciones relativas y tipos de red de Bravais arbitrarios.
 
 #### Características principales  
 - ✔️ Compatible con sistemas multicapa con o sin torsión  
@@ -138,11 +138,11 @@ Below are peer-reviewed works, theses, or preprints from independent research gr
 ---
 
 ### 2. Instalación  
-Para comenzar a utilizar **Nook'inn**, sigue estas instrucciones:
+Para comenzar a utilizar **Nookiin**, sigue estas instrucciones:
 
 #### Importar el software en Python
-Para utilizar **Nook'inn** en un script de Python, importa todos los componentes desde el archivo `Nook-iin/src/System.py`.
-Si estás creando el script de Python en la raíz del proyecto *Nook'inn*, debes escribir la siguiente línea:
+Para utilizar **Nookiin** en un script de Python, importa todos los componentes desde el archivo `Nook-iin/src/System.py`.
+Si estás creando el script de Python en la raíz del proyecto *Nookiin*, debes escribir la siguiente línea:
 
 ```python
 from src.System import *
@@ -159,12 +159,12 @@ Estos documentos proporcionan orientación detallada sobre las funcionalidades d
 ---
 
 ### 3. Ejemplos 
-Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran las capacidades de Nook’iin:
+Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran las capacidades de Nookiin:
 - [Ejemplo Completo de Uso](/Examples/Español/01_Ejemplo_Completo.ipynb): Guía paso a paso que cubre el flujo completo de trabajo: desde la definición del sistema hasta la visualización del espacio recíproco y el patrón de difracción. Ideal como introducción.
 - [Grafeno Bicapas Retorcidas](/Examples/Español/02_Ejemplo_tBLG.ipynb): Cálculo de celdas primitivas para grafeno bicapa con ángulos de rotación incomensurables: 2.54°, 5.63°, 14.21°, 16.18° y 23.85°.
 - [Heteroestructuras Multicapa](/Examples/Español/03_Ejemplo_Heteroestructura.ipynb): Construcción de celdas primitivas para sistemas teóricos multicapa (ej. β-GeSe, CdS, hBN, WS₂, WSe₂, fosforeno), respetando límites de deformación y mostrando el patrón de difracción.
 - [Búsqueda en Intervalo Angular](/Examples/Español/04_Ejemplo_Resultados_IntervaloAngular.ipynb): Exploración de celdas primitivas compatibles para un sistema bicapa dentro de un intervalo de ángulos, manteniendo la deformación bajo un umbral. Útil en el estudio de moiré, diseño de bandas y propiedades angulares.
-- [Mapas de difracción](/Examples/Español/05_Ejemplo_Mapa_de_difracción.ipynb): Este ejemplo muestra la capacidad de **Nook’iin** para generar mapas de difracción para sistemas multicapa. A diferencia de los patrones de difracción tradicionales que solo marcan la posición de los picos de Bragg, los mapas de difracción representan la distribución continua de intensidad en el espacio recíproco.
+- [Mapas de difracción](/Examples/Español/05_Ejemplo_Mapa_de_difracción.ipynb): Este ejemplo muestra la capacidad de **Nookiin** para generar mapas de difracción para sistemas multicapa. A diferencia de los patrones de difracción tradicionales que solo marcan la posición de los picos de Bragg, los mapas de difracción representan la distribución continua de intensidad en el espacio recíproco.
 
 ---
 
@@ -173,15 +173,15 @@ Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran
 - Requiere: `numpy`, `matplotlib`
 
 ---
-### 5. Citando a Nook'iin
+### 5. Citando a Nookiin
 
-Si utilizas **Nook'iin** en tu trabajo de investigación, por favor cítalo adecuadamente para apoyar su desarrollo continuo y garantizar la reproducibilidad.  
+Si utilizas **Nookiin** en tu trabajo de investigación, por favor cítalo adecuadamente para apoyar su desarrollo continuo y garantizar la reproducibilidad.  
 
 #### 📌 Citación recomendada:
 ```bibtex
 @software{Nookiin2025,
   author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
-  title        = {{Nook’iin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
+  title        = {{Nookiin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
   version      = {v1.9.0},
   date         = {2025-07-14},
   doi          = {10.5281/zenodo.14257396},
@@ -189,7 +189,7 @@ Si utilizas **Nook'iin** en tu trabajo de investigación, por favor cítalo adec
 }
 ```
 Frase sugerida para incluir en publicaciones:
-“La celda primitiva conmensurable fue generada utilizando el código Nook’iin.”
+“La celda primitiva conmensurable fue generada utilizando el código Nookiin.”
 
 Para más información sobre la citación, consulta el archivo [CITATION](/CITATION.cff).
 
@@ -210,20 +210,20 @@ Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**
 
 ### 8. Publicaciones
 
-Esta sección enumera los artículos científicos y contribuciones que presentan el desarrollo, las funcionalidades y las aplicaciones principales de **Nook’iin**.
+Esta sección enumera los artículos científicos y contribuciones que presentan el desarrollo, las funcionalidades y las aplicaciones principales de **Nookiin**.
 
-- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nook’iin: Software para la construcción de heteroestructuras 3D multicapa*, *(en preparación)*.
+- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nookiin: Software para la construcción de heteroestructuras 3D multicapa*, *(en preparación)*.
 - [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 
-### 9. Publicaciones que utilizan Nook’iin
+### 9. Publicaciones que utilizan Nookiin
 
-A continuación se enlistan trabajos de investigación, tesis o preprints revisados por pares que han empleado **Nook’iin** como parte de su metodología. Si usaste Nook’iin en tu trabajo, puedes enviar un pull request o contactar a los autores para agregar tu publicación a esta sección.
+A continuación se enlistan trabajos de investigación, tesis o preprints revisados por pares que han empleado **Nookiin** como parte de su metodología. Si usaste Nookiin en tu trabajo, puedes enviar un pull request o contactar a los autores para agregar tu publicación a esta sección.
 
 - [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
 ---
 
 ### Contacto  
-**Nook'iin** fue creado por **Ossiel Aguilar-Spíndola**.  
+**Nookiin** fue creado por **Ossiel Aguilar-Spíndola**.  
 - **Correo de contacto:** OssielAE@ciencias.unam.mx  
 - **ORCID:** [0009-0002-8229-8543](https://orcid.org/0009-0002-8229-8543)  
 
