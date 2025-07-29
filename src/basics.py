@@ -1010,11 +1010,11 @@ def reciprocalBackgroundMesh_original(rv,vl,t,b):
 
 def bereiten():
     """
-    Prepares Matplotlib with default style and figure settings for Nook'iin.
+    Prepares Matplotlib with default style and figure settings for Nookiin.
     
     Returns:
     None
     """
     plt.style.use('default')
     plt.rcParams['figure.figsize'] = (8,8)
-    print("Nook'iin Ready-to-work")
+    print("Nookiin Ready-to-work")

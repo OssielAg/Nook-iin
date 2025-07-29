@@ -566,7 +566,7 @@ class Lattice:
             #Dibuja la FBZ de la red y el fondo dado por la función 'reciprocalBackgroundMesh'
             vl, eq = calcVerticesFBZ(self.reciprocalVectors)
             xs, ys, S, linkList = self.reciprocalBackgroundMesh(vl,t,border)
-            fbzRed = Polygon(vl, alpha=0.7, color = 'gray', label = "Super Red")
+            fbzRed = Polygon(vl, alpha=0.7, color = 'gray', label = "Superlattice")
             ax.add_patch(fbzRed)
             #Dibuja los enlaces de la red de fondo calculado previamente
             ax.add_collection(linkList)
