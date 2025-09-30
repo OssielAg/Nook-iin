@@ -1,4 +1,4 @@
-from Atom import *
+from .atom import *
 import cmath
 atomList = List[Atom]
 recpVectrs = List[vector2D]

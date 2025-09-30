@@ -1,4 +1,4 @@
-from Basics import *
+from .basics import *
 
 #print('Load Atom')
 class Atom:

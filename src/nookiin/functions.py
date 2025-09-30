@@ -1,4 +1,4 @@
-from Lattice import *
+from .lattice import *
 #print('Load Functions')
 
 # Métodos derivados

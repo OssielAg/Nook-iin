@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nookiin"
+version = "2.0.0"
+description = "Python software to build commensurable multilayer heterostructures"
+authors = [
+  { name = "Ossiel Aguilar-Spíndola", email = "ossiel@example.com" },
+  { name = "Francisco Sánchez-Ochoa", email = "fsanchez@fisica.unam.mx" }
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+dependencies = [
+  "numpy",
+  "matplotlib",
+  "scipy"
+]
+
+[project.urls]
+Homepage = "https://github.com/OssielAg/Nook-iin"
+Repository = "https://github.com/OssielAg/Nook-iin"
+Issues = "https://github.com/OssielAg/Nook-iin/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]

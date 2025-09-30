@@ -1,5 +1,8 @@
-from src.System import *
+#from src.System import *
+import os
 import sys
+import nookiin
+from nookiin import System
 
 def select_language():
     print("Seleccione un idioma / Select a language")
