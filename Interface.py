@@ -1,8 +1,11 @@
 #from src.System import *
 import os
 import sys
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.collections as mc
 import nookiin
-from nookiin import System
+from nookiin.system import *
 
 def select_language():
     print("Seleccione un idioma / Select a language")
@@ -40,7 +43,7 @@ def leeColor(msg,ermsg):
     while True:
         color = input(msg)
         try:
-            lL = mc.LineCollection(np.array([[(0,0),(1,0)]]), colors=color)
+            lL = mc.LineCollection(np.array([[(0,0),(1,0)]]), color=color)
             return color
         except:
             print(ermsg)
@@ -242,11 +245,11 @@ def calcPC(S,texts):
     clear()
     print(texts.m_calcPC_7)
     pmat(T)
-    while S.SuperRed is None:
+    while S.primitive_lattice is None:
         e1 = leeNum(texts.m_System_Mat,texts.m_calcPC_8)
         if e1==0:
             clear()
-            S, d = S.optimize_system(T, prnt=False)
+            S = S.optimize_system(T, prnt=False)
         elif e1==1:
             clear()
             S.describeTM(T)
@@ -285,7 +288,7 @@ def newSystem(redes,texts):
             clear()
             if T is None: print(texts.m_newSystem_3)
             else:
-                show_Lattice(S.SuperRed,texts)
+                show_Lattice(S.primitive_lattice,texts)
         elif e==3:
             clear()
             if T is None: print(texts.m_newSystem_3)
@@ -295,7 +298,7 @@ def newSystem(redes,texts):
             if T is None: print(texts.m_newSystem_3)
             else:
                 name = input(texts.m_newSystem_4)
-                S.SuperRed.exportLattice(name=name)
+                S.primitive_lattice.exportLattice(name=name)
         elif e==5: return S
         else:
             clear()

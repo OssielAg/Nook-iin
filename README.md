@@ -22,25 +22,95 @@
 - ✔️ POSCAR export, pattern diffraction module, and reproducibility options
 
 ---
+### 2. Installation
 
-### 2. Installation  
 To get started with **Nookiin**, follow these instructions:
 
-#### Importing the software in Python
+---
 
-To use **Nookiin** in a Python script, import all components from the `Nook-iin/src/System.py` file.
+#### Recommended Installation (Modern Approach)
 
-If you are creating your Python script in the root directory of the *Nookiin* project, you should use the following line:
+**Nookiin** can be installed directly with pip from the root folder:
+```bash
+pip install .
+```
+
+However, the recommended way to use **Nookiin** is by installing it with `pip` inside a virtual environment:
+
+```bash
+python -m venv nookiin_env          # create a virtual environment (optional but recommended)
+source nookiin_env/bin/activate     # activate the environment (Linux/macOS)
+# For Windows PowerShell: .\nookiin_env\Scripts\Activate.ps1
+pip install .
+```
+
+This ensures that all dependencies (`numpy`, `matplotlib[gui]`) are installed correctly and isolates Nookiin from other Python packages.
+
+After installation, you can import Nookiin in your scripts:
 
 ```python
-from src.System import *
+import nookiin
 ```
-This will load all essential modules needed to construct and analyze 2D multilayer systems.
+
+All modules and classes will be available as part of the package.
+
+For more direct usage, it is recommended to import system.py directly:
+```python
+from nookiin.system import *
+```
+Once Nookiin is properly installed, you can verify the installation by running the Python file demo.py.
+This script will search for a primitive cell of a rotated graphene bilayer and display its representations in reciprocal space (image tabs must be closed to continue execution):
+```bash
+python3 demo.py
+``` 
+
+
+> ⚠️ Note: **Nookiin automatically configures the matplotlib backend**.  
+> On systems with a graphical interface, an interactive backend (`TkAgg`) is used to display plots.  
+> On headless servers or systems without a GUI, it falls back to a non-interactive backend (`Agg`) so that figures can still be saved without raising errors.
+
+---
+
+#### Optional Manual Import (Advanced Users)
+
+If you prefer **not to use `pip` or virtual environments** and want to load Nookiin directly from the repository, you can do so manually.  
+
+Set the environment variable `NOOKIIN_MANUAL_PATH` **before running Python** from the root of Nookiin:
+
+- **Linux/macOS:**
+
+```bash
+export NOOKIIN_MANUAL_PATH=1
+```
+
+- **Windows (cmd):**
+
+```cmd
+set NOOKIIN_MANUAL_PATH=1
+```
+
+- **Windows (PowerShell):**
+
+```powershell
+$env:NOOKIIN_MANUAL_PATH=1
+```
+
+Then, in your script, import all modules from `System.py`:
+
+```python
+from src.nookiin.system import *
+```
+
+> ⚠️ **Warning:** This method is **not recommended** for long-term usage, as it may cause conflicts with installed packages or future versions of Nookiin. Prefer the `pip` installation whenever possible.
+
+---
 
 #### Detailed Usage Guides
-For a complete technical overview and usage instructions, refer to the following files included in this repository:
-- [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Provides detailed technical documentation and methodology.
-- [Interface_Guide.md](/Interface_Guide/Interface_Guide.md) → Offers a step-by-step explanation of the console-guided interface.
+
+For a complete technical overview and usage instructions, refer to:
+
+- [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Provides detailed technical documentation and methodology.  
+- [Interface_Guide.md](/Interface_Guide/Interface_Guide.md) → Step-by-step explanation of the console-guided interface.
 
 These documents provide in-depth guidance on software functionalities and best practices.
 
@@ -137,24 +207,98 @@ Below are peer-reviewed works, theses, or preprints from independent research gr
 
 ---
 
-### 2. Instalación  
-Para comenzar a utilizar **Nookiin**, sigue estas instrucciones:
+### 2. Instalación
 
-#### Importar el software en Python
-Para utilizar **Nookiin** en un script de Python, importa todos los componentes desde el archivo `Nook-iin/src/System.py`.
-Si estás creando el script de Python en la raíz del proyecto *Nookiin*, debes escribir la siguiente línea:
+Para comenzar con **Nookiin**, sigue estas instrucciones:
+
+---
+
+#### Instalación Recomendada (Enfoque Moderno)
+**Nookiin** puede instalarse directamente con pip desde la carpeta raíz:
+```bash
+pip install .
+```
+
+Sin embargo la forma recomendada de usar **Nookiin** es instalándolo con `pip` en un entorno virtual:
+
+```bash
+python -m venv nookiin_env          # crear un entorno virtual (opcional pero recomendado)
+source nookiin_env/bin/activate     # activar el entorno (Linux/macOS)
+# Para Windows PowerShell: .\nookiin_env\Scripts\Activate.ps1
+pip install .
+```
+
+Esto asegura que todas las dependencias (`numpy`, `matplotlib[gui]`) se instalen correctamente y aísla Nookiin de otros paquetes de Python.
+
+Después de la instalación, puedes importar Nookiin en tus scripts dentro del entorno virtual:
 
 ```python
-from src.System import *
+import nookiin
 ```
-Esto cargará todos los módulos esenciales para la construcción y análisis de sistemas multicapa 2D.
 
-#### Guías de uso detalladas.
-Para obtener una explicación más completa sobre la metodología y el funcionamiento del software, consulta los siguientes documentos incluidos en este repositorio:
-- [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Contiene documentación técnica detallada y metodología.
-- [Guia_de_interfaz.md](/Interface_Guide/Guia_de_interfaz.md) → Explica paso a paso el uso de la interfaz guiada por consola.
+Todos los módulos y clases estarán disponibles como parte del paquete.
 
-Estos documentos proporcionan orientación detallada sobre las funcionalidades del software y mejores prácticas de uso.
+Para un uso más directo se recomienda hacer una importación directa de `system.py`:
+
+```python
+from nookiin.system import *
+```
+
+Una vez instalado correctamente nookiin puede probar si se hizo correctamente ejecutando el archivo de python `demo.py`, este efectuará la búsqueda de una celda primitiva para una bicapa de grafeno rotada mostrando sus representaciones en el espacio reciproco (deben cerarce las pestañas de imagen para continuar la ejecución):
+```bash
+python3 demo.py
+``` 
+
+> ⚠️ Nota: **Nookiin configura automáticamente el backend de matplotlib**.  
+> En sistemas con interfaz gráfica, se utiliza un backend interactivo (`TkAgg`) para mostrar gráficos.  
+> En servidores sin GUI o sistemas sin interfaz gráfica, se utiliza un backend no interactivo (`Agg`) para que las figuras aún puedan guardarse sin generar errores.
+
+---
+
+#### Importación Manual Opcional (Usuarios Avanzados)
+
+Si prefieres **no usar `pip` o entornos virtuales** y quieres cargar Nookiin directamente desde el repositorio, puedes hacerlo manualmente.  
+
+Define la variable de entorno `NOOKIIN_MANUAL_PATH` **antes de ejecutar Python** desde la raiz de Nookiin:
+
+- **Linux/macOS:**
+
+```bash
+export NOOKIIN_MANUAL_PATH=1
+```
+
+- **Windows (cmd):**
+
+```cmd
+set NOOKIIN_MANUAL_PATH=1
+```
+
+- **Windows (PowerShell):**
+
+```powershell
+$env:NOOKIIN_MANUAL_PATH=1
+```
+
+Luego, en tu script, importa todos los módulos directamente desde `system.py`:
+
+```python
+from src.nookiin.system import *
+```
+
+
+> ⚠️ **Advertencia:** Este método **no se recomienda** para uso a largo plazo, ya que puede causar conflictos con paquetes instalados o futuras versiones de Nookiin. Siempre que sea posible, utiliza la instalación con `pip`.
+
+---
+
+#### Guías de Uso Detalladas
+
+Para una descripción técnica completa e instrucciones de uso, consulta:
+
+- [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Proporciona documentación técnica detallada y metodología.  
+- [Interface_Guide.md](/Interface_Guide/Interface_Guide.md) → Explicación paso a paso de la interfaz guiada por consola.
+
+Estos documentos ofrecen orientación detallada sobre las funcionalidades del software y las mejores prácticas.
+
 
 ---
 
@@ -169,7 +313,7 @@ Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran
 ---
 
 ### 4. Requisitos  
-- Python ≥3.6  
+- Python ≥3.8  
 - Requiere: `numpy`, `matplotlib`
 
 ---
@@ -182,7 +326,7 @@ Si utilizas **Nookiin** en tu trabajo de investigación, por favor cítalo adecu
 @software{Nookiin2025,
   author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
   title        = {{Nookiin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
-  version      = {v1.9.0},
+  version      = {v2.0.0},
   date         = {2025-07-14},
   doi          = {10.5281/zenodo.14257396},
   url          = {https://github.com/OssielAg/Nook-iin},

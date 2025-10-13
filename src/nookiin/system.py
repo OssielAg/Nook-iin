@@ -1,11 +1,24 @@
-import sys
-import os
+# ------------------------------------------------------------------------------
+# Configure matplotlib backend before importing pyplot anywhere else.
+# This ensures that the program can display or save images correctly
+# even on systems without a graphical display (e.g., headless servers).
+# "TkAgg" provides interactive image windows when possible.
+# If Tkinter is not available, it falls back to "Agg", which is non-interactive
+# but still supports saving figures as PNG, PDF, etc.
+# ------------------------------------------------------------------------------
+import matplotlib
+try:
+    matplotlib.use("TkAgg")   # Try to use an interactive backend (with GUI support)
+except ImportError:
+    matplotlib.use("Agg")     # Fallback backend for non-GUI environments
+import sys, os
 from matplotlib.colors import LogNorm
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-if current_dir not in sys.path:
-    sys.path.insert(0, current_dir)
+# Optional: add source dir to sys.path for manual usage
+if os.environ.get("NOOKIIN_MANUAL_PATH"):
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    if current_dir not in sys.path:
+        sys.path.insert(0, current_dir)
 
 from .functions import *
 print('Load System')
@@ -24,18 +37,20 @@ class System:
         '''
         self.redes = lol #Lista de Redes del Sistema
         if name=="":
-            self.name = 'System ['+','.join([l.name for l in lol])+']' #Nombre del Sistema
-        self.poits = []#Lista de Puntos de red comunes para todas las capas
-        self.loMat = []  #Lista de Matrices de transformación sugeridas
-        self.MaxNumM = 10 #Número maximo de Matrices sugeridas
-        self.SuperRed = None  #Super-Red del Sistema
-        self.MT = None
+            self.name = 'System ['+','.join([l.name for l in lol])+']' #System name
+            self.poits = []  # List of lattice points common to all layers  
+            self.loMat = []  # List of suggested transformation matrices  
+            self.MaxNumM = 10  # Maximum number of suggested matrices  
+            self.primitive_lattice = None  # Superlattice of the system  
+            self.MT = None  # Transformation matrix of the system
+            self.DMList = None # List of Deformation Matrices
+
     
-    def calculateTM(self, min_angle:float = 25):
+    def _calculateTM(self, min_angle:float = 25):
         '''
         Computes a list of optimal transformation matrices (TMs) for generating
         commensurate supercells, based on the Lattice Points obtained from the
-        'searchLP' method. This method must be executed beforehand.
+        '_searchLP' method. This method must be executed beforehand.
         
         Parameters:
             min_angle (float): Minimum angular separation (in degrees) to consider between layers.
@@ -43,17 +58,18 @@ class System:
         #Ángulo interno minimo aceptado para la super red calculada
         try:
             if self.poits == []:
-                errmsg = "No hay puntos de red en común para las capas."
-                errmsg +="\nEjecute la función searchLP previamente."
-                errmsg +="\n*En caso de ya haberlo hecho aumente el rango de búsqueda (rangeOfSearch) o el error mínimo aceptado (epsilon)"
+                errmsg = "There are no common lattice points for the layers."
+                errmsg += "\nPlease make sure the function '_searchLP' has been executed beforehand."
+                errmsg += "\n*If it has already been executed, try increasing the search range ('rangeOfSearch') or the minimum accepted error ('epsilon')."
                 print(errmsg)
+
                 return -1
             self.loMat = []
-            if self.its_hexagonal_system():
+            if self._its_hexagonal_system():
                 for r in self.poits:
                     [m,n]=r[0]
                     M = VtM((m,n),(-n,m-n))
-                    self.adjust(M)
+                    self._adjust(M)
                 return 0
             for i in range(len(self.poits)):
                 for j in range(i+1,len(self.poits)):
@@ -65,32 +81,33 @@ class System:
                     a,b = transfVs(self.redes[0].a,self.redes[0].b,M)
                     if cAng(a,b) >= min_angle:
                         if 180-cAng(a,b) >= min_angle:
-                            self.adjust(M)
+                            self._adjust(M)
             if self.loMat==[]: return -1
             return 1
         except Exception as e:
             print(f"Error:{str(e)}.")
             return -1
         
-    def createSuperLattice(self,M:m2x2):
+    def createSuperLattice(self,T:m2x2):
         '''
-        Constructs the supercell corresponding to the given transformation matrix M,
+        Constructs the supercell corresponding to the given transformation matrix T,
         using the primitive vectors of the substrate layer as the base for transformation.
+        (does not modify the lattices that make up the system)
 
         Parameters:
-            M (m2x2): 2x2 transformation matrix for generating the supercell.
+            T (m2x2): 2x2 transformation matrix for generating the supercell.
         '''
         try:
             a, b = self.redes[0].get_pv()
-            sa, sb = transfVs(a, b, M)
-            self.SuperRed = superMesh(sa,sb,self.redes)
-            self.MT = M
+            sa, sb = transfVs(a, b, T)
+            self.primitive_lattice = superMesh(sa,sb,self.redes)
+            self.MT = T
             return 1
         except Exception as e:
             print(f"Error:{str(e)}.")
             return 0
     
-    def searchLP(self, rangeOfSearch:int=15, epsilon:float=0.05):
+    def _searchLP(self, rangeOfSearch:int=15, epsilon:float=0.05):
         '''
         Searches for Lattice Points in the substrate layer that match (within a given error)
         with Lattice Points in other layers.
@@ -136,32 +153,34 @@ class System:
                 T_i = corresponding_points(s.redes[0], s.redes[i], T)
                 V_i_Op = m2M(V_s,inv2x2(T_i))
                 S_i = m2M(inv2x2(V_i),V_i_Op)
-                #Guarda la matríz de deformación
+                # Save Deformation Matrix
                 deformaciones.append(S_i)
-                #Actualiza la red en la capa con los nuevos vectores primitivos
+                # Updates the lattice in the layer with the new primitive vectors
                 a, b = MtV(V_i_Op)
                 s.redes[i].setNewVectors(a,b)
                 s.redes[i].name = s.redes[i].name + "'"
-            #Creando super Red para el sistema deformado
+            # Create superlattice for the deformed system
             cSR = s.createSuperLattice(T)
             if cSR==1:
-                self.SuperRed = s.SuperRed
+                self.primitive_lattice = s.primitive_lattice
                 self.MT = s.MT
             if prnt:
                 self.show()
                 print("***The calculated supercell is optimized. At least one of the system layers was deformed to do so.")
-            return s, deformaciones
+            self.DMList = deformaciones
+            return s
         except Exception as e:
             print(f"Error:{str(e)}.")
-            return None, []
+            return None
        
     def generateSuperCell(self, RoS:int=15, eps:float=0.05, prntRes:bool=True, showTable:bool=False):
         '''
         Performs a complete pipeline to build a commensurate supercell:
-        1. Runs 'searchLP' and 'calculateTM',
-        2. Selects the best TM,
-        3. Applies 'optimize_system',
-        4. Displays or saves the final result.
+        1. Run 'ejecuta'
+            1.1- Runs '_searchLP' and '_calculateTM',
+            1.2- Selects the best TM,
+        2. Applies 'optimize_system',
+        3. Displays or saves the final result.
 
         Parameters:
             RoS (int): Search range for Lattice Points.
@@ -169,70 +188,15 @@ class System:
             prntRes (bool): If True, prints result summary.
             showTable (bool): If True, displays a comparison table of TMs.
         '''
-        self.searchLP(rangeOfSearch=RoS, epsilon=eps)
-        if self.poits == []:
-            print("No common lattice points were found across all layers, try increasing the search range or limit on the deformation.")
+        T = self.ejecuta(n=RoS,e=eps)
+        if T == None:
             return None
-        self.calculateTM()
-        if self.loMat == []:
-            return None
-        T = self.ShowTMs(shw=False)
         if showTable:
             self.describeTM(T)
-        S, d = self.optimize_system(T,prnt=prntRes)
+        S = self.optimize_system(T,prnt=prntRes)
         return S
     
-    def analiza_Mat(self):
-        '''
-        Analyzes all transformation matrices in the list of candidates,
-        saving their geometric and distortion data, and identifies the most suitable one.
-        '''
-        if self.poits==[]:
-            self.searchLP()
-            self.calculateTM()
-        m0 = [[1.0,0.0],[0.0,1.0]]
-        dif = 100.0
-        info = []
-        mejor = 0
-        k=0
-        a,b = self.redes[0].get_pv()
-        for T in self.loMat:
-            sa, sb = transfVs(a,b,T)#Vectores de la super-red en capa 0
-            err = 0.0
-            inf_c = []
-            for i in range(1, len(self.redes)):
-                #Vectores primitivos de la capa i
-                ai,bi = self.redes[i].get_pv()
-                #TM correspondiente a la capa i
-                T_i = corresponding_points(self.redes[0],self.redes[i],T)
-                #Vectores de la super-red en capa i
-                sa_i, sb_i = transfVs(ai,bi,T_i)
-                #Matriz con los vectores primitivos de la capa i
-                V_i = VtM(ai,bi)
-                #Matriz con los vectores primitivos optimizados de la capa i
-                V_i_Op = m2M(VtM(sa,sb),inv2x2(T_i))
-                #Matriz de deformación para la capa i
-                S_i = m2M(inv2x2(V_i),V_i_Op)
-                #Deformación en la norma de los vectores primitivos de la capa i
-                d_a, d_b = long(sa_i)/long(sa), long(sb_i)/long(sb)
-                #Ajuste de rotación en los vectores de la capa i
-                t_a, t_b = cAng(sa_i,sa), cAng(sb_i,sb)
-                #Error final en los vectores primitivos de la capa i
-                e_a, e_b = dist(sa,sa_i)/long(sa), dist(sb,sb_i)/long(sb)
-                #Grado de distorción en la capa i
-                dd = calc_dd(V_i,V_i_Op)
-                err += dd
-                #Se guardan todos los valores calculados:
-                #[Mat Ti, Mat Si, error a, error b,delta_a,delta_b,theta_a,theta_b,dd,#Atms]
-                inf_c.append([T_i,S_i,e_a,e_b,d_a,d_b,t_a,t_b,dd,det(T_i)*self.redes[i].nOAtms()])
-            info.append([T,(sa,sb),err,inf_c])
-            if err<dif:
-                dif=err
-                mejor = k
-            k+=1
-        return info,mejor
-    
-    def analiza_T(self,T):
+    def _analiza_T(self,T):
         '''
         Analyzes a specific transformation matrix T by computing its geometric
         and distortion properties.
@@ -282,7 +246,7 @@ class System:
             shw (bool): If True, displays the table on the screen.
         '''
         try:
-            dT = self.analiza_T(T)
+            dT = self._analiza_T(T)
             tAt = 0
             sa,sb = dT[1]
             inAng = cAng(sa,sb)
@@ -407,21 +371,23 @@ class System:
                              resolution=500,
                              minimum_intensity=1e-4,
                              max_intensity=1,
-                             prnt=False):
+                             prnt=''):
         """
         Draws the diffraction pattern with smooth curves (Gaussian or Lorentzian) of a multilayer system.    
         Parameters:
         - width: Width parameter (sigma or gamma); if None, the user is prompted
         - typ: 'Gaussian' or 'Lorentzian'
-        - border: range in reciprocal space for k_x and k_y (-border to border)
-        - resolution: number of points on each axis for the mesh
-        - minimum_intensity:
-        - prnt: 
+        - border: Range in reciprocal space for k_x and k_y (-border to border)
+        - resolution: Number of points on each axis for the mesh
+        - minimum_intensity: Minimum intensity shown in image
+        - prnt: If not '', save the generated image as a <prnt>.png file.
+        Returns:
+        - Matrix with the intensity values ​​of each point on the calculated map
         """
-        if self.SuperRed is None:
+        if self.primitive_lattice is None:
             print("First calculate the primitive cell of the system")
             return None
-        SR=self.SuperRed
+        SR=self.primitive_lattice
         if SR.diffractionData is None:
             print("Evaluating Structure Factor at each network point.")
             vl, eq = calcVerticesFBZ(SR.reciprocalVectors)
@@ -431,7 +397,7 @@ class System:
         
         if width is None:
             width = float(input(f"Enter the value of width ({'σ' if typ=='Gaussian' else 'γ'}): "))
-    
+        puntos = puntos[puntos[:, 2] > (minimum_intensity/1e10)]
         # Crear malla de puntos
         kx = np.linspace(-border, border, resolution)
         ky = np.linspace(-border, border, resolution)
@@ -468,9 +434,9 @@ class System:
         plt.ylabel(r'$k_y$')
         plt.title(f"Diffraction pattern ({typ}, width = {width})")
         plt.tight_layout()
-        if prnt:
+        if prnt!='':
             #iName=input("Indica el nombre con el que se guardará")
-            iName=SR.name.replace('.','_')
+            iName = safe_filename(prnt)
             iName+=f"({typ})"
             Images_path = os.path.join(os.getcwd(), 'Images')
             if not os.path.exists(Images_path):
@@ -483,7 +449,7 @@ class System:
     
 #----------------------------------------------------------------------------------------
     
-    def its_hexagonal_system(self):
+    def _its_hexagonal_system(self):
         '''
         Returns True if the system is composed exclusively of hexagonal lattices.
         '''
@@ -493,7 +459,7 @@ class System:
                 return False
         return True
     
-    def adjust(self, M):
+    def _adjust(self, M):
         '''
         Verifies whether matrix M belongs in the loMat list and inserts it in order.
         
@@ -502,7 +468,7 @@ class System:
         '''
         if det(M)==0:
             return 0
-        b, i = self.goesHere(M,0)
+        b, i = self._goesHere(M,0)
         if b:
             if len(self.loMat)<self.MaxNumM:
                 if i<len(self.loMat):
@@ -515,7 +481,7 @@ class System:
         #print("---Matriz rechazada--")
         return 1
     
-    def goesHere(self, M: m2x2, i: int):
+    def _goesHere(self, M: m2x2, i: int):
         '''
         Checks whether matrix M should be placed at position i in loMat.
 
@@ -540,9 +506,9 @@ class System:
             if esRotacion(a,b,c,d):#Si el resultado es rotación del que ya tenemos lo descarta
                 #print("\t--Matriz rotada existente")
                 return False, -1
-            bo, i = self.goesHere(M,i+1)#Verifica en la siguiente posición
+            bo, i = self._goesHere(M,i+1)#Verifica en la siguiente posición
             return bo, i
-        bo, i = self.goesHere(M,i+1)#Verifica en la siguiente posición
+        bo, i = self._goesHere(M,i+1)#Verifica en la siguiente posición
         return bo, i
     
     def clon(self):
@@ -554,34 +520,34 @@ class System:
         s.name = self.name
         s.poits = copy.copy(self.poits)
         s.loMat = copy.copy(self.loMat)
-        s.SuperRed = copy.copy(self.SuperRed)
+        s.primitive_lattice = copy.copy(self.primitive_lattice)
         s.MT = self.MT
         return s
     
-    def set_maximum_number_of_matrices(self, newMax:int):
+    def sMNoM(self, newMax:int):
         '''
-        Sets a new maximum size for the list of candidate transformation matrices (loMat).
+        (set maximum number of matrices)Sets a new maximum size for the list of candidate transformation matrices (loMat).
 
         Parameters:
             newMax (int): New upper limit for loMat length.
         '''
         self.MaxNumM = newMax
-        self.calculateTM()
+        self._calculateTM()
         
     
     def show(self):
         '''
         Displays basic structural data for the system, including both real space and reciprocal space representations.
         '''
-        if self.SuperRed is None:
+        if self.primitive_lattice is None:
             print('*'*84+"\n  Superlattice not yet computed, use the 'createSuperLattice' function to generate it.  \n"+'*'*84)
         else:
             print("TM:")
             pmat(self.MT)
-            print(self.name,"\nUnit cell with {} atoms:".format(self.SuperRed.nOAtms()))
-            self.SuperRed.showme()
+            print(self.name,"\nUnit cell with {} atoms:".format(self.primitive_lattice.nOAtms()))
+            self.primitive_lattice.showme()
             print("Reciprocal Space:")
-            self.SuperRed.printReciprocalSpace()
+            self.primitive_lattice.printReciprocalSpace()
             
     def showReciprocalSpace(self,
                             t:float=10,
@@ -600,10 +566,10 @@ class System:
             zoom (bool): If True, zooms in around the center.
             colors (list): Optional list of colors for each layer.
         '''
-        if self.SuperRed is None:
+        if self.primitive_lattice is None:
             print('*'*84+"\n  Superlattice not yet computed, use the 'createSuperLattice' function to generate it.  \n"+'*'*84)
         else:
-            self.SuperRed.printReciprocalSpace(t=t,border=border,prnt=prnt,zoom=zoom,colors=colors)
+            self.primitive_lattice.printReciprocalSpace(t=t,border=border,prnt=prnt,zoom=zoom,colors=colors)
             
     def showPC(self, iName:str=''):
         '''
@@ -613,10 +579,10 @@ class System:
         Parameters:
             iName (str): Optional name for the output image file.
         '''
-        if self.SuperRed is None:
+        if self.primitive_lattice is None:
             print("Primitive Cell not yet computed")
         else:
-            self.SuperRed.showPC(iName=iName)
+            self.primitive_lattice.showPC(iName=iName)
     
     def ejecuta(self,n:int=15,e:float=0.05):
         '''
@@ -627,11 +593,11 @@ class System:
             n (int): Search range in unit cells.
             e (float): Maximum allowed error.
         '''
-        a = self.searchLP(rangeOfSearch=n, epsilon=e)
+        a = self._searchLP(rangeOfSearch=n, epsilon=e)
         if a<1:
             print("Error:No primitive vector candidates were found, try larger values for the search range(n) or the accepted error bound(e).")
             return None
-        a = self.calculateTM()
+        a = self._calculateTM()
         if a<0:
             print("Error:No TM candidates were found, try larger values for the search range(n) or the accepted error bound(e).")
             return None
@@ -646,8 +612,8 @@ class System:
             border (float): Drawing area border margin.
             prnt (bool): If True, saves the figure to file.
         '''
-        if not self.SuperRed is None:
-            self.SuperRed.printLightPoints(t,border,prnt)
+        if not self.primitive_lattice is None:
+            self.primitive_lattice.printLightPoints(t,border,prnt)
             
     def rename(self,newName):
         '''
@@ -658,8 +624,8 @@ class System:
         '''
         try:
             self.name=newName
-            if self.SuperRed!=None:
-                self.SuperRed.name=f'SuperLattice {newName}'
+            if self.primitive_lattice!=None:
+                self.primitive_lattice.name=f'SuperLattice {newName}'
                 return 1
         except Exception as e:
             print(f"Error:{str(e)}.")
@@ -670,28 +636,63 @@ class System:
         Exports the system's primitive cell to a POSCAR-formatted .vasp file.
 
         Parameters:
-            PCname (str): Optional name for the exported file.
+            PCname (str): Name for the exported file. Default name: PrimitiveCell_of_System
         '''
-        if self.SuperRed is None:
+        if self.primitive_lattice is None:
             print("There is no primitive cell calculated for this system")
             return 0
         if PCname=='':
-            PCname=self.name
-        return self.SuperRed.exportLattice(name=PCname)
+            PCname = 'Primitive_lattice'
+        return self.primitive_lattice.exportLattice(name=PCname)
 #---------------------------------------------------------------------------------
 '''
-    def analyze(self, angle_range=(0.0,180.0), rangeOfSearch=15, precision=2, maxErr=0.05):
-        
-        Functional only in bilayer systems, it searches for the rotation angles between
-        the layers of the system that can yield results with minimal deformation.
-        angle_range -> Search range for the angle specified by the pair
-                              (initial angle, final angle)
-        rangeOfSearch -> Determines the range of the search area for the Lattice Points
-                         of the substrate layer.
-        precision -> Search precision given by the number of digits after the decimal 
-                     point (1=tenths of a degree, 2=hundredths of a degree, ...)
-        maxErr -> Maximum tolerable error to be accepted
-        if len(self.redes)==2:
-            return analiza(self.redes[0],self.redes[1],roAng=angle_range,erMax=maxErr,mor=rangeOfSearch,accuracy=precision)
-        print("Este método sólo funcional en Sistemas binarios")
+    def analiza_Mat(self):
+        """
+        Analyzes all transformation matrices in the list of candidates,
+        saving their geometric and distortion data, and identifies the most suitable one.
+        """
+        if self.poits==[]:
+            self._searchLP()
+            self._calculateTM()
+        m0 = [[1.0,0.0],[0.0,1.0]]
+        dif = 100.0
+        info = []
+        mejor = 0
+        k=0
+        a,b = self.redes[0].get_pv()
+        for T in self.loMat:
+            sa, sb = transfVs(a,b,T)#Vectores de la super-red en capa 0
+            err = 0.0
+            inf_c = []
+            for i in range(1, len(self.redes)):
+                # Primitive vectors of layer i
+                ai,bi = self.redes[i].get_pv()
+                # TM corresponding to layer i
+                T_i = corresponding_points(self.redes[0],self.redes[i],T)
+                # Superlattice vectors in layer i
+                sa_i, sb_i = transfVs(ai,bi,T_i)
+                # Matrix with the primitive vectors of layer i
+                V_i = VtM(ai,bi)
+                # Matrix with the optimized primitive vectors of layer i
+                V_i_Op = m2M(VtM(sa,sb),inv2x2(T_i))
+                # Strain matrix for layer i
+                S_i = m2M(inv2x2(V_i),V_i_Op)
+                # Strain in the norm of the primitive vectors of layer i
+                d_a, d_b = long(sa_i)/long(sa), long(sb_i)/long(sb)
+                # Rotation adjustment in the vectors of layer i
+                t_a, t_b = cAng(sa_i,sa), cAng(sb_i,sb)
+                # Final error in the primitive vectors of layer i
+                e_a, e_b = dist(sa,sa_i)/long(sa), dist(sb,sb_i)/long(sb)
+                # Degree of distortion in layer i
+                dd = calc_dd(V_i,V_i_Op)
+                err += dd
+                # All computed values are saved:
+                #[Mat Ti, Mat Si, error a, error b,delta_a,delta_b,theta_a,theta_b,dd,#Atms]
+                inf_c.append([T_i,S_i,e_a,e_b,d_a,d_b,t_a,t_b,dd,det(T_i)*self.redes[i].nOAtms()])
+            info.append([T,(sa,sb),err,inf_c])
+            if err<dif:
+                dif=err
+                mejor = k
+            k+=1
+        return info,mejor
 '''

@@ -3,11 +3,7 @@ import numpy as np
 from matplotlib import collections  as mc
 from matplotlib.patches import Polygon
 from typing import *
-import copy
-import math
-import random
-import re
-import os
+import sys, copy, math, random, re, os, cmath
 plt.style.use('default')
 plt.rcParams['figure.figsize'] = (8,8)
 vector2D = Tuple[float, float]
@@ -711,14 +707,14 @@ def calcVerticesFBZ(rv,pnt=False):
     
 def F_G(e:str, G):
     """
-    Computes the atomic form factor f(G) for a given element and scattering vector G.
+    Computes the atomic form factor f(G) for a given element and an array of scattering vectors G.
     
     Parameters:
         e (str): Atomic symbol (e.g., "C", "Fe", "O").
-        G (array): Scattering vector.
-    
+        G (array-like): Scattering vectors of shape (..., 2) or (..., 3).
+
     Returns:
-        float: Atomic form factor f(G).
+        np.ndarray or float: Atomic form factor f(G) for each G.
     """
     elemList=['H','H1-','He','Li','Li1+','Be','Be2+','B','C','Cval','N',
               'O','O1-','F','F1-','Ne','Na','Na1+','Mg','Mg2+','Al','Al3+',
@@ -956,57 +952,41 @@ def F_G(e:str, G):
         ev = elemVals[elemList.index(e)]
     else:
         ev = elemVals[0]
-    nG = ((np.linalg.norm(G)/(math.pi*2))/4*math.pi)**2
-    if nG==0:
-        return 0.01
-    a = [ev[0],ev[2],ev[4],ev[6]]
-    b = [ev[1],ev[3],ev[5],ev[7]]
+        
+    # Convert G to numpy array
+    G = np.asarray(G)
+    
+    # Compute |G| for each vector
+    normG = np.linalg.norm(G, axis=-1)
+    
+    # Compute nG (vectorized)
+    nG = ((normG / (math.pi * 2)) / 4 * math.pi) ** 2
+    
+    # Avoid division by zero or underflow
+    nG = np.where(nG == 0, 1e-20, nG)
+    
+    a = np.array([ev[0], ev[2], ev[4], ev[6]])
+    b = np.array([ev[1], ev[3], ev[5], ev[7]])
     c = ev[8]
-    f = 0
-    for i in range(4):
-        f+=(a[i]*math.exp(-b[i]*((nG))))
-    return f+c
+    
+    # Broadcasting: (4,1) × (N,) → (4,N)
+    f = np.sum(a[:, None] * np.exp(-b[:, None] * nG[None, :]), axis=0) + c
+    
+    return f
 
-def reciprocalBackgroundMesh_original(rv,vl,t,b):
+def safe_filename(name: str, default="save_file"):
     """
-    Constructs a mesh of reciprocal lattice points and their FBZ boundaries for plotting.
+    Devuelve un nombre de archivo seguro y válido en el sistema operativo actual.
 
-    Parameters:
-        rv (list): Reciprocal lattice basis vectors.
-        vl (list): FBZ vertex list.
-        t (float): Line width scaling factor.
-        b: Parameter defining plotting range or density.
-
-    Returns:
-        tuple: Arrays of x, y coordinates and a LineCollection object.
+    Si 'name' contiene caracteres inválidos o está vacío, devuelve un nombre corregido.
     """
-    try:
-        xs = []
-        ys = []
-        enls=[]
-        sra, srb = to2D(rv[0]), to2D(rv[1])
-        mi=inv2x2(VtM(sra, srb))
-        (x1,y1),(x2,y2) = MtV(m2M(mi,[[b,b],[b,-b]]))
-        (x3,y3),(x4,y4) = MtV(m2M(mi,[[-b,-b],[b,-b]]))
-        x = round(max(abs(x1),abs(x2),abs(x3),abs(x4)))+1
-        y = round(max(abs(y1),abs(y2),abs(y3),abs(y4)))+1
-        for i in range(-x,x):
-            for j in range(-y,y):
-                (px,py) = m2V(sra,srb,(i,j))
-                #Calcula la posición de cada centro
-                xs.append(px)
-                ys.append(py)
-                o = sumaV((px,py),vl[len(vl)-1])
-                for p in vl:#calcula las aristas de la FBZ de cada centro
-                    f = sumaV((px,py), p)
-                    enls.append([o, f])
-                    o = f
-        xs = np.array(xs)
-        ys = np.array(ys)
-        linkList = mc.LineCollection(np.array(enls), colors='silver', linewidths=(t/10))
-        return xs, ys, linkList
-    except Exception as e:
-        print(f"Error, {str(e)}. Check the entries")
+    if not name or not isinstance(name, str):
+        name = default
+    name = re.sub(r'[<>:"/\\|?*\x00-\x1F]', '_', name).strip()
+    reserved = {'CON','PRN','AUX','NUL','COM1','COM2','LPT1','LPT2'}
+    if name.upper() in reserved:
+        name = f"{name}_file"
+    return name
 
 def bereiten():
     """

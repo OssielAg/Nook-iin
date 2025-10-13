@@ -1,5 +1,4 @@
 from .atom import *
-import cmath
 atomList = List[Atom]
 recpVectrs = List[vector2D]
 affList = List[Tuple[str, float, float, float,vector2D]]
@@ -432,107 +431,118 @@ class Lattice:
         self.aff = nl
         return nl
 
-    def F_hkl(self,h:float, k:float, FG:bool=True):
+    def _F_hkl(self, h: np.ndarray, k: np.ndarray, FG: bool=True):
         """
-        Calculates the structure factor F(h, k) for the specified reciprocal point.
+        Calculates the structure factor F(h, k) for arrays of reciprocal points.
     
         Parameters:
-            h (float): Index along reciprocal vector a*.
-            k (float): Index along reciprocal vector b*.
+            h (array): Indices along reciprocal vector a*.
+            k (array): Indices along reciprocal vector b*.
             FG (bool): Whether to apply atomic form factor.
     
         Returns:
-            float: Structure factor at (h, k)**2.
+            array: Structure factor at (h, k)**2 for each point.
         """
-        if h==0 and k==0: return 10**(-20)#Da un valor cercano a 0 al punto en el origen
-        if self.aff is None: self.aff = self.loAtms()
+        if self.aff is None:
+            self.aff = self.loAtms()
         AB = self.aff
-        u,v = self.get_pv()
+        u, v = self.get_pv()
         rvs = self.reciprocalVectors
         x = to2D(rvs[0])
         y = to2D(rvs[1])
-        hk = m2V(x,y,(h,k))
-        F = 0
+    
+        # Generar todos los vectores hk = h*x + k*y
+        hk = np.outer(h, x) + np.outer(k, y)     
+        F = np.zeros(len(h), dtype=complex)
+    
         if FG:
             for atm in AB:
-                pa = atm[4]
-                s = F_G(atm[0],hk)*np.exp(-1j * (pP(to3D(hk),to3D(pa))))
-                F+=s
+                pa = atm[4]  # posición atómica
+                f_g = F_G(atm[0], hk)          # <- asegúrate que acepte array de hk
+                phase = np.exp(-1j * (hk[:,0]*pa[0] + hk[:,1]*pa[1]))
+                F += f_g * phase
         else:
-            for atm in AB:
-                pa = m2V(u,v,(atm[1],atm[2]))
-                s = aN(atm[0])*cmath.exp(-1j * (pP(to3D(hk),to3D(pa))))
-                F+=s
-        return abs(F)**2
-
+            pa = np.array([m2V(u, v, (atm[1], atm[2])) for atm in AB])
+            for atm, p in zip(AB, pa):
+                coeff = aN(atm[0])
+                phase = np.exp(-1j * hk @ to3D(p))
+                F += coeff * phase
+        
+        intensity = np.abs(F)**2
+        mask = (h == 0) & (k == 0)
+        intensity[mask] = 1e-20
+        return intensity
 
     def reciprocalBackgroundMesh(self,
-                                 vl:recpVectrs,
-                                 t:float,
-                                 border:float,
-                                 calcS:bool=False,
-                                 rnd:int=25,
-                                 FG=True)->bgmData:
+                                 vl: recpVectrs,
+                                 t: float,
+                                 border: float,
+                                 calcS: bool = False,
+                                 rnd: int = 25,
+                                 FG=True) -> bgmData:
         '''
         Compute reciprocal lattice points and their structure factors, considering Z position (l index).
-    
+        
         Parameters:
-        - vl: Vertices of the FBZ associated with the lattice
-        - t: Thickness of the lines drawn (for visualization)
-        - border: Size of the area to be drawn
-        - calcS: If True, calculates the structure factor for each point
-        - rnd: Number of decimal digits for rounding normalized structure factor
-        - FG: If True, includes scattering vector in calculation
-    
+            - vl: Vertices of the FBZ associated with the lattice
+            - t: Thickness of the lines drawn (for visualization)
+            - border: Size of the area to be drawn
+            - calcS: If True, calculates the structure factor for each point
+            - rnd: Number of decimal digits for rounding normalized structure factor
+            - FG: If True, includes scattering vector in calculation
+        
         Returns:
-        - xs: X positions of reciprocal points
-        - ys: Y positions of reciprocal points
-        - Sn: Normalized structure factor values
-        - linkList: LineCollection of FBZ edges
+            - xs: X positions of reciprocal points
+            - ys: Y positions of reciprocal points
+            - Sn: Normalized structure factor values
+            - linkList: LineCollection of FBZ edges
         '''
         try:
             b = border
-            xs = []
-            ys = []
-            enls=[]
-            S = []
-            nPts=0
-            maxF = 0.01
             rv = self.reciprocalVectors
             sra, srb = to2D(rv[0]), to2D(rv[1])
             mi = inv2x2(VtM(sra, srb))
-            (x1,y1),(x2,y2) = MtV(m2M(mi,[[b,b],[b,-b]]))
-            (x3,y3),(x4,y4) = MtV(m2M(mi,[[-b,-b],[b,-b]]))
-            x = round(max(abs(x1),abs(x2),abs(x3),abs(x4)))+1
-            y = round(max(abs(y1),abs(y2),abs(y3),abs(y4)))+1
-            for i in range(-x,x):
-                for j in range(-y,y):
-                    (px,py) = m2V(sra,srb,(i,j))
-                    if abs(px)<b and abs(py)<b:
-                        #Calcula el valor F_hkl para este PR
-                        if calcS:
-                            F = self.F_hkl(i,j,FG=FG)
-                            print(f'Calculating Structure Factor....{nPts} LPs calculated',end="\r")
-                            if F>maxF:maxF=F
-                            S.append(F)
-                            nPts+=1
-                        #Calcula la posición de cada centro
-                        xs.append(px)
-                        ys.append(py)
-                        o = sumaV((px,py),vl[len(vl)-1])
-                        for p in vl:#calcula las aristas de la FBZ de cada centro
-                            f = sumaV((px,py), p)
-                            enls.append([o, f])
-                            o = f
-            xs = np.array(xs)
-            ys = np.array(ys)
-            linkList = mc.LineCollection(np.array(enls), colors='silver', linewidths=(t/10))
-            Sn=[]
-            for F in S:
-                Sn.append(round(F/maxF,rnd))
-            return xs, ys, np.array(Sn), linkList
+            
+            (x1, y1), (x2, y2) = MtV(m2M(mi, [[b, b], [b, -b]]))
+            (x3, y3), (x4, y4) = MtV(m2M(mi, [[-b, -b], [b, -b]]))
+            x = round(max(abs(x1), abs(x2), abs(x3), abs(x4))) + 1
+            y = round(max(abs(y1), abs(y2), abs(y3), abs(y4))) + 1
+            
+            # Crear malla de índices
+            I, J = np.meshgrid(np.arange(-x, x), np.arange(-y, y), indexing='ij')
+            I = I.flatten()
+            J = J.flatten()
+            
+            # Calcular posiciones recíprocas de todos los puntos
+            pxs, pys = m2V(sra, srb, (I, J))            
+            # Filtrar por frontera
+            mask = (np.abs(pxs) < b) & (np.abs(pys) < b)
+            pxs, pys = pxs[mask], pys[mask]
+            
+            # Calcular estructura
+            if calcS:
+                S = self._F_hkl(I, J, FG=FG)
+                maxF = np.max(S) if np.max(S) > 0 else 1.0
+                Sn = np.round(S / maxF, rnd)
+                Sn = Sn[mask]
+            else:
+                Sn = []
+            
+            # Construir aristas de FBZ
+            enls = []
+            for px, py in zip(pxs, pys):
+                o = sumaV((px, py), vl[-1])
+                for p in vl:
+                    f = sumaV((px, py), p)
+                    enls.append([o, f])
+                    o = f
+            
+            linkList = mc.LineCollection(np.array(enls), colors='silver', linewidths=(t / 10))
+            return np.array(pxs), np.array(pys), np.array(Sn), linkList
+    
         except Exception as e:
             print(f"Error, {str(e)}. Check the entries")
+
 
     def printReciprocalSpace(self,
                              t:float=10,
@@ -597,6 +607,7 @@ class Lattice:
             rnd (int): Rounding for normalized intensity.
         """
         try:
+            print("Calculating diffraction pattern...")
             plt.style.use('dark_background')
             plt.rcParams['figure.figsize'] = (8,8)
             alph = 0.7
@@ -621,11 +632,13 @@ class Lattice:
             plt.show()
             plt.style.use('default')
             plt.rcParams['figure.figsize'] = (8,8)
+            print("Diffraction pattern complete.")
             return 1
         except Exception as e:
+            print("An error occurred while calculating the diffraction pattern.")
             print(f"Error:{str(e)}.")
             
-    def dInfo(self,D,p=False):
+    def _dInfo(self,D,p=False):
         """
         Computes the effect of a deformation matrix on the lattice vectors.
     
@@ -683,7 +696,7 @@ class Lattice:
         Parameters:
             D: 2x2 matrix representing the deformation transformation.
         """
-        inf = self.dInfo(D,p=True)
+        inf = self._dInfo(D,p=True)
         a_o, b_o = inf[0], inf[1]
         self.name+="'"
         self.setNewVectors(a_o,b_o)

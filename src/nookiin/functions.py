@@ -1,9 +1,6 @@
 from .lattice import *
-#print('Load Functions')
 
-# Métodos derivados
-
-def isitin(r:Lattice, cent:vector2D, sr:Lattice, slvl:float):
+def _isItIn(r:Lattice, cent:vector2D, sr:Lattice, slvl:float):
     '''
     Determines which atoms from the cell of lattice 'r' positioned at 'cent'
     fall within the primitive cell (PC) of the lattice 'sr'.
@@ -52,7 +49,7 @@ def isitin(r:Lattice, cent:vector2D, sr:Lattice, slvl:float):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def megeCut(r:Lattice, sr:Lattice, lvl:int=0):
+def _megeCut(r:Lattice, sr:Lattice, lvl:int=0):
     '''
     Auxiliary method used in the construction of supercells.
 
@@ -79,12 +76,12 @@ def megeCut(r:Lattice, sr:Lattice, lvl:int=0):
             a = i+lu[0]
             for j in range(lv[1]-lv[0]):
                 b = j+lv[0]
-                isitin(r,(a,b),sr,lvl)
+                _isItIn(r,(a,b),sr,lvl)
         return 1
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def cleanA(r:Lattice, err:float=0.001):
+def _cleanA(r:Lattice, err:float=0.001):
     '''
     Removes duplicate atoms from the atomic basis of a lattice.
 
@@ -141,11 +138,11 @@ def superMesh(sa:vector2D, sb:vector2D, layerList:list):
         newName="SuperLattice"
         i=0
         for m in layerList:
-            megeCut(m, sR, lvl=i)
+            _megeCut(m, sR, lvl=i)
             sR.prof=sR.prof+m.prof
             newName=newName+" ["+m.name+"]"
             i = i + m.detachment
-        elim = cleanPCell(sR)
+        elim = _cleanPCell(sR)
         sR.name = newName
         sR.layerList = layerList
         sR.aff = sR.loAtms()
@@ -153,7 +150,7 @@ def superMesh(sa:vector2D, sb:vector2D, layerList:list):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def pts(layer:Lattice, max_it:int=15):
+def _pts(layer:Lattice, max_it:int=15):
     '''
     Generates a list of lattice points within a defined region.
 
@@ -178,7 +175,7 @@ def pts(layer:Lattice, max_it:int=15):
     except Exception as e:
         print(f"Error:{str(e)}.")
 
-def calcCD(substrate:Lattice, layer:Lattice, ab:list):
+def _calcCD(substrate:Lattice, layer:Lattice, ab:list):
     '''
     Approximates a lattice point from one lattice in another lattice's coordinate system.
 
@@ -205,7 +202,7 @@ def calcCD(substrate:Lattice, layer:Lattice, ab:list):
     except Exception as e:
         print(f"Error:{str(e)}.")
     
-def calcPR(pts:list, substrate:Lattice, layer:Lattice, eps:float=0.05):
+def _calcPR(pts:list, substrate:Lattice, layer:Lattice, eps:float=0.05):
     '''
     Filters a list of lattice points, keeping only those that match between two lattices.
 
@@ -261,11 +258,11 @@ def commonVs(redes:list, max_val:int=15, eps:float=0.05):
         if len(redes)>1:
             sustrato = redes[0]
             #Calcula todos los Puntos de Red de la capa 0 para el rango indicado por max_val
-            puntos = pts(sustrato, max_it=max_val)
+            puntos = _pts(sustrato, max_it=max_val)
             #En cada capa actualiza la lista de Puntos de red dejando los puntos que coinciden, con
             #un error inferor a eps, con algún punto de red para la red en la capa actual 
             for i in range(1,len(redes)):
-                puntos = calcPR(puntos, sustrato, redes[i], eps=eps)
+                puntos = _calcPR(puntos, sustrato, redes[i], eps=eps)
             pr = [[p[0][0],p[1]/(len(redes)-1)] for p in puntos]
             return sorted(pr, key=lambda op : op[1])
         return []
@@ -285,7 +282,7 @@ def corresponding_points(l1:Lattice, l2:Lattice, M1:m2x2):
     Matrix representing the corresponding cell in 'l2'.
     '''
     a1, b1 = MtV(M1)
-    a2, b2 = (calcCD(l1,l2,a1),calcCD(l1,l2,b1))
+    a2, b2 = (_calcCD(l1,l2,a1),_calcCD(l1,l2,b1))
     return VtM(a2,b2)
     
 def calc_dd(V_i:m2x2, V_o:m2x2):
@@ -319,7 +316,7 @@ def calc_dd(V_i:m2x2, V_o:m2x2):
         print(f"Error:{str(e)}.")
         
 #--------------Funciones Auxilares para quitar átomos repetidos de una red---------------
-def esClon(Atms: list, atm: Atom, eps: float):
+def _isClon(Atms: list, atm: Atom, eps: float):
     '''
     Determine whether the atom `atm` is a duplicate (clone) of any atom in `Atms`.
 
@@ -344,7 +341,7 @@ def esClon(Atms: list, atm: Atom, eps: float):
                 return True
     return False
 
-def borders(Atms: list):
+def _borders(Atms: list):
     '''
     Identify atoms positioned on the boundary of the unit cell.
 
@@ -363,7 +360,7 @@ def borders(Atms: list):
             orilla.append(a)
     return orilla
 
-def cleanA(Atms: list, eps: float):
+def _cleanA(Atms: list, eps: float):
     '''
     Remove atoms considered redundant due to overlap at the boundaries of a unit cell.
 
@@ -378,20 +375,20 @@ def cleanA(Atms: list, eps: float):
         List of Atom instances that were removed as duplicates.
     '''
     repetidos=[]
-    orilla = borders(Atms)
+    orilla = _borders(Atms)
     #print(f'{len(orilla)} átomos en frontera')
     for a in Atms:
         x, y = a.pos
         if abs(1-x)<0.01 or abs(1-y)<0.01:
             #print(f'\nAnalizando {a}')
-            if esClon(orilla,a,eps):
+            if _isClon(orilla,a,eps):
                 repetidos.append(a)
                 #print(f'***Se elimina {a}')
     for a in repetidos:
         Atms.remove(a)
     return repetidos
 
-def cleanPCell(L: Lattice, acc: int = 6):
+def _cleanPCell(L: Lattice, acc: int = 6):
     '''
     Clean a lattice by removing duplicate atoms from its atomic basis.
 
@@ -409,12 +406,12 @@ def cleanPCell(L: Lattice, acc: int = 6):
     a,b = L.get_pv()
     t = max(long(a),long(b))
     for esp in L.atms:
-        rep=cleanA(esp,1/(t*10**acc))
+        rep=_cleanA(esp,1/(t*10**acc))
         removidos+=rep
     return removidos
 
 #-------------------Funciones auxiliares para mostrar datos de una MT-------------------
-def textLonN(t:str,n:int,al:str='c'):
+def _textLonN(t:str,n:int,al:str='c'):
     '''
     Format a string to a fixed width using alignment and padding.
 
@@ -463,11 +460,11 @@ def header():
     encabezados=["Lattice","T","Deformation","Distortion:"+delta+"//"+theta,"#Atoms"]
     linea = '+'+'-'*25+'+'+'-'*15+'+'+'-'*23+'+'+'-'*23+'+'+'-'*8+'+'+'\n'
     head = linea + '|'
-    head += textLonN(encabezados[0],25)+ '|'
-    head += textLonN(encabezados[1],15)+ '|'
-    head += textLonN(encabezados[2],23)+ '|'
-    head += textLonN(encabezados[3],23)+ '|'
-    head += textLonN(encabezados[4],8)+'|\n'
+    head += _textLonN(encabezados[0],25)+ '|'
+    head += _textLonN(encabezados[1],15)+ '|'
+    head += _textLonN(encabezados[2],23)+ '|'
+    head += _textLonN(encabezados[3],23)+ '|'
+    head += _textLonN(encabezados[4],8)+'|\n'
     head += linea
     return head
 
@@ -492,20 +489,20 @@ def infLayer(L: Lattice, data: list):
     nA = int(det(T))*int(L.nOAtms())
     fila=''
     fila += '|' + ' '*25 + '|'
-    fila += '  |'+textLonN(str(T[0][0]),4,al='r')+textLonN(str(T[0][1]),5,al='r')+'|  |'
-    fila += '  |'+textLonN(f'{dM[0][0]:.5f}',8,al='r')+textLonN(f'{dM[0][1]:.5f}',9,al='r')+'|  |'
-    fila += textLonN(f"{round((da-1)*100,3):+}% // {round(ta,2):+}°",23)+'|'
-    fila += textLonN(str(nA),8)+'|\n'
-    fila += '|' + textLonN(name,25) + '|'
-    fila += '  |'+textLonN(str(T[1][0]),4,al='r')+textLonN(str(T[1][1]),5,al='r')+'|  |'
-    fila += '  |'+textLonN(f'{dM[1][0]:.5f}',8,al='r')+textLonN(f'{dM[1][1]:.5f}',9,al='r')+'|  |'
-    fila += textLonN(f"{round((db-1)*100,3):+}% // {round(tb,2):+}°",23)+'|'
-    fila += textLonN(' ',8)+'|\n'
+    fila += '  |'+_textLonN(str(T[0][0]),4,al='r')+_textLonN(str(T[0][1]),5,al='r')+'|  |'
+    fila += '  |'+_textLonN(f'{dM[0][0]:.5f}',8,al='r')+_textLonN(f'{dM[0][1]:.5f}',9,al='r')+'|  |'
+    fila += _textLonN(f"{round((da-1)*100,3):+}% // {round(ta,2):+}°",23)+'|'
+    fila += _textLonN(str(nA),8)+'|\n'
+    fila += '|' + _textLonN(name,25) + '|'
+    fila += '  |'+_textLonN(str(T[1][0]),4,al='r')+_textLonN(str(T[1][1]),5,al='r')+'|  |'
+    fila += '  |'+_textLonN(f'{dM[1][0]:.5f}',8,al='r')+_textLonN(f'{dM[1][1]:.5f}',9,al='r')+'|  |'
+    fila += _textLonN(f"{round((db-1)*100,3):+}% // {round(tb,2):+}°",23)+'|'
+    fila += _textLonN(' ',8)+'|\n'
     fila += lin
     return fila, nA
 
 #--------------Funciones Auxiliares para la función "importLattice(File)"--------------
-def readFile(name: str):
+def _readFile(name: str):
     '''
     Read the contents of a file and return its lines as a list of strings.
 
@@ -533,7 +530,7 @@ def readFile(name: str):
         print(f"Error:{str(e)}.")
         return None
         
-def leeNumeros(line: str):
+def _leeNumeros(line: str):
     '''
     Extract all numerical values from a given string.
 
@@ -567,30 +564,36 @@ def importLattice(name: str, prnt: bool = True):
     ValueError
         If the file is not found or the format is unsupported.
     '''
-    errormsg = '''The file does not exist or is not in the format supported by the program.
+    errormsg = '''
+    The file does not exist or is not in the format supported by the program.
     - You must provide the name of a VASP file (not including the '.vasp').
     - The format must be a POSCAR format of type 'DIRECT'.
-    - POSCAR files of type 'Cartesian' are not recognized.'''
+    - POSCAR files of type 'Cartesian' are not recognized.
+    '''
     xyz = []
     try:
         # cargamos el nombre de la Red
         if prnt: print("File '{}' will be read".format(name+".vasp"))
-        lines = readFile(name+".vasp")
+        lines = _readFile(name+".vasp")
         nameRed = re.sub(r'[^a-zA-Z0-9_() ]','',lines[0].replace('.','_').strip())
         #Cargamos los vectores primitivos de la Red
-        vA = leeNumeros(lines[2])
-        vB = leeNumeros(lines[3])
-        vC = leeNumeros(lines[4])
+        vA = _leeNumeros(lines[2])
+        vB = _leeNumeros(lines[3])
+        vC = _leeNumeros(lines[4])
+        correction = False
         if (round(vA[2],5)!=0.0 or round(vB[2],5)!=0.0 or round(vC[0],5)!=0.0 or round(vC[1],5)!=0.0):
             msg = '''
-            Initial vectors that are not supported as is will be modified to look like this:
-                a = (a1,a2,0), b = (b1,b2,0), c = (0,0,c3)
-            Their functionality is at your discretion.
-            '''
-            print(msg,errormsg)
+    Incompatible initial vectors, will be modified to look like this:
+        a = (a1,a2,0), b = (b1,b2,0), c = (0,0,c3)
+    The relative positions of the atoms will be modified accordingly to preserve their absolute
+    position in space.
+    The functionality of the generated network is at your discretion.
+    '''
+            print(msg)
+            correction = True
         #Cargamos una lista con los tipos de Átomos en la Red y una con el numero de átomos de ese tipo
         aTipos = lines[5].split()
-        aCant = leeNumeros(lines[6])
+        aCant = _leeNumeros(lines[6])
         if len(aTipos)!=len(aCant):
             print("Error: Number of Atom Types does not match")
             raise SyntaxError('Document not supported')
@@ -599,20 +602,44 @@ def importLattice(name: str, prnt: bool = True):
         for i in range(len(aTipos)):
             col = '#'+''.join([random.choice('123456789ABCD') for i in range(6)])
             for j in range(round(aCant[i])):
-                pA = leeNumeros(lines[ind+j])
+                pA = _leeNumeros(lines[ind+j])
+                if correction: pA = _modify_position(pA,vA,vB,vC)
                 at = Atom((pA[0], pA[1]), posZ=pA[2], color=col, sig=aTipos[i])
                 atomos.append(at)
             ind = ind+round(aCant[i])
         leido = Lattice((vA[0],vA[1]),(vB[0],vB[1]),atms=atomos,name=nameRed,detachment=vC[2])
-        if prnt: print("--Lattice created successfully from file '{}'--".format(name+".vasp"))
+        if prnt: print("--Lattice created successfully")
         return leido
-    except:
+    except Exception as e:
+        print(f"Error:{str(e)}.")
         print(errormsg)
         return None
 
+def _modify_position(V:vector3D, vA:vector3D, vB:vector3D, vC:vector3D):
+    """
+    Generates the new relative position after modifying the VPs
+    Parameters:
+        V :vector3D -> Original position vector of the atom
+        vA:vector3D -> Original PV a
+        vB:vector3D -> Original PV b
+        vC:vector3D -> Original PV c
+    Returns:
+        New position vector
+    """
+    (x,y,z) = V
+    (a_1,a_2,a_3) = vA
+    (b_1,b_2,b_3) = vB
+    (c_1,c_2,c_3) = vC
+    if (a_2*b_1-a_1*b_2)==0 or c_3 == 0:
+        print("Error, invalid primitive vectors")
+        return None
+    x_m = (a_2*b_1*x-a_1*b_2*x-b_2*c_1*z+b_1*c_2*z)/(a_2*b_1-a_1*b_2)
+    y_m = (a_2*b_1*y-a_1*b_2*y+a_2*c_1*z-a_1*c_2*z)/(a_2*b_1-a_1*b_2)
+    z_m = (a_3*x+b_3*y+c_3*z)/c_3
+    return (x_m,y_m,z_m)
 
 #----------------------Redes prediseñadas------------------------------
-def ejemplos():
+def examples():
     texto ='''
     Predefined lattices are available, as follows:
 
@@ -625,11 +652,13 @@ hexa3(p, atms, name) -> Generates a hexagonal lattice with lattice constant 'p' 
 rectMesh(p1, p2, atms, name) -> Generates a rectangular lattice with lattice constants p1 and p2 and atoms specified in the 'atms' list.
     If not provided, it will generate a lattice with a single atom at the center of the basis.
 
-grafeno() -> Generates a Graphene lattice with a lattice constant of 2.44 Å and atoms arranged in the hexa6 format.
+graphene() -> Generates a Graphene lattice with a lattice constant of 2.44 Å and atoms arranged in the hexa6 format.
 
-grafeno3() -> Generates a Graphene lattice with a lattice constant of 2.44 Å and atoms arranged in the hexa3 format.
+grapheneC3() -> Generates a Graphene lattice with a lattice constant of 2.44 Å and atoms arranged in the hexa3 format.
 
-blackPhospho() -> Generates a Black Phosphorene lattice with lattice constants 3.3061099052 and 4.552418232.
+blackPhosphorene() -> Generates a Black Phosphorene lattice with lattice constants 3.3061099052 and 4.552418232.
+
+h_BN() -> Creates a lattice representing the hexagonal face of layered boron nitride (h-BN)
 '''
     print(texto)
     
