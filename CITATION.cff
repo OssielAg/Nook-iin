@@ -5,7 +5,7 @@ authors:
     email: "OssielAE@ciencias.unam.mx"
     orcid: "0009-0002-8229-8543"
 title: "Nookinn: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems"
-version: 1.9
+version: 2.0
 doi: "10.5281/zenodo.14257397"
 date-released: 2025-07-14
 url: "https://github.com/OssielAg/Nook-iin"
