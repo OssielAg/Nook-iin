@@ -104,6 +104,26 @@ from src.nookiin.system import *
 > ⚠️ **Warning:** This method is **not recommended** for long-term usage, as it may cause conflicts with installed packages or future versions of Nookiin. Prefer the `pip` installation whenever possible.
 
 ---
+#### Nookiin Usage Modes
+
+Nookiin can be used in two main ways:
+
+- **Interactive command-line interface:**  
+  After installing Nookiin or from the root of the repository, run:
+  ```bash
+  python -m nookiin
+  ```
+  This launches the guided step-by-step interface for using Nookiin.
+  This option is convenient for users who prefer an interactive workflow, but is limited to the interface guide.
+
+- **Programmatic usage from Python scripts or notebooks:**  
+  Import the core module as follows:
+  ```python
+  from nookiin.system import *
+  ```
+  This allows access to all classes and functions of Nookiin, suitable for automated workflows, batch processing, or integration into Jupyter notebooks.
+
+---
 
 #### Detailed Usage Guides
 
@@ -290,12 +310,32 @@ from src.nookiin.system import *
 
 ---
 
+#### Modos de uso de Nookiin
+
+Nookiin puede utilizarse de dos maneras principales:
+
+- **Interfaz interactiva en línea de comandos:**  
+  Después de instalar Nookiin o desde la raíz del repositorio, ejecute:
+  ```bash
+  python -m nookiin
+  ```
+  Esto inicia la interfaz guiada paso a paso para usar Nookiin.  
+  Esta opción es conveniente para usuarios que prefieren un flujo de trabajo interactivo, pero está limitado a la guia de la interfaz.
+
+- **Uso programático desde scripts o notebooks de Python:**  
+  Importe el módulo principal de la siguiente manera:
+  ```python
+  from nookiin.system import *
+  ```
+  Esto permite acceder a todas las clases y funciones de Nookiin, adecuado para flujos de trabajo automatizados, procesamiento por lotes o integración en cuadernos Jupyter.
+
+
 #### Guías de Uso Detalladas
 
 Para una descripción técnica completa e instrucciones de uso, consulta:
 
 - [Nook_iin_Overview.pdf](/Nook_iin_Overview.pdf) → Proporciona documentación técnica detallada y metodología.  
-- [Interface_Guide.md](/Interface_Guide/Interface_Guide.md) → Explicación paso a paso de la interfaz guiada por consola.
+- [Guia_de_interfaz.md](/Interface_Guide/Guia_de_interfaz.md) → Explicación paso a paso de la interfaz guiada por consola.
 
 Estos documentos ofrecen orientación detallada sobre las funcionalidades del software y las mejores prácticas.
 

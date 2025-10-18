@@ -12,13 +12,19 @@ def select_language():
     print("1 - Español")
     print("2 - English")
 
+    # Agregar la carpeta menu_texts al path
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    menu_path = os.path.join(repo_root, "menu_texts")
+    if menu_path not in sys.path:
+        sys.path.insert(0, menu_path)
+
     while True:
         choice = input("Opción / Option: ").strip()
         if choice == '1':
-            import menu_texts.texts_es as texts
+            import texts_es as texts
             return texts
         elif choice == '2':
-            import menu_texts.texts_en as texts
+            import texts_en as texts
             return texts
         else:
             print("Entrada inválida / Invalid input. Intente de nuevo / Try again.")
