@@ -143,11 +143,12 @@ Explore the examples/ folder for interactive Jupyter Notebooks illustrating Nook
 - [Multilayer Heterostructures](/Examples/English/03_Example_Heterostructure.ipynb): Construction of primitive cells for theoretical multilayer systems (e.g., β-GeSe, CdS, hBN, WS₂, WSe₂, black phosphorene), with strain constraints and diffraction pattern analysis.
 - [Angular Interval Search](/Examples/English/04_Example_Results_AngleInterval.ipynb): Search for commensurate primitive cells across a range of twist angles in a bilayer system, with controlled strain. Useful for studying moiré physics, band modulation, and angle-dependent properties.
 - [Difraction Map](/Examples/English/05_Example_Diffraction_Map.ipynb): This example demonstrates the capability of **Nookiin** to generate diffraction maps for multilayer systems. Unlike traditional diffraction patterns that only indicate the location of Bragg peaks, diffraction maps represent the continuous intensity distribution across reciprocal space.
+- [Bilayer hBN](/Examples/English/06_Example_bilayer_hBN.py): Creates two hBN bilayer homostructures with relative twist angles of 21.78° and 38.22°. The lattices are loaded directly from a POSCAR file, and the resulting structures share the same Bravais lattice and atom count but differ in stacking configuration.
 
 ---
 
 ### 4. Requirements  
-- Python ≥3.6  
+- Python ≥3.8  
 - Required: `numpy`, `matplotlib`
 
 ---
@@ -160,8 +161,8 @@ If you use **Nookiin** in your research, please cite it appropriately to support
 @software{Nookiin2025,
   author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
   title        = {{Nookiin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
-  version      = {v1.9.0},
-  date         = {2025-07-14},
+  version      = {v2.0.1},
+  date         = {2025-10-18},
   doi          = {10.5281/zenodo.14257396},
   url          = {https://github.com/OssielAg/Nook-iin},
 }
@@ -349,6 +350,7 @@ Consulta la carpeta examples/ para encontrar notebooks interactivos que muestran
 - [Heteroestructuras Multicapa](/Examples/Español/03_Ejemplo_Heteroestructura.ipynb): Construcción de celdas primitivas para sistemas teóricos multicapa (ej. β-GeSe, CdS, hBN, WS₂, WSe₂, fosforeno), respetando límites de deformación y mostrando el patrón de difracción.
 - [Búsqueda en Intervalo Angular](/Examples/Español/04_Ejemplo_Resultados_IntervaloAngular.ipynb): Exploración de celdas primitivas compatibles para un sistema bicapa dentro de un intervalo de ángulos, manteniendo la deformación bajo un umbral. Útil en el estudio de moiré, diseño de bandas y propiedades angulares.
 - [Mapas de difracción](/Examples/Español/05_Ejemplo_Mapa_de_difracción.ipynb): Este ejemplo muestra la capacidad de **Nookiin** para generar mapas de difracción para sistemas multicapa. A diferencia de los patrones de difracción tradicionales que solo marcan la posición de los picos de Bragg, los mapas de difracción representan la distribución continua de intensidad en el espacio recíproco.
+- [Bicapa hBN](/Examples/Español/06_Ejemplo_Bicapas_hBN.py): Crea dos homo-estructuras bicapa de hBN con ángulos de rotación relativos de 21.78° y 38.22°. Las redes se cargan directamente desde un archivo POSCAR, y las estructuras resultantes comparten la misma red de Bravais y número de átomos, pero difieren en su configuración de apilamiento.
 
 ---
 
@@ -366,8 +368,8 @@ Si utilizas **Nookiin** en tu trabajo de investigación, por favor cítalo adecu
 @software{Nookiin2025,
   author       = {Aguilar-Spíndola Ossiel and Sánchez‑Ochoa Francisco},
   title        = {{Nookiin}: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems},
-  version      = {v2.0.0},
-  date         = {2025-07-14},
+  version      = {v2.0.1},
+  date         = {2025-10-18},
   doi          = {10.5281/zenodo.14257396},
   url          = {https://github.com/OssielAg/Nook-iin},
 }
