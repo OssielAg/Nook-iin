@@ -5,6 +5,64 @@ All notable changes to **Nook’iin** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
+## [2.0.0] – 2025-10-12
+
+### 🚀 New Features & Improvements
+
+1. **Pip Installation Enabled**
+   - Nookiin can now be installed directly with `pip` in virtual environments.
+   - Added `pyproject.toml` and `setup.py` for modern Python packaging.
+   - The package structure has been reorganized to improve maintainability and usability.
+
+2. **Directory & Module Restructuring**
+   - Central Python files reorganized to follow a clear package structure.
+   - Many internal functions have been converted to **private** by prefixing them with `_`:
+     - **system.py:** `_goesHere`, `_adjust`, `_its_hexagonal_system`, `_analiza_T`
+     - **functions.py:** `_leeNumeros`, `_readFile`, `_textLonN`, `_cleanPCell`, `_cleanA`, `_borders`, `_esClon`, `_pts`, `_calcCD`, `_calcPR`, `_megeCut`, `_isitin`
+     - **lattice.py:** `_F_hkl`, `_dInfo`
+     - **atom.py:** (internal functions updated as needed)
+     - **basics.py:** (internal functions updated as needed)
+
+3. **Diffraction Pattern Performance Enhancements**
+   - Significant optimizations in functions that compute diffraction patterns:
+     - Example: For a lattice with 16,633 atoms evaluated at 19,035 reciprocal space points:
+       - **v1.7 (Jan 2025):** ~20–30 minutes  
+       - **v1.9 (Aug 2025):** >1 hour (no code changes, likely due to Python/library updates)  
+       - **v2.0:** ~131.6 seconds (~2.2 minutes)
+   - The diffraction map calculation functions were also improved, reducing execution time by **3–5×** in typical tests.
+
+4. **Other Improvements**
+   - Various minor fixes and code refactoring for clarity and maintainability.
+   - All changes were tested to ensure backward compatibility with scripts using previous versions.
+
+**Upgrade Instructions:**
+
+```bash
+# Recommended: use a virtual environment
+python -m venv nookiin_env
+source nookiin_env/bin/activate       # Linux/macOS
+# Windows PowerShell: .\nookiin_env\Scripts\Activate.ps1
+
+# Install Nookiin via pip
+pip install .
+```
+
+**Manual usage (optional):**
+
+For users who prefer manual loading without pip, define the environment variable `NOOKIIN_MANUAL_PATH=1` and import:
+
+```python
+from src.Nookiin.System import *
+```
+
+This ensures that all internal modules are correctly loaded.
+
+
+**Notes:**
+- The v2.0 release focuses on modern Python packaging, internal code refactoring, and **massive performance improvements in diffraction computations**.  
+- Users are strongly encouraged to upgrade to v2.0 for better performance and easier installation.
+
+---
 ## [1.9.1] - 2025-07-28
 This release marks the formal update of the program's name in all documentation, from **Nook-iin** to **Nookiin**.
 
