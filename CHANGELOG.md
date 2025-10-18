@@ -3,6 +3,28 @@
 All notable changes to **Nook’iin** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and the project adheres to [Semantic Versioning](https://semver.org/).
+---
+## [2.0.1] – 2025-10-19
+
+### ✳️ Overview  
+This release introduces an improvement to the guided interface and adds a new example demonstrating the creation of twisted bilayer systems directly from a Python script.  
+
+### 🆕 Changes  
+- **Guided Interface Update:**  
+  The interactive console interface can now be launched directly using the command:  
+  ```bash
+  python -m nookiin
+  ```  
+  once Nookiin is installed. This change simplifies access to the interface and is already documented in the *“Nookiin Usage Modes”* subsection under *Installation*.  
+  For detailed guidance, refer to the `Interface_Guide` document included in the repository.  
+
+- **New Example (Example 6):**  
+  Added a new example (available in both Spanish and English) that generates two hBN bilayer homostructures with relative twist angles of **21.78°** and **38.22°**.  
+  The lattices are loaded directly from a POSCAR file, and the resulting structures share the same Bravais lattice and atom count but differ in stacking configuration.  
+  This example runs as a standalone **Python script (.py)**.  
+
+### 📘 Recommendation  
+Users are encouraged to review the **Nookiin 2.0.0** release notes to understand the major changes and improvements introduced since version 2.0.0.
 
 ---
 ## [2.0.0] – 2025-10-12
