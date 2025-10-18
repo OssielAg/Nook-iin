@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nookiin"
-version = "2.0.0"
+version = "2.0.1"
 description = "Python software to build commensurable multilayer heterostructures"
 authors = [
   { name = "Ossiel Aguilar-Spíndola", email = "ossiel@example.com" },
