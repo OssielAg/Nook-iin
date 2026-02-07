@@ -189,16 +189,26 @@ This software is distributed under the **GNU General Public License (GNU GPL)**,
 
 ### 8. Publications
 
-This section lists the scientific articles and conference papers directly related to the development, implementation, and capabilities of **Nookiin**.
+The following peer-reviewed publications describe the theoretical background, development, and scientific applications of **Nookiin**.
 
-- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nookiin: Software para la construcción de heteroestructuras 3D multicapa*, *(in preparation)*.
-- [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
+- [[1](https://www.sciencedirect.com/science/article/pii/S0010465525005120)] Aguilar-Spíndola O., Sánchez-Ochoa F.  
+  *Nookiin: Python software to build commensurable multilayer heterostructures*,  
+  **Computer Physics Communications 321**, 110011 (2026).  
+  DOI: 10.1016/j.cpc.2025.110011  
+  
+- [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar-Spíndola O., Rubio-Ponce A., López-Urías F., Sánchez-Ochoa F.  
+  *Electronic and optical properties in helical trilayer graphene under compression*,  
+  **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025).  
+  DOI: 10.1039/D5CP00337G
 
-## 9. Publications Utilizing Nookiin
+### 9. Publications Utilizing Nookiin
 
 Below are peer-reviewed works, theses, or preprints from independent research groups that use **Nookiin** as part of their methodology. If you used Nookiin in your work, feel free to submit a pull request or contact the authors to have your work listed here.
 
-- [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
+- [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar-Spíndola O., Rubio-Ponce A., López-Urías F., Sánchez-Ochoa F.  
+  *Electronic and optical properties in helical trilayer graphene under compression*,  
+  **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025).  
+  DOI: 10.1039/D5CP00337G
 ---
 
 ### Contact  
@@ -398,14 +408,24 @@ Este software es distribuido bajo la **Licencia Pública General GNU (GNU GPL)**
 
 Esta sección enumera los artículos científicos y contribuciones que presentan el desarrollo, las funcionalidades y las aplicaciones principales de **Nookiin**.
 
-- [1] Aguilar-Spindola O., Sánchez‑Ochoa F. *Nookiin: Software para la construcción de heteroestructuras 3D multicapa*, *(en preparación)*.
-- [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
+- [[1](https://www.sciencedirect.com/science/article/pii/S0010465525005120)] Aguilar-Spíndola O., Sánchez-Ochoa F.  
+  *Nookiin: Python software to build commensurable multilayer heterostructures*,  
+  **Computer Physics Communications 321**, 110011 (2026).  
+  DOI: 10.1016/j.cpc.2025.110011  
+  
+- [[2](https://doi.org/10.1039/D5CP00337G)] Aguilar-Spíndola O., Rubio-Ponce A., López-Urías F., Sánchez-Ochoa F.  
+  *Electronic and optical properties in helical trilayer graphene under compression*,  
+  **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025).  
+  DOI: 10.1039/D5CP00337G
 
 ### 9. Publicaciones que utilizan Nookiin
 
 A continuación se enlistan trabajos de investigación, tesis o preprints revisados por pares que han empleado **Nookiin** como parte de su metodología. Si usaste Nookiin en tu trabajo, puedes enviar un pull request o contactar a los autores para agregar tu publicación a esta sección.
 
-- [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar‑Spíndola O., Rubio‑Ponce A., López‑Urías F., Sánchez‑Ochoa F. *Electronic and optical properties in helical trilayer graphene under compression*, **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025). DOI: 10.1039/D5CP00337G
+- [[1](https://doi.org/10.1039/D5CP00337G)] Aguilar-Spíndola O., Rubio-Ponce A., López-Urías F., Sánchez-Ochoa F.  
+  *Electronic and optical properties in helical trilayer graphene under compression*,  
+  **Phys. Chem. Chem. Phys. 27**, 11541–11550 (2025).  
+  DOI: 10.1039/D5CP00337G
 ---
 
 ### Contacto  
