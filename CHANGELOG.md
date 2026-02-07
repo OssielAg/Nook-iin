@@ -3,6 +3,29 @@
 All notable changes to **Nook’iin** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and the project adheres to [Semantic Versioning](https://semver.org/).
+
+---
+## [2.0.2] – 2026-02-07
+### ✳️ Overview
+This release updates the project documentation and citation metadata to reflect the final publication status of Nookiin and to clarify the recommended citation policy for the software.
+
+No changes to the codebase are introduced in this release.
+
+### 🆕 Changes
+- **Citation Metadata Update:**  
+  The `CITATION.cff` file has been updated to adopt a *software-first* citation policy.  
+  Users are now explicitly instructed to cite the Nookiin software via its Zenodo DOI when using the code, while the accompanying journal article is referenced as related work describing the software.
+
+- **README Update:**  
+  The *Publications* section has been revised to include the final published reference to the *Computer Physics Communications* article presenting Nookiin, replacing the previous “in preparation” status.
+
+- **Metadata Consistency Improvements:**  
+  Naming and bibliographic information have been harmonized across documentation files to ensure consistency between the repository, Zenodo records, and external citation tools.
+
+### 📘 Recommendation
+Users citing Nookiin in academic work are encouraged to use the citation information provided in the `CITATION.cff` file.  
+For theoretical background and implementation details, the accompanying *Computer Physics Communications* article should be cited as appropriate.
+
 ---
 ## [2.0.1] – 2025-10-19
 
