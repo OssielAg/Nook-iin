@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use the Nookiin software in your research, please cite it using the following reference."
 title: "Nookiin: Python software for the construction and analysis of multilayer van der Waals heterostructures"
-version: 2.1
+version: 2.0.1
 doi: "10.5281/zenodo.14257397"
 date-released: 2025-07-14
 url: "https://github.com/OssielAg/Nook-iin"
