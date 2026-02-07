@@ -1,19 +1,46 @@
 cff-version: 1.2.0
-message: "If you use Nook'inn in your research, please cite it using the following reference."
-authors:
-  - name: "Ossiel Aguilar-Spindola"
-    email: "OssielAE@ciencias.unam.mx"
-    orcid: "0009-0002-8229-8543"
-title: "Nookinn: Software for the construction and analysis of Van der Waals heterostructures and homostructures in 2D multilayer systems"
-version: 2.0
+message: "If you use the Nookiin software in your research, please cite it using the following reference."
+title: "Nookiin: Python software for the construction and analysis of multilayer van der Waals heterostructures"
+version: 2.1
 doi: "10.5281/zenodo.14257397"
 date-released: 2025-07-14
 url: "https://github.com/OssielAg/Nook-iin"
-license: "GPL-3.0-or-later"
 repository: "https://github.com/OssielAg/Nook-iin"
+license: "GPL-3.0-or-later"
+
+authors:
+  - given-names: Ossiel
+    family-names: Aguilar-Spíndola
+    email: OssielAE@ciencias.unam.mx
+    orcid: "https://orcid.org/0009-0002-8229-8543"
+  - given-names: Francisco
+    family-names: Sánchez-Ochoa
+
 keywords:
-  - "Primitive_Cell"
-  - "Diffraction_Pattern"
-  - "Heterostructures"
-  - "Reciprocal_Space"
-abstract: "Nookinn is a software designed to identify primitive cells in 2D multilayer systems, focusing on Van der Waals heterostructures and homostructures with bounded deformation. It facilitates the construction and analysis of crystallographic systems with well-defined periodicity."
+  - heterostructure
+  - multilayer
+  - van_der_Waals
+  - supercell
+  - commensurable
+  - diffraction_pattern
+  - reciprocal_space
+
+abstract:
+  Nookiin is a Python software package for the construction and analysis of
+  commensurable multilayer van der Waals heterostructures. The software enables
+  supercell generation, reciprocal-space analysis, and diffraction pattern
+  visualization for two-dimensional multilayer systems.
+
+references:
+  - type: article
+    authors:
+      - given-names: Ossiel
+        family-names: Aguilar-Spíndola
+      - given-names: Francisco
+        family-names: Sánchez-Ochoa
+    title: "Nookiin: Python software to build commensurable multilayer heterostructures"
+    journal: "Computer Physics Communications"
+    volume: 321
+    pages: 110011
+    year: 2026
+    doi: "10.1016/j.cpc.2025.110011"
